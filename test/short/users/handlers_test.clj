@@ -23,3 +23,32 @@
     (let [database database-conn
           result (h/create-user! u @database)]
       (is (true? (ml/validate c/UserOut result))))))
+
+(deftest users-create-token-handler-test
+  (testing "Creates a jwt token with the data supplied"
+    (let [result (h/create-token!
+                  {:auth {:jwt-secret "test"}}
+                  {:user/email "arthur.test"})]
+      (is (map? result))
+      (is (string? (:token result))))))
+
+(deftest users-hash-password-handler-test
+  (testing "Creates a hash of a given password input"
+    (let [result (h/hash-password! "arthurbarroso")]
+      (is (string? result))
+      (is (not (= "arthurbarrso" result))))))
+
+(deftest users-compare-passwords-handler-test
+  (testing "Returns true for a password input that matches
+            the hashed password"
+    (let [result (h/compare-passwords!
+                  "chiclete"
+                  (h/hash-password! "chiclete"))]
+      (is (true? result))))
+  (testing "Returns false for a password input that doesn't match
+            the hashed password"
+    (let [result (h/compare-passwords!
+                  "chiclete"
+                  (h/hash-password!
+                   "chiclete1"))]
+      (is (false? result)))))

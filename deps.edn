@@ -12,7 +12,9 @@
 
         org.postgresql/postgresql {:mvn/version "42.2.14"}
         io.replikativ/datahike {:mvn/version "0.4.0"}
-        io.replikativ/datahike-postgres {:mvn/version "0.1.0"}}
+        io.replikativ/datahike-postgres {:mvn/version "0.1.0"}
+        buddy/buddy-auth {:mvn/version "3.0.1"}
+        buddy/buddy-hashers {:mvn/version "1.8.1"}}
 
  :paths ["src"]
 
