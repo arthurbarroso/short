@@ -5,6 +5,6 @@
            :ns-patterns [".*"]}]
   :fail-fast? true
   :color? true
-  :plugins [:kaocha.plugin/capture-output]}
-            ;; :hooks]}
-  ;; :kaocha.hooks/pre-load [util.test-utils/start-fixture]}
+  :plugins [:kaocha.plugin/capture-output
+            :hooks]
+  :kaocha.hooks/pre-load [util.test-system/start-fixture]}
