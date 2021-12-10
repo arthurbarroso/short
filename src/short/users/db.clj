@@ -11,3 +11,8 @@
   {:malli/schema [:=> [:cat int? :any] s/ExistingUser]}
   [eid db]
   (d/pull @db '[*] eid))
+
+(defn get-user-by-uuid!
+  {:malli/schema [:=> [:cat uuid? :any] s/ExistingUser]}
+  [uuid db]
+  (d/pull @db '[*] [:user/uuid uuid]))
