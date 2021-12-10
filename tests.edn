@@ -6,5 +6,7 @@
   :fail-fast? true
   :color? true
   :plugins [:kaocha.plugin/capture-output
+            :kaocha.plugin/cloverage
             :hooks]
+
   :kaocha.hooks/pre-load [util.test-system/start-fixture]}
