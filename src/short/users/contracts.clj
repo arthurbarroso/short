@@ -7,7 +7,8 @@
    [:password-confirmation string?]])
 
 (def UserOut
-  [:map
-   [:user/email string?]
-   [:user/uuid uuid?]
-   [:user/created_at inst?]])
+  [:maybe
+   [:map
+    [:user/email string?]
+    [:user/uuid uuid?]
+    [:user/created_at inst?]]])
