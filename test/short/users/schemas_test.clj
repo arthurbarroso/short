@@ -5,7 +5,7 @@
 
 (deftest users-schema-user-test
   (testing "Matches the expected internal input"
-    (let [input {:user/email "test"
+    (let [input {:user/email "test@test.com"
                  :user/password "hithere"
                  :user/uuid (java.util.UUID/randomUUID)
                  :user/created_at (java.util.Date.)
@@ -28,7 +28,7 @@
 
 (deftest users-schema-existinguser-test
   (testing "Matches the expected the expected internal user structure"
-    (let [input {:user/email "string"
+    (let [input {:user/email "string@email.com"
                  :user/password "string"
                  :user/uuid (java.util.UUID/randomUUID)
                  :user/created_at (java.util.Date.)

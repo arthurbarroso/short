@@ -5,7 +5,7 @@
 
 (deftest users-contract-userdata-test
   (testing "Matches the expected external input"
-    (let [input {:email "test" :password "hithere"
+    (let [input {:email "test@email.com" :password "hithere"
                  :password-confirmation "hithere"}]
       (is (true? (ml/validate c/UserData input)))))
   (testing "Fails for an unexpected external input"
@@ -14,7 +14,7 @@
 
 (deftest users-contract-userout-test
   (testing "Matches the expected external output"
-    (let [output {:user/email "test"
+    (let [output {:user/email "test@email.com"
                   :user/uuid (java.util.UUID/randomUUID)
                   :user/created_at (java.util.Date.)}]
       (is (true? (ml/validate c/UserOut output)))))

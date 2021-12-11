@@ -33,7 +33,7 @@
   (testing "Finds an user"
     (let [database database-conn
           usertx (db/create-user! (create-user
-                                   {:user/email "find"})
+                                   {:user/email "find@test.com"})
                                   @database)
           eid (shared/tempid->eid usertx)
           result (db/get-user! eid @database)]
@@ -41,7 +41,7 @@
 
 (deftest users-get-user-test
   (testing "Finds an user by it's uuid"
-    (let [u (create-user {:user/email "uuid"})
+    (let [u (create-user {:user/email "uuid@email.com"})
           database database-conn
           _ (db/create-user! u
                              @database)

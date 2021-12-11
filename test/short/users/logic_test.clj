@@ -18,14 +18,14 @@
   (testing "Dissociates the internal-only fields of an user"
     (let [uuid (java.util.UUID/randomUUID)
           now (java.util.Date.)
-          base-user {:user/email "oi"
+          base-user {:user/email "oi@test.com"
                      :user/password "123super-secret"
                      :user/created_at now
                      :db/id 123
                      :user/active true
                      :user/uuid uuid}
           result (l/internal->external base-user)]
-      (is (= {:user/email "oi"
+      (is (= {:user/email "oi@test.com"
               :user/uuid uuid
               :user/created_at now}
              result))
@@ -35,7 +35,7 @@
 
 (deftest users-user-creation-test
   (testing "Builds a map that conforms the s/User schema"
-    (let [base-user {:email "oi" :password "hi"
+    (let [base-user {:email "oi@test.com" :password "hi"
                      :password-confirmation "hi"}
           uuid (java.util.UUID/randomUUID)
           now (java.util.Date.)
