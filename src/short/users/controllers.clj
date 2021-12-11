@@ -6,7 +6,6 @@
   (fn [request]
     (let [{:keys [email password password-confirmation]}
           (-> request :parameters :body)
-          ;; hashed-pass (h/hash-password! password)
           new-user (h/create-user!
                     {:email email
                      :password password

@@ -4,8 +4,8 @@
             [short.shared :as shared]))
 
 (defn user-creation
-  {:malli/schema [:=> [:cat c/UserData uuid? inst?] s/User]}
-  [{:keys [email password]} id created_at]
+  {:malli/schema [:=> [:cat c/UserData uuid? inst? string?] s/User]}
+  [{:keys [email]} id created_at password]
   {:user/email email
    :user/password password
    :user/uuid id

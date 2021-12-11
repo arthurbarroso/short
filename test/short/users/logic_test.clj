@@ -39,7 +39,8 @@
                      :password-confirmation "hi"}
           uuid (java.util.UUID/randomUUID)
           now (java.util.Date.)
-          result (l/user-creation base-user uuid now)]
+          result (l/user-creation base-user uuid now
+                                  (:password base-user))]
       (is (= result
              {:user/email (:email base-user)
               :user/password (:password base-user)

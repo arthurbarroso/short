@@ -6,18 +6,6 @@
             [buddy.hashers :as bh]
             [buddy.sign.jwt :as jwt]))
 
-(defn create-user!
-  {:malli/schema [:=> [:cat c/UserData :any] c/UserOut]}
-  [new-user db]
-  (let [id (shared/generate-uuid!)
-        created_at (shared/get-current-inst!)]
-    (-> new-user
-        (l/user-creation id created_at)
-        (db/create-user! db)
-        l/tx->id
-        (db/get-user! db)
-        l/internal->external)))
-
 (defn create-token!
   {:malli/schema [:=> [:cat
                        [:map [:auth [:map [:jwt-secret :string]]]]
@@ -33,3 +21,16 @@
 (defn compare-passwords! [password-input user-password]
   {:malli/schema [:=> [:cat :string :string] :boolean]}
   (bh/check password-input user-password))
+
+(defn create-user!
+  {:malli/schema [:=> [:cat c/UserData :any] c/UserOut]}
+  [new-user db]
+  (let [id (shared/generate-uuid!)
+        created_at (shared/get-current-inst!)
+        hashed-pass (hash-password! (:password new-user))]
+    (-> new-user
+        (l/user-creation id created_at hashed-pass)
+        (db/create-user! db)
+        l/tx->id
+        (db/get-user! db)
+        l/internal->external)))
