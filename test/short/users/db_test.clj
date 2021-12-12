@@ -47,3 +47,12 @@
                              @database)
           result (db/get-user-by-uuid! (:user/uuid u) @database)]
       (is (true? (m/validate s/ExistingUser result))))))
+
+(deftest users-get-user-by-email-test
+  (testing "Finds an user by it's email"
+    (let [u (create-user {:user/email "uuidd@email.com"})
+          database database-conn
+          _ (db/create-user! u
+                             @database)
+          result (db/get-user-by-email! (:user/email u) @database)]
+      (is (true? (m/validate s/ExistingUser result))))))

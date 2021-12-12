@@ -16,3 +16,8 @@
   {:malli/schema [:=> [:cat uuid? :any] s/ExistingUser]}
   [uuid db]
   (d/pull @db '[*] [:user/uuid uuid]))
+
+(defn get-user-by-email!
+  {:malli/schema [:=> [:cat string? :any] s/ExistingUser]}
+  [email db]
+  (d/pull @db '[*] [:user/email email]))
