@@ -3,7 +3,8 @@
             [test-helpers :as th]
             [short.users.contracts :as c]
             [malli.core :as ml]
-            [clojure.test :refer [deftest testing is use-fixtures]]))
+            [clojure.test :refer [deftest testing is use-fixtures]]
+            [short.users.schemas :as s]))
 
 (defonce database-conn (atom nil))
 
@@ -52,3 +53,65 @@
                   (h/hash-password!
                    "chiclete1"))]
       (is (false? result)))))
+
+(deftest users-check-credentials-handler-test
+  (testing "Checks a valid user's credentials"
+    (let [database database-conn
+          _ (h/create-user!
+             {:email "test-user@test.com"
+              :password "1234a"
+              :password-confirmation "1234a"}
+             @database)
+          result (h/check-credentials! {:email "test-user@test.com"
+                                        :password "1234a"} @database)]
+      (is (true? (:matches? result)))
+      (is (= "test-user@test.com" (:user/email
+                                   (first (flatten
+                                           (:existing-user result))))))
+      (is (true? (ml/validate s/UserQueryResult (:existing-user result))))
+      (is (true? (ml/validate s/CredentialsCheck result)))))
+  (testing "Fails for invalid user credentials"
+    (let [database database-conn
+          _ (h/create-user!
+             {:email "test-use123r@test.com"
+              :password "1234a"
+              :password-confirmation "1234a"}
+             @database)
+          result (h/check-credentials! {:email "test-user@test.com"
+                                        :password "1234a3"} @database)]
+      (is (false? (:matches? result)))
+      (is (= "test-user@test.com" (:user/email
+                                   (first (flatten
+                                           (:existing-user result))))))
+      (is (true? (ml/validate s/UserQueryResult (:existing-user result))))
+      (is (true? (ml/validate s/CredentialsCheck result)))))
+  (testing "Fails for a non existing user"
+    (let [database database-conn
+          result (h/check-credentials! {:email "test-user1@test.com"
+                                        :password "1234a"} @database)]
+      (is (false? (:matches? result)))
+      (is (= nil (:user/email
+                  (first
+                   (flatten (:existing-user result))))))
+      (is (true? (ml/validate s/CredentialsCheck result))))))
+
+(deftest users-gen-token-handler-test
+  (testing "Generates a token for valid user credentials"
+    (let [database database-conn
+          _ (h/create-user!
+             {:email "test-user-token@test.com"
+              :password "1234a"
+              :password-confirmation "1234a"}
+             @database)
+          creds (h/check-credentials! {:email "test-user-token@test.com"
+                                       :password "1234a"} @database)
+          result (h/gen-token! creds {:auth {:jwt-secret "xis"}})]
+      (is (true? (ml/validate s/TokenOut result)))
+      (is (string? (:token result)))))
+  (testing "Fails for a non existing user"
+    (let [database database-conn
+          creds (h/check-credentials! {:email "test-user-non-existant-token@test.com"
+                                       :password "1234a"} @database)
+          result (h/gen-token! creds {:auth {:jwt-secret "xis"}})]
+      (is (true? (ml/validate s/TokenOut result)))
+      (is (nil? (:token result))))))

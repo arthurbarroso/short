@@ -23,3 +23,19 @@
    [:user/created_at inst?]
    [:user/active boolean?]
    [:db/id int?]])
+
+(def TokenOut
+  [:maybe
+   [:map [:token string?]]])
+
+(def UserQueryResult
+  [:or
+   [:vector
+    [:vector
+     ExistingUser]]
+   [:vector empty?]])
+
+(def CredentialsCheck
+  [:map
+   [:matches? boolean?]
+   [:existing-user UserQueryResult]])

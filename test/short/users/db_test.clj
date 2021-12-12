@@ -46,13 +46,24 @@
           _ (db/create-user! u
                              @database)
           result (db/get-user-by-uuid! (:user/uuid u) @database)]
-      (is (true? (m/validate s/ExistingUser result))))))
+      (is (true? (m/validate s/UserQueryResult result)))))
+  (testing "Returns nil for a non-existent uuid"
+    (let [database database-conn
+          result (db/get-user-by-uuid! (java.util.UUID/randomUUID) @database)]
+      (is (empty? result))
+      (is (true? (m/validate s/UserQueryResult result))))))
 
 (deftest users-get-user-by-email-test
   (testing "Finds an user by it's email"
-    (let [u (create-user {:user/email "uuidd@email.com"})
+    (let [u (create-user {:user/email "uuiddvvv@email.com"})
           database database-conn
           _ (db/create-user! u
                              @database)
           result (db/get-user-by-email! (:user/email u) @database)]
-      (is (true? (m/validate s/ExistingUser result))))))
+      (is (true? (m/validate s/UserQueryResult result)))))
+  (testing "Returns nil for a non-existent e-mail"
+    (let [u (create-user {:user/email "uuidd1@email.com"})
+          database database-conn
+          result (db/get-user-by-email! (:user/email u) @database)]
+      (is (empty? result))
+      (is (true? (m/validate s/UserQueryResult result))))))

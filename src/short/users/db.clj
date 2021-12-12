@@ -13,11 +13,17 @@
   (d/pull @db '[*] eid))
 
 (defn get-user-by-uuid!
-  {:malli/schema [:=> [:cat uuid? :any] s/ExistingUser]}
+  {:malli/schema [:=> [:cat uuid? :any] s/UserQueryResult]}
   [uuid db]
-  (d/pull @db '[*] [:user/uuid uuid]))
+  (d/q '[:find (pull ?e [*])
+         :in $ ?uuid
+         :where [?e :user/uuid ?uuid]]
+       @db uuid))
 
 (defn get-user-by-email!
-  {:malli/schema [:=> [:cat string? :any] s/ExistingUser]}
+  {:malli/schema [:=> [:cat string? :any] s/UserQueryResult]}
   [email db]
-  (d/pull @db '[*] [:user/email email]))
+  (d/q '[:find (pull ?e [*])
+         :in $ ?email
+         :where [?e :user/email ?email]]
+       @db email))

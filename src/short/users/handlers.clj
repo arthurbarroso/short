@@ -4,7 +4,8 @@
             [short.users.db :as db]
             [short.shared :as shared]
             [buddy.hashers :as bh]
-            [buddy.sign.jwt :as jwt]))
+            [buddy.sign.jwt :as jwt]
+            [short.users.schemas :as s]))
 
 (defn create-token!
   {:malli/schema [:=> [:cat
@@ -34,3 +35,28 @@
         l/tx->id
         (db/get-user! db)
         l/internal->external)))
+
+(defn check-user-existence! [user-input db]
+  (db/get-user-by-email! (:email user-input) db))
+
+(defn match-user-input-password! [existing-user user-input]
+  {:matches?
+   (if (empty? existing-user)
+     false
+     (compare-passwords! (:password user-input)
+                         (:user/password (first (flatten existing-user)))))
+   :existing-user existing-user})
+
+(defn check-credentials!
+  {:malli/schema [:=> [:cat c/UserLoginInput :any] s/CredentialsCheck]}
+  [user-input db]
+  (-> user-input
+      (check-user-existence! db)
+      (match-user-input-password! user-input)))
+
+(defn gen-token!
+  {:malli/schema [:=> [:cat s/CredentialsCheck :any] s/TokenOut]}
+  [{:keys [matches? existing-user]} env]
+  (if matches?
+    (create-token! env (first (flatten existing-user)))
+    nil))
