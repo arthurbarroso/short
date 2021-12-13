@@ -23,6 +23,9 @@
   {:malli/schema [:=> [:cat :string :string] :boolean]}
   (bh/check password-input user-password))
 
+(defn check-user-existence! [user-input db]
+  (db/get-user-by-email! (:email user-input) db))
+
 (defn create-user!
   {:malli/schema [:=> [:cat c/UserData :any] c/UserOut]}
   [new-user db]
@@ -35,9 +38,6 @@
         l/tx->id
         (db/get-user! db)
         l/internal->external)))
-
-(defn check-user-existence! [user-input db]
-  (db/get-user-by-email! (:email user-input) db))
 
 (defn match-user-input-password! [existing-user user-input]
   {:matches?

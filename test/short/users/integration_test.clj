@@ -5,7 +5,7 @@
             [clojure.instant :as instant]
             [clojure.test :refer [deftest testing is]]))
 
-(def user-body {:email "test@email.com"
+(def user-body {:email "test-user@email.com"
                 :password "arthurtest123@"
                 :password-confirmation "arthurtest1232"})
 
@@ -20,4 +20,11 @@
                       :user/created_at (instant/read-instant-date
                                         (:user/created_at body))}]
       (is (= 201 status))
-      (is (true? (ml/validate c/UserOut parsed-res))))))
+      (is (true? (ml/validate c/UserOut parsed-res)))))
+  (testing "Fails for an already registered e-mail address"
+    (let [_ (th/endpoint-test :post "v1/users"
+                              {:body user-body})
+          {:keys [status _body]}
+          (th/endpoint-test :post "/v1/users"
+                            {:body user-body})]
+      (is (= 400 status)))))

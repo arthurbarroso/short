@@ -6,9 +6,14 @@
   (fn [request]
     (let [{:keys [email password password-confirmation]}
           (-> request :parameters :body)
-          new-user (h/create-user!
-                    {:email email
-                     :password password
-                     :password-confirmation password-confirmation}
-                    database)]
-      (rr/created "" new-user))))
+          existing-user? (h/check-user-existence!
+                          {:email email}
+                          database)]
+      (if (empty? existing-user?)
+        (rr/created ""
+                    (h/create-user!
+                     {:email email
+                      :password password
+                      :password-confirmation password-confirmation}
+                     database))
+        (rr/bad-request {:error "Something went wrong"})))))
