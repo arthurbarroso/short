@@ -33,10 +33,12 @@
 (def go ig-repl/go)
 (def reset ig-repl/reset)
 (def reset-all ig-repl/reset-all)
+(def stop ig-repl/halt)
 
 (comment
   (require '[malli.dev :as dev])
   (require '[malli.dev.pretty :as pretty])
   (dev/start! {:report (pretty/reporter)})
-
-  (go))
+  (reset-all)
+  (go)
+  (stop))

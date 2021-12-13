@@ -18,7 +18,9 @@
 
  :paths ["src"]
 
- :aliases {:test
+ :aliases {:dev {:extra-paths ["dev"]}
+
+           :test
            {:extra-deps
             {lambdaisland/kaocha {:mvn/version "1.60.945"}
              lambdaisland/kaocha-cloverage {:mvn/version "1.0.75"}
