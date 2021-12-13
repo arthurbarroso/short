@@ -9,4 +9,8 @@
             :kaocha.plugin/cloverage
             :hooks]
 
-  :kaocha.hooks/pre-load [util.test-system/start-fixture]}
+  :kaocha.hooks/pre-load [util.test-system/start-fixture]
+
+  :cloverage/opts
+  {:ns-exclude-regex ["short.server"
+                      "short.database"]}}

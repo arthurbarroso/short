@@ -21,3 +21,13 @@
   (testing "Fails for an unexpected external output"
     (let [output {:user/email "test"}]
       (is (false? (ml/validate c/UserOut output))))))
+
+(deftest users-contract-userlogininput-test
+  (testing "Matches the expected login input"
+    (let [input {:email "test@email.com"
+                 :password "test123@test"}]
+      (is (true? (ml/validate c/UserLoginInput input)))))
+  (testing "Fails for an unexpected external output"
+    (let [output {:user/email "test@email.com"
+                  :password "test123@test"}]
+      (is (false? (ml/validate c/UserLoginInput output))))))
