@@ -38,4 +38,4 @@
 (def CredentialsCheck
   [:map
    [:matches? boolean?]
-   [:existing-user UserQueryResult]])
+   [:existing-user [:or nil? ExistingUser]]])

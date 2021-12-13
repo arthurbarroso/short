@@ -8,4 +8,8 @@
       {:post {:handler (c/create-user-controller! database)
               :parameters {:body {:email string?
                                   :password string?
-                                  :password-confirmation string?}}}}]]))
+                                  :password-confirmation string?}}}}]
+     ["/login"
+      {:post {:handler (c/login-controller! environment)
+              :parameters {:body {:email string?
+                                  :password string?}}}}]]))

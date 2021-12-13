@@ -74,10 +74,10 @@
                 :user/active true
                 :db/id 1}
           input {:matches? false
-                 :existing-user [[user]]}]
+                 :existing-user user}]
       (is (true? (ml/validate s/CredentialsCheck input)))))
   (testing "Matches the expected internal credentials check (empty) structure"
-    (is (true? (ml/validate s/CredentialsCheck {:matches? true :existing-user []}))))
+    (is (true? (ml/validate s/CredentialsCheck {:matches? true :existing-user nil}))))
   (testing "Fails for an unexpected internal credentials check structure"
     (let [input {:token2 "something"}]
       (is (false? (ml/validate s/CredentialsCheck input))))))

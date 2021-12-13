@@ -23,3 +23,38 @@
            {:parameters {:body u}})]
       (is (= 201 status))
       (is (= (:email u) (:user/email body))))))
+
+(deftest users-login-controller-test
+  (testing "Logs in with correct credentials"
+    (let [database database-conn
+          _ ((cont/create-user-controller! @database)
+             {:parameters {:body {:email "arthurlogintest@test1.com"
+                                  :password "test123"
+                                  :password-confirmation "test123"}}})
+          {:keys [status body]}
+          ((cont/login-controller! {:database @database
+                                    :auth {:jwt-secret "chiclete"}})
+           {:parameters {:body {:email "arthurlogintest@test1.com"
+                                :password "test123"}}})]
+      (is (= 200 status))
+      (is (string? (:token body)))))
+  (testing "Fails for incorrect credentials"
+    (let [database database-conn
+          _ ((cont/create-user-controller! @database)
+             {:parameters {:body {:email "arthurlogintest2@test1.com"
+                                  :password "test123"
+                                  :password-confirmation "test123"}}})
+          {:keys [status]}
+          ((cont/login-controller! {:database @database
+                                    :auth {:jwt-secret "chiclete"}})
+           {:parameters {:body {:email "arthurlogintest2@test1.com"
+                                :password "test12345"}}})]
+      (is (= 400 status))))
+  (testing "Fails for a non existent user"
+    (let [database database-conn
+          {:keys [status]}
+          ((cont/login-controller! {:database @database
+                                    :auth {:jwt-secret "chiclete"}})
+           {:parameters {:body {:email "arthurlogintest23413@test1.com"
+                                :password "test12345"}}})]
+      (is (= 400 status)))))

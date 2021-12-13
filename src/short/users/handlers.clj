@@ -45,7 +45,7 @@
      false
      (compare-passwords! (:password user-input)
                          (:user/password (first (flatten existing-user)))))
-   :existing-user existing-user})
+   :existing-user (first (flatten existing-user))})
 
 (defn check-credentials!
   {:malli/schema [:=> [:cat c/UserLoginInput :any] s/CredentialsCheck]}
@@ -58,5 +58,5 @@
   {:malli/schema [:=> [:cat s/CredentialsCheck :any] s/TokenOut]}
   [{:keys [matches? existing-user]} env]
   (if matches?
-    (create-token! env (first (flatten existing-user)))
+    (create-token! env existing-user)
     nil))

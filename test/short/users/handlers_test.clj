@@ -58,17 +58,14 @@
   (testing "Checks a valid user's credentials"
     (let [database database-conn
           _ (h/create-user!
-             {:email "test-user@test.com"
+             {:email "test-user-creds@test.com"
               :password "1234a"
               :password-confirmation "1234a"}
              @database)
-          result (h/check-credentials! {:email "test-user@test.com"
+          result (h/check-credentials! {:email "test-user-creds@test.com"
                                         :password "1234a"} @database)]
       (is (true? (:matches? result)))
-      (is (= "test-user@test.com" (:user/email
-                                   (first (flatten
-                                           (:existing-user result))))))
-      (is (true? (ml/validate s/UserQueryResult (:existing-user result))))
+      (is (= "test-user-creds@test.com" (:user/email (:existing-user result))))
       (is (true? (ml/validate s/CredentialsCheck result)))))
   (testing "Fails for invalid user credentials"
     (let [database database-conn
@@ -77,22 +74,17 @@
               :password "1234a"
               :password-confirmation "1234a"}
              @database)
-          result (h/check-credentials! {:email "test-user@test.com"
+          result (h/check-credentials! {:email "test-use123r@test.com"
                                         :password "1234a3"} @database)]
       (is (false? (:matches? result)))
-      (is (= "test-user@test.com" (:user/email
-                                   (first (flatten
-                                           (:existing-user result))))))
-      (is (true? (ml/validate s/UserQueryResult (:existing-user result))))
+      (is (= "test-use123r@test.com" (:user/email (:existing-user result))))
       (is (true? (ml/validate s/CredentialsCheck result)))))
   (testing "Fails for a non existing user"
     (let [database database-conn
           result (h/check-credentials! {:email "test-user1@test.com"
                                         :password "1234a"} @database)]
       (is (false? (:matches? result)))
-      (is (= nil (:user/email
-                  (first
-                   (flatten (:existing-user result))))))
+      (is (= nil (:user/email (:existing-user result))))
       (is (true? (ml/validate s/CredentialsCheck result))))))
 
 (deftest users-gen-token-handler-test
