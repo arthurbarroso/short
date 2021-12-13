@@ -1,6 +1,7 @@
 (ns short.users.contracts-test
   (:require [short.users.contracts :as c]
             [malli.core :as ml]
+            [short.shared :as shared]
             [clojure.test :refer [deftest testing is]]))
 
 (deftest users-contract-userdata-test
@@ -15,8 +16,8 @@
 (deftest users-contract-userout-test
   (testing "Matches the expected external output"
     (let [output {:user/email "test@email.com"
-                  :user/uuid (java.util.UUID/randomUUID)
-                  :user/created_at (java.util.Date.)}]
+                  :user/uuid (shared/generate-uuid!)
+                  :user/created_at (shared/get-current-inst!)}]
       (is (true? (ml/validate c/UserOut output)))))
   (testing "Fails for an unexpected external output"
     (let [output {:user/email "test"}]

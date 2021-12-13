@@ -17,8 +17,8 @@
   (merge
    {:user/email "arthur.test@test.com"
     :user/password "test-password"
-    :user/uuid (java.util.UUID/randomUUID)
-    :user/created_at (java.util.Date.)
+    :user/uuid (shared/generate-uuid!)
+    :user/created_at (shared/get-current-inst!)
     :user/active true}
    opts))
 
@@ -49,7 +49,7 @@
       (is (true? (m/validate s/UserQueryResult result)))))
   (testing "Returns nil for a non-existent uuid"
     (let [database database-conn
-          result (db/get-user-by-uuid! (java.util.UUID/randomUUID) @database)]
+          result (db/get-user-by-uuid! (shared/generate-uuid!) @database)]
       (is (empty? result))
       (is (true? (m/validate s/UserQueryResult result))))))
 

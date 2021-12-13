@@ -1,14 +1,15 @@
 (ns short.users.schemas-test
   (:require [short.users.schemas :as s]
             [malli.core :as ml]
-            [clojure.test :refer [deftest testing is]]))
+            [clojure.test :refer [deftest testing is]]
+            [short.shared :as shared]))
 
 (deftest users-schema-user-test
   (testing "Matches the expected internal input"
     (let [input {:user/email "test@test.com"
                  :user/password "hithere"
-                 :user/uuid (java.util.UUID/randomUUID)
-                 :user/created_at (java.util.Date.)
+                 :user/uuid (shared/generate-uuid!)
+                 :user/created_at (shared/get-current-inst!)
                  :user/active true}]
       (is (true? (ml/validate s/User input)))))
   (testing "Fails for an unexpected internal input"
@@ -30,8 +31,8 @@
   (testing "Matches the expected internal user structure"
     (let [input {:user/email "string@email.com"
                  :user/password "string"
-                 :user/uuid (java.util.UUID/randomUUID)
-                 :user/created_at (java.util.Date.)
+                 :user/uuid (shared/generate-uuid!)
+                 :user/created_at (shared/get-current-inst!)
                  :user/active true
                  :db/id 1}]
       (is (true? (ml/validate s/ExistingUser input)))))
@@ -53,8 +54,8 @@
   (testing "Matches the expected internal user query result structure"
     (let [user {:user/email "string@email.com"
                 :user/password "string"
-                :user/uuid (java.util.UUID/randomUUID)
-                :user/created_at (java.util.Date.)
+                :user/uuid (shared/generate-uuid!)
+                :user/created_at (shared/get-current-inst!)
                 :user/active true
                 :db/id 1}
           input [[user]]]
@@ -69,8 +70,8 @@
   (testing "Matches the expected internal credentials check structure"
     (let [user {:user/email "string@email.com"
                 :user/password "string"
-                :user/uuid (java.util.UUID/randomUUID)
-                :user/created_at (java.util.Date.)
+                :user/uuid (shared/generate-uuid!)
+                :user/created_at (shared/get-current-inst!)
                 :user/active true
                 :db/id 1}
           input {:matches? false

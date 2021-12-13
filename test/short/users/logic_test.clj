@@ -3,7 +3,8 @@
             [short.users.schemas :as s]
             [short.users.contracts :as c]
             [malli.core :as ml]
-            [clojure.test :refer [deftest testing is]]))
+            [clojure.test :refer [deftest testing is]]
+            [short.shared :as shared]))
 
 (deftest users-tx->id-test
   (testing "Extracts tempids from a transaction"
@@ -16,8 +17,8 @@
 
 (deftest users-internal->external-test
   (testing "Dissociates the internal-only fields of an user"
-    (let [uuid (java.util.UUID/randomUUID)
-          now (java.util.Date.)
+    (let [uuid (shared/generate-uuid!)
+          now (shared/get-current-inst!)
           base-user {:user/email "oi@test.com"
                      :user/password "123super-secret"
                      :user/created_at now
@@ -37,8 +38,8 @@
   (testing "Builds a map that conforms the s/User schema"
     (let [base-user {:email "oi@test.com" :password "hi"
                      :password-confirmation "hi"}
-          uuid (java.util.UUID/randomUUID)
-          now (java.util.Date.)
+          uuid (shared/generate-uuid!)
+          now (shared/get-current-inst!)
           result (l/user-creation base-user uuid now
                                   (:password base-user))]
       (is (= result
