@@ -4,3 +4,7 @@ node_modules
 .cpcache
 target
 .nrepl-port
+
+/node_modules/
+/.shadow-cljs/
+/public/assets/js
