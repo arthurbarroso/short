@@ -3,7 +3,8 @@
             [reagent.dom :as rdom]
             [short.admin.config :as config]
             [short.admin.views.login :as login]
-            [short.admin.css :as css]))
+            [short.admin.css :as css]
+            [short.admin.events :as events]))
 
 (defn dev-setup []
   (when config/debug?
@@ -18,10 +19,7 @@
 (defn init []
   ;; (init-routes!)
   ;; (initialize-styles)
-  ;; (re-frame/dispatch-sync [::events/initialize-db])
-  ;; (re-frame/dispatch [::events/load-user-data-from-local-storage])
-  ;; (re-frame/dispatch [::events/load-projects-for-user
-  ;; (re-frame/dispatch [::events/load-users])
+  (re-frame/dispatch-sync [::events/initialize-db])
   (dev-setup)
   (css/mount-ui-styles)
   (mount-root))

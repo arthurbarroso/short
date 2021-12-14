@@ -1,6 +1,5 @@
 (ns short.admin.css
-  (:require [short.ui.button :as button]
-            [short.admin.template :as template]
+  (:require [short.admin.template :as template]
             [short.ui.css :refer [ui-styles]]))
 
 (defn clear-styles!
@@ -19,7 +18,7 @@
         style-el (doto (.createElement js/document "style")
                    (-> .-type (set! "text/css"))
                    (.appendChild (.createTextNode js/document style-text)))]
-    (clear-styles!)
+    #_(clear-styles!)
     (.appendChild head style-el)))
 
 (defn mount-ui-styles []
