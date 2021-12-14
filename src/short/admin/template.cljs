@@ -1,6 +1,6 @@
-(ns short.admin.components.template
+(ns short.admin.template
   (:require [reagent.core :as r]
-            [stylefy.core :refer [use-style]]))
+            [garden.core :refer [css]]))
 
 (def app-base-style
   {:height "100vh"
@@ -20,12 +20,20 @@
   {:padding "0 5%"
    :height "100%"})
 
+(def layout-styles
+  (str (css [:.base app-base-style])
+       "\n"
+       (css [:.content content-style])
+       "\n"
+       (css [:.container container-style])
+       "\n"))
+
 (defn layout [_children]
   (r/create-class
    {:reagent-render
     (fn [children]
-      [:div (use-style app-base-style)
-       [:div (use-style content-style)
+      [:div {:class "base"}
+       [:div {:class "content"}
         [:<>] ;; header
-        [:div (use-style container-style)
+        [:div {:class "container"}
          (into [:<> children])]]])}))
