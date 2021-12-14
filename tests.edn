@@ -13,4 +13,6 @@
 
   :cloverage/opts
   {:ns-exclude-regex ["short.server"
-                      "short.database"]}}
+                      "short.database"
+                      "short.ui.*"
+                      "short.admin.*"]}}
