@@ -32,10 +32,10 @@
   (css [:.button-outlined button-outlined-style
         [:&:hover {:border "1.5px solid #0166D6"}]]))
 
-(defn button [{:keys [on-click text disabled title]}]
+(defn button [{:keys [on-click text disabled title extra-style]}]
   [:button
    {:type "button"
-    :class "button"
+    :class (str "button" " " extra-style)
     :disabled disabled
     :title title
     :on-click #(on-click)}

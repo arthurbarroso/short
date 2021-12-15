@@ -42,4 +42,5 @@
             :value @password}]
           [button/button {:text "Log in"
                           :on-click #(login-handler
-                                      @email @password)}]]]]])))
+                                      @email @password)
+                          :extra-style "mt-3"}]]]]])))
