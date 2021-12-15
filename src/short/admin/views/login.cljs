@@ -9,6 +9,10 @@
             [short.admin.events :as events]
             [short.admin.subs :as subs]))
 
+(defn login-handler [email password]
+  (re-frame/dispatch [::events/login {:email email
+                                      :password password}]))
+
 (defn login-view []
   (let [email (re-frame/subscribe [::subs/email-input])
         password (re-frame/subscribe [::subs/password-input])]
@@ -37,5 +41,5 @@
             #(re-frame/dispatch [::events/change-password-input %])
             :value @password}]
           [button/button {:text "Log in"
-                          :extra-styles {:width "100%"
-                                         :margin-top "3%"}}]]]]])))
+                          :on-click #(login-handler
+                                      @email @password)}]]]]])))
