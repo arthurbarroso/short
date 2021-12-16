@@ -27,7 +27,7 @@
       (is (= (:sku p) (:product/sku body)))))
   (testing "Fails to create a new product when the SKU is already in use"
     (let [database database-conn
-          {:keys [status body]}
+          {:keys [status _body]}
           ((cont/create-product-controller! @database)
            {:parameters {:body p}})]
       (is (= 400 status)))))

@@ -10,7 +10,8 @@
             [reitit.swagger-ui :as swagger-ui]
             [ring.middleware.cors :refer [wrap-cors]]
             [short.middlewares :as middlewares]
-            [short.users.routes :as users]))
+            [short.users.routes :as users]
+            [short.products.routes :as products]))
 
 (def router-config
   {:data {:coercion coercion-spec/coercion
@@ -36,7 +37,8 @@
 (defn api-router [environment]
   [swagger-docs
    ["/v1" {:middleware [swagger/swagger-feature]}
-    (users/routes environment)]])
+    (users/routes environment)
+    (products/routes environment)]])
 
 (defn router [environment]
   (wrap-cors
