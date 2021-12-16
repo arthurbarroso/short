@@ -48,8 +48,3 @@
                                                      @database)]
       (is (empty? result))
       (is (true? (ml/validate s/ProductQueryResult result))))))
-
-#_(defn check-product-existence-by-slug!
-    {:malli/schema [:=> [:cat c/ProductData :any] s/ExistingProduct]}
-    [product-input db]
-    (db/get-product-by-slug! (:slug product-input) db))
