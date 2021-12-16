@@ -3,6 +3,7 @@
 
 (defn routes [environment]
   (let [database (:database environment)]
+    ;; SHOULD BE WRAPPED WITH AUTH MIDDLEWARE
     ["/products"
      [""
       {:post {:handler (co/create-product-controller! database)
