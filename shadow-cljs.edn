@@ -21,4 +21,23 @@
         :release
         {:build-options
          {:ns-aliases
-          {day8.re-frame.tracing day8.re-frame.tracing-stubs}}}}}}
+          {day8.re-frame.tracing day8.re-frame.tracing-stubs}}}}
+
+  :store {:target :browser
+          :output-dir "store/assets/js"
+          :asset-path "/js"
+
+          :modules {:shared {}
+                    :products {:depends-on #{:shared}
+                               :entries [short.products.views.details]}}
+
+          :devtools {:preloads [day8.re-frame-10x.preload]
+                     :watch-dir "store"}
+
+          :dev {:compiler-options
+                {:closure-defines {re-frame.trace.trace-enabled? true
+                                   day8.re-frame.tracing.trace-enabled? true}}}
+          :release
+          {:build-options
+           {:ns-aliases
+            {day8.re-frame.tracing day8.re-frame.tracing-stubs}}}}}}
