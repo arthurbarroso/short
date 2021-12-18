@@ -14,3 +14,11 @@
                      product-input
                      database))
         (rr/bad-request {:error "Something went wrong"})))))
+
+(defn get-product-by-slug-controller! [database]
+  (fn [request]
+    (let [slug (-> request :parameters :path :product)
+          product (h/get-product-by-slug! slug database)]
+      (if (empty? product)
+        (rr/not-found {:error "Product not found"})
+        (rr/response product)))))

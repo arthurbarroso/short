@@ -23,3 +23,12 @@
         l/tx->id
         (db/get-product! db)
         l/internal->external)))
+
+(defn get-product-by-slug!
+  {:malli/schema [:=> [:cat string? :any] c/ProductOut]}
+  [product-slug db]
+  (-> product-slug
+      (db/get-product-by-slug! db)
+      flatten
+      first
+      l/internal->external))

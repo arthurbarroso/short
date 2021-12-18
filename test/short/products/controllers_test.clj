@@ -11,23 +11,46 @@
                            "products-tests-controllers"))
     (f)))
 
-(def p {:sku "fasjfsaoij123skulegal"
-        :active true
-        :slug "some-slug-sku-legal"
-        :price 30
-        :quantity 2})
+(defn p [opts]
+  (merge
+   {:sku "fasjfsaoij123skulegal"
+    :active true
+    :slug "some-slug-sku-legal"
+    :price 30
+    :quantity 2}
+   opts))
 
 (deftest products-create-product-controller-test
   (testing "Creates a new product"
     (let [database database-conn
           {:keys [status body]}
           ((cont/create-product-controller! @database)
-           {:parameters {:body p}})]
+           {:parameters {:body (p {})}})]
       (is (= 201 status))
-      (is (= (:sku p) (:product/sku body)))))
+      (is (= (:sku (p {})) (:product/sku body)))))
   (testing "Fails to create a new product when the SKU is already in use"
     (let [database database-conn
           {:keys [status _body]}
           ((cont/create-product-controller! @database)
-           {:parameters {:body p}})]
+           {:parameters {:body (p {})}})]
       (is (= 400 status)))))
+
+(deftest get-product-by-slug-controller-test
+  (testing "Finds a product by it's slug"
+    (let [database database-conn
+          data (p {:product/sku "some-test-random-cool"
+                   :product/slug "get-find-slug"})
+          _
+          ((cont/create-product-controller! @database)
+           {:parameters {:body data}})
+          {:keys [status body]}
+          ((cont/get-product-by-slug-controller! @database)
+           {:parameters {:path {:product (:slug data)}}})]
+      (is (= 200 status))
+      (is (= (:slug data) (:product/slug body)))))
+  (testing "Fails to find a product using a non-existent slug"
+    (let [database database-conn
+          {:keys [status _body]}
+          ((cont/get-product-by-slug-controller! @database)
+           {:parameters {:path {:product "randooooooooooooom-non-existent"}}})]
+      (is (= 404 status)))))
