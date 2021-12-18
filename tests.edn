@@ -15,4 +15,5 @@
   {:ns-exclude-regex ["short.server"
                       "short.database"
                       "short.ui.*"
-                      "short.admin.*"]}}
+                      "short.admin.*"
+                      "short.*.views.*"]}}
