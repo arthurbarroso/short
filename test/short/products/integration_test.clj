@@ -6,13 +6,15 @@
             [clojure.test :refer [deftest testing is]]
             [short.users.handlers :refer [gen-token!]]))
 
-(def product-body
-  {:sku "fasjfsaoij123skulegal"
-   :active true
-   :slug "some-slug-sku-legal"
-   :title "some-title-legal"
-   :price 30
-   :quantity 2})
+(defn product-body [opts]
+  (merge
+   {:sku "fasjfsaoij123skulegal"
+    :active true
+    :slug "some-slug-sku-legal"
+    :title "some-title-legal"
+    :price 30
+    :quantity 2}
+   opts))
 
 (deftest products-integration-creation-test
   (testing "Creates a product"
@@ -21,7 +23,7 @@
                             {:auth {:jwt-secret "test"}})
           {:keys [status body]}
           (th/endpoint-test :post "/v1/products"
-                            {:body product-body
+                            {:body (product-body {})
                              :auth {:token (:token token)}})
           parsed-res {:product/sku (:product/sku body)
                       :product/active (:product/active body)
@@ -41,11 +43,27 @@
                             {:auth {:jwt-secret "test"}})
           {:keys [status _body]}
           (th/endpoint-test :post "/v1/products"
-                            {:body product-body
+                            {:body (product-body {})
                              :auth token})]
       (is (= 400 status))))
   (testing "Fails for an unauthenticated request"
     (let [{:keys [status _body]}
           (th/endpoint-test :post "/v1/products"
-                            {:body product-body})]
+                            {:body (product-body {})})]
       (is (= 401 status)))))
+
+(deftest products-integration-render-test
+  (testing "Renders an existing product"
+    (let [token (gen-token! {:matches? true
+                             :existing-user {:email "arthur@test.com"}}
+                            {:auth {:jwt-secret "test"}})
+          _ (th/endpoint-test :post "/v1/products"
+                              {:body (product-body {:slug "render-testing-slug"
+                                                    :sku "render-testing-sku"})
+                               :auth {:token (:token token)}})
+          {:keys [status _body]}
+          (th/endpoint-test :get "/v1/products/render-testing-slug"
+                            {:body (product-body {})
+                             :auth {:token (:token token)}
+                             :html true})]
+      (is (= 200 status)))))
