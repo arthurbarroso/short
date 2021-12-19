@@ -5,10 +5,11 @@
 (defn create-product-controller! [database]
   (fn [request]
     (let [product-input (-> request :parameters :body)
-          existing-user? (h/check-product-existence-by-slug!
-                          product-input
-                          database)]
-      (if (empty? existing-user?)
+          existing-product? (h/check-product-existence-by-slug!
+                             product-input
+                             database)]
+      (clojure.pprint/pprint existing-product?)
+      (if (empty? existing-product?)
         (rr/created ""
                     (h/create-product!
                      product-input
