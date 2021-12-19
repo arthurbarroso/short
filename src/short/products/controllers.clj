@@ -2,7 +2,8 @@
   (:require [short.products.handlers :as h]
             [ring.util.response :as rr]
             [short.products.views.details :as details]
-            [short.render :as render]))
+            [short.render :as render]
+            [short.products.logic :as l]))
 
 (defn create-product-controller! [database]
   (fn [request]
@@ -33,5 +34,6 @@
         (rr/not-found {:error "Product not found"})
         (-> product
             details/render
-            render/simplehtml-template
+            (l/product-html->view product)
+            render/html-template
             rr/response)))))

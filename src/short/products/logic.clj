@@ -25,3 +25,12 @@
   [product]
   (dissoc product
           :db/id))
+
+(defn product-html->view
+  {:malli/schema [:=> [:cat :string s/ExistingProduct] :map]}
+  [product-html product]
+  {:pre-rendered-html product-html
+   :hydrate-script-fn ""
+   :scripts-to-include ""
+   :title (:product/title product)
+   :stylesheets ""})
