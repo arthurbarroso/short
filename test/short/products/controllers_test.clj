@@ -17,6 +17,7 @@
     :active true
     :slug "some-slug-sku-legal"
     :price 30
+    :title "test-title"
     :quantity 2}
    opts))
 

@@ -11,5 +11,6 @@
               :parameters {:body {:sku string?
                                   :active boolean?
                                   :slug string?
+                                  :title string?
                                   :price number?
                                   :quantity number?}}}}]]))

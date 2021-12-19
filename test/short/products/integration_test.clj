@@ -10,6 +10,7 @@
   {:sku "fasjfsaoij123skulegal"
    :active true
    :slug "some-slug-sku-legal"
+   :title "some-title-legal"
    :price 30
    :quantity 2})
 
@@ -25,6 +26,7 @@
           parsed-res {:product/sku (:product/sku body)
                       :product/active (:product/active body)
                       :product/slug (:product/slug body)
+                      :product/title (:product/title body)
                       :product/price (:product/price body)
                       :product/quantity (:product/quantity body)
                       :product/uuid (java.util.UUID/fromString

@@ -5,10 +5,11 @@
 
 (defn product-creation
   {:malli/schema [:=> [:cat c/ProductData uuid? inst?] s/Product]}
-  [{:keys [sku active slug price quantity]} id created_at]
+  [{:keys [sku title active slug price quantity]} id created_at]
   {:product/sku sku
    :product/active active
    :product/slug slug
+   :product/title title
    :product/price price
    :product/quantity quantity
    :product/uuid id

@@ -4,9 +4,7 @@
             [malli.core :as ml]
             [clojure.test :refer [deftest testing is use-fixtures]]
             [short.products.schemas :as s]
-            [short.products.contracts :as c]
-            [short.database :as database]
-            [short.shared :as shared]))
+            [short.products.contracts :as c]))
 
 (defonce database-conn (atom nil))
 
@@ -20,6 +18,7 @@
    {:sku "fasjfsaoij123"
     :active true
     :slug "some-slug"
+    :title "some-title"
     :price 30
     :quantity 2}
    opts))

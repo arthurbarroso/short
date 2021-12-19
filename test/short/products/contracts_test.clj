@@ -9,6 +9,7 @@
     (let [input {:sku "fasjfsaoij123"
                  :active true
                  :slug "some-slug"
+                 :title "some-title"
                  :price 30
                  :quantity 2}]
       (is (true? (ml/validate c/ProductData input)))))
@@ -21,6 +22,7 @@
     (let [output {:product/sku "fasjfsaoij123"
                   :product/active true
                   :product/slug "some-slug"
+                  :product/title "some-title"
                   :product/price 30
                   :product/quantity 2
                   :product/uuid (shared/generate-uuid!)

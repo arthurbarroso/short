@@ -22,6 +22,7 @@
           base-product {:product/sku "fasjfsaoij123"
                         :product/active true
                         :product/slug "some-slug"
+                        :product/title "some-title"
                         :product/price 30
                         :db/id 313
                         :product/quantity 2
@@ -32,6 +33,7 @@
            {:product/sku "fasjfsaoij123"
             :product/active true
             :product/slug "some-slug"
+            :product/title "some-title"
             :product/price 30
             :product/quantity 2
             :product/uuid uuid
@@ -46,6 +48,7 @@
     (let [base-product {:sku "fasjfsaoij123"
                         :active true
                         :slug "some-slug"
+                        :title "some-title"
                         :price 30
                         :id 313
                         :quantity 2}
@@ -56,6 +59,7 @@
              {:product/sku "fasjfsaoij123"
               :product/active true
               :product/slug "some-slug"
+              :product/title "some-title"
               :product/price 30
               :product/quantity 2
               :product/uuid uuid

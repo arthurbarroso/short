@@ -18,6 +18,7 @@
    {:product/sku "fasjfsaoij123"
     :product/active true
     :product/slug "some-slug"
+    :product/title "some-title"
     :product/price (bigdec 30)
     :product/quantity 2
     :product/uuid (shared/generate-uuid!)
