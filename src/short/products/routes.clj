@@ -13,7 +13,8 @@
                                   :slug string?
                                   :title string?
                                   :price number?
-                                  :quantity number?}}}}]
+                                  :quantity number?}}
+              :swagger {:security [{:bearer []}]}}}]
      ["/:product"
       {:get {:handler (co/render-product-by-slug-controller! database)
              :parameters {:path {:product string?}}}}]]))
