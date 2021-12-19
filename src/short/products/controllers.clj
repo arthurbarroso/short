@@ -25,10 +25,13 @@
         (rr/not-found {:error "Product not found"})
         (rr/response product)))))
 
-(defn render-test-controller [database]
+(defn render-product-by-slug-controller! [database]
   (fn [request]
     (let [slug (-> request :parameters :path :product)
-          product (h/get-product-by-slug! slug database)
-          view (details/render product)
-          rendered (render/simplehtml-template view)]
-      {:status 200 :body rendered})))
+          product (h/get-product-by-slug! slug database)]
+      (if (nil? product)
+        (rr/not-found {:error "Product not found"})
+        (-> product
+            details/render
+            render/simplehtml-template
+            rr/response)))))

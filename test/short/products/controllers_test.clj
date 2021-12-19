@@ -69,13 +69,13 @@
           _
           ((cont/create-product-controller! @database)
            {:parameters {:body data}})
-          {:keys [status body]}
-          ((cont/render-test-controller @database)
+          {:keys [status _body]}
+          ((cont/render-product-by-slug-controller! @database)
            {:parameters {:path {:product (:slug data)}}})]
       (is (= 200 status))))
-  #_(testing "Fails to find a product using a non-existent slug"
-      (let [database database-conn
-            {:keys [status _body]}
-            ((cont/get-product-by-slug-controller! @database)
-             {:parameters {:path {:product "randooooooooooooom-non-existent"}}})]
-        (is (= 404 status)))))
+  (testing "Fails to find and render a product using a non-existent slug"
+    (let [database database-conn
+          {:keys [status _body]}
+          ((cont/render-product-by-slug-controller! @database)
+           {:parameters {:path {:product "randooooooooooooom-non-existent"}}})]
+      (is (= 404 status)))))
