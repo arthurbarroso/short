@@ -1,4 +1,4 @@
-(ns short.products.logic-Test
+(ns short.products.logic-test
   (:require [short.products.logic :as l]
             [short.products.schemas :as s]
             [short.products.contracts :as c]
@@ -52,7 +52,6 @@
           uuid (shared/generate-uuid!)
           now (shared/get-current-inst!)
           result (l/product-creation base-product uuid now)]
-      (clojure.pprint/pprint result)
       (is (= result
              {:product/sku "fasjfsaoij123"
               :product/active true
