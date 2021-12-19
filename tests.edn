@@ -12,7 +12,8 @@
   :kaocha.hooks/pre-load [util.test-system/start-fixture]
 
   :cloverage/opts
-  {:ns-exclude-regex ["short.server"
+  {:codecov? true
+   :ns-exclude-regex ["short.server"
                       "short.database"
                       "short.ui.*"
                       "short.admin.*"
