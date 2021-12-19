@@ -1,6 +1,7 @@
 (ns short.products.controllers
   (:require [short.products.handlers :as h]
-            [ring.util.response :as rr]))
+            [ring.util.response :as rr]
+            [short.products.views.details :as details]))
 
 (defn create-product-controller! [database]
   (fn [request]
@@ -23,3 +24,11 @@
       (if (empty? product)
         (rr/not-found {:error "Product not found"})
         (rr/response product)))))
+
+(defn render-test-controller [database]
+  (fn [request]
+    (let [slug (-> request :parameters :path :product)
+          product (h/get-product-by-slug! slug database)
+          view (details/render product)]
+          ;; rendered (short.shared.render/simplehtml-template view)]
+      (rr/response {}))))
