@@ -25,14 +25,19 @@
     (let [database database-conn
           {:keys [status body]}
           ((cont/create-product-controller! @database)
-           {:parameters {:body (p {})}})]
+           {:parameters {:body (p {:sku "cool-sku-test-wont-fail-bruh"
+                                   :slug "some-slug-that-wont-fail-bruh"})}})]
       (is (= 201 status))
-      (is (= (:sku (p {})) (:product/sku body)))))
+      (is (= "cool-sku-test-wont-fail-bruh" (:product/sku body)))))
   (testing "Fails to create a new product when the SKU is already in use"
     (let [database database-conn
+          _ ((cont/create-product-controller! @database)
+             {:parameters {:body (p {:sku "fail-please"
+                                     :slug "fail-ffs"})}})
           {:keys [status _body]}
           ((cont/create-product-controller! @database)
-           {:parameters {:body (p {})}})]
+           {:parameters {:body (p {:sku "fail-please"
+                                   :slug "fail-ffs"})}})]
       (is (= 400 status)))))
 
 (deftest get-product-by-slug-controller-test
