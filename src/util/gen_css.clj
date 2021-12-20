@@ -5,4 +5,5 @@
   (let [styles css/ui-styles]
     (do
       (spit "public/assets/stylesheet.css" styles)
-      (spit "store/assets/stylesheet.css" styles))))
+      (spit "store/assets/stylesheet.css" styles)
+      (spit "resources/assets/stylesheet.css" styles))))

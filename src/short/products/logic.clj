@@ -33,4 +33,4 @@
    :hydrate-script-fn ""
    :scripts-to-include ""
    :title (:product/title product)
-   :stylesheets ""})
+   :stylesheets "<link rel=\"stylesheet\" href=\"/assets/stylesheet.css\">"})

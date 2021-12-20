@@ -1,6 +1,5 @@
 (ns short.admin.css
-  (:require [short.admin.template :as template]
-            [short.ui.css :refer [ui-styles]]))
+  (:require [short.ui.css :refer [ui-styles]]))
 
 (defn clear-styles!
   "Remove existing style elements from the document <head>"
@@ -22,7 +21,5 @@
     (.appendChild head style-el)))
 
 (defn mount-ui-styles []
-  (let [template-styles template/layout-styles
-        styles (str template-styles
-                    "\n" ui-styles)]
+  (let [styles (str "\n" ui-styles)]
     (mount-style styles)))

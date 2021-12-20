@@ -1,10 +1,12 @@
 (ns short.products.views.details
-  (:require [rum.core :as rum]))
+  (:require [rum.core :as rum]
+            [short.ui.template :as template]))
 
 (rum/defc product-details [product]
-  [:div {:class "product-page"}
-   [:section {:class "product-data"}
-    [:h1 (:product/title product)]]])
+  (template/template
+   [:div {:class "product-page"}
+    [:section {:class "product-data"}
+     [:h1 (:product/title product)]]]))
 
 (defn ^:export render [product]
   #?(:clj

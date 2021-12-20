@@ -45,12 +45,17 @@
     (users/routes environment)
     (products/routes environment)]])
 
+(def assets-router
+  ["" {:no-doc true}
+   ["/assets/*" (ring/create-resource-handler {:root "assets/"})]])
+
 (defn router [environment]
   (wrap-cors
    (ring/ring-handler
     (ring/router
      [""
-      (api-router environment)]
+      (api-router environment)
+      assets-router]
      router-config)
     (ring/routes
      (swagger-ui/create-swagger-ui-handler {:path "/swagger"}))
