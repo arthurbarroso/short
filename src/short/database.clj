@@ -39,6 +39,10 @@
               :db/valueType :db.type/uuid
               :db/unique :db.unique/identity
               :db/cardinality :db.cardinality/one}
+             ;;product/title
+             {:db/ident :product/title
+              :db/valueType :db.type/string
+              :db/cardinality :db.cardinality/one}
              ;;product/sku
              {:db/ident :product/sku
               :db/unique :db.unique/value

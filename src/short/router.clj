@@ -31,7 +31,12 @@
                     :info
                     {:title "Brundij API documentation"
                      :description "Brundij's REST api"
-                     :version "0.1.0"}}
+                     :version "0.1.0"}
+                    :securityDefinitions {:bearer {:type "apiKey"
+                                                   :name "Authorization"
+                                                   :in "header"}}}
+                                                   ;; :scheme "bearer"
+                                                   ;; :bearerFormat "JWT"}}}
           :handler (swagger/create-swagger-handler)}}])
 
 (defn api-router [environment]

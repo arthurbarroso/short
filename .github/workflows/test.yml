@@ -16,6 +16,8 @@ jobs:
      steps:
        - name: Checkout
          uses: actions/checkout@v2
+         with:
+           fetch-depth: 0
 
        - name: Setup Java
          uses: actions/setup-java@v1
@@ -41,4 +43,8 @@ jobs:
          run: bin/kaocha
 
        - name: Upload server tests coverage report to codecov
-         run: bash <(curl -s https://codecov.io/bash)
+         uses: codecov/codecov-action@v2
+         with:
+           fail_ci_if_error: true
+           directory: ./target/
+           token: ${{ secrets.CODECOV_TOKEN }}

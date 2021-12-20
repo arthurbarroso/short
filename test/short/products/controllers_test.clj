@@ -17,6 +17,7 @@
     :active true
     :slug "some-slug-sku-legal"
     :price 30
+    :title "test-title"
     :quantity 2}
    opts))
 
@@ -57,5 +58,24 @@
     (let [database database-conn
           {:keys [status _body]}
           ((cont/get-product-by-slug-controller! @database)
+           {:parameters {:path {:product "randooooooooooooom-non-existent"}}})]
+      (is (= 404 status)))))
+
+(deftest render-product-by-slug-controller-test
+  (testing "Finds and renders a product by it's slug"
+    (let [database database-conn
+          data (p {:product/sku "some-test-random-cool-render"
+                   :product/slug "get-find-slug-render"})
+          _
+          ((cont/create-product-controller! @database)
+           {:parameters {:body data}})
+          {:keys [status _body]}
+          ((cont/render-product-by-slug-controller! @database)
+           {:parameters {:path {:product (:slug data)}}})]
+      (is (= 200 status))))
+  (testing "Fails to find and render a product using a non-existent slug"
+    (let [database database-conn
+          {:keys [status _body]}
+          ((cont/render-product-by-slug-controller! @database)
            {:parameters {:path {:product "randooooooooooooom-non-existent"}}})]
       (is (= 404 status)))))

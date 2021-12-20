@@ -1,6 +1,9 @@
 (ns short.products.controllers
   (:require [short.products.handlers :as h]
-            [ring.util.response :as rr]))
+            [ring.util.response :as rr]
+            [short.products.views.details :as details]
+            [short.render :as render]
+            [short.products.logic :as l]))
 
 (defn create-product-controller! [database]
   (fn [request]
@@ -8,7 +11,6 @@
           existing-product? (h/check-product-existence-by-slug!
                              product-input
                              database)]
-      (clojure.pprint/pprint existing-product?)
       (if (empty? existing-product?)
         (rr/created ""
                     (h/create-product!
@@ -23,3 +25,15 @@
       (if (empty? product)
         (rr/not-found {:error "Product not found"})
         (rr/response product)))))
+
+(defn render-product-by-slug-controller! [database]
+  (fn [request]
+    (let [slug (-> request :parameters :path :product)
+          product (h/get-product-by-slug! slug database)]
+      (if (nil? product)
+        (rr/not-found {:error "Product not found"})
+        (-> product
+            details/render
+            (l/product-html->view product)
+            render/html-template
+            rr/response)))))

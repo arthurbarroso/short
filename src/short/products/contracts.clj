@@ -5,6 +5,7 @@
    [:sku string?]
    [:active boolean?]
    [:slug string?]
+   [:title string?]
    [:price number?]
    [:quantity number?]])
 
@@ -14,6 +15,7 @@
     [:product/sku string?]
     [:product/active boolean?]
     [:product/slug string?]
+    [:product/title string?]
     [:product/price number?]
     [:product/quantity number?]
     [:product/uuid uuid?]

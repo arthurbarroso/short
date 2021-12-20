@@ -17,4 +17,5 @@
                       "short.database"
                       "short.ui.*"
                       "short.admin.*"
-                      "short.*.views.*"]}}
+                      "short.*.views.*"
+                      "util.*"]}}

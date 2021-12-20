@@ -26,7 +26,10 @@
 
  :paths ["src"]
 
- :aliases {:dev {:extra-paths ["dev"]}
+ :aliases {:css {:ns-default util.gen-css
+                 :exec-fn main}
+
+           :dev {:extra-paths ["dev"]}
 
            :cljs
            {:main-opts ["-m" "shadow.cljs.devtools.cli"]

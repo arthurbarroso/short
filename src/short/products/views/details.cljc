@@ -4,7 +4,7 @@
 (rum/defc product-details [product]
   [:div {:class "product-page"}
    [:section {:class "product-data"}
-    [:h1 (:title product)]]])
+    [:h1 (:product/title product)]]])
 
 (defn ^:export render [product]
   #?(:clj

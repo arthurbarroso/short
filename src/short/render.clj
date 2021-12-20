@@ -40,3 +40,20 @@
    (add-scripts-to-include-to-html scripts-to-include)
    (add-title-to-html title)
    (add-stylesheets-to-html stylesheets)))
+
+(defn simplehtml-template
+  [pre-rendered-html]
+  (->
+   "<html>
+      <head>
+        <meta charset=\"utf-8\">
+        ${{stylesheets}}
+        ${{scripts-to-include}}
+        <title>${{title}}</title>
+      </head>
+      <body>
+        <div id=\"root\">${{html-string}}</div>
+      </body>
+      <script>${{hydrate-script}}</script>
+    </html>"
+   (add-component-string-to-html pre-rendered-html)))
