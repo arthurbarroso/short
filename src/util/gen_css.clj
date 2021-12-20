@@ -3,4 +3,6 @@
 
 (defn main [& _opts]
   (let [styles css/ui-styles]
-    (spit "public/assets/stylesheet.css" styles)))
+    (do
+      (spit "public/assets/stylesheet.css" styles)
+      (spit "store/assets/stylesheet.css" styles))))
