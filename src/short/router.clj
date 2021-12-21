@@ -9,6 +9,7 @@
             [reitit.swagger :as swagger]
             [reitit.swagger-ui :as swagger-ui]
             [ring.middleware.cors :refer [wrap-cors]]
+            [ring.middleware.cookies :as cookies]
             [short.middlewares :as middlewares]
             [short.users.routes :as users]
             [short.products.routes :as products]))
@@ -17,7 +18,8 @@
   {:data {:coercion coercion-spec/coercion
           :exception pretty/exception
           :muuntaja m/instance
-          :middleware [muuntaja/format-middleware
+          :middleware [cookies/wrap-cookies
+                       muuntaja/format-middleware
                        exception/exception-middleware
                        coercion/coerce-request-middleware
                        coercion/coerce-response-middleware

@@ -1,7 +1,8 @@
 (ns short.products.views.details
   (:require [rum.core :as rum]
             [short.ui.template :as template]
-            [short.ui.text :as text]))
+            [short.ui.text :as text]
+            #?(:cljs [short.cookies :as cookies])))
 
 (rum/defc product-details [product]
   (template/template
@@ -26,12 +27,12 @@
   #?(:clj
      (rum/render-html (product-details product))
      :cljs
-     (rum/hydrate (product-details product) js/document.body)))
+     (rum/hydrate (product-details product) (.getElementById js/document "root"))))
 
-;; (def b-product {:title "teste"})
-;; (defn ^:export render-browser []
-;;   #?(:clj ()
-;;      :cljs (rum/hydrate (product-details b-product) (.getElementById js/document "root"))))
+#?(:cljs (defn ^:export hydrate []
+           (let [product (cookies/get-cookie! "product")]
+             (cljs.pprint/pprint product)
+             (render product))))
 
 ;; (comment
 ;;   (spit "store/teste.html" (render b-product)))

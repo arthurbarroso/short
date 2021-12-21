@@ -1,4 +1,5 @@
-(ns short.shared)
+(ns short.shared
+  (:require [muuntaja.core :as m]))
 
 (defn tempid->eid [tx]
   (-> tx :tempids first second))
@@ -8,3 +9,6 @@
 
 (defn get-current-inst! []
   (java.util.Date.))
+
+(defn edn->json [edn-data]
+  (m/encode "application/json" edn-data))
