@@ -3,7 +3,8 @@
             [ring.util.response :as rr]
             [short.products.views.details :as details]
             [short.render :as render]
-            [short.products.logic :as l]))
+            [short.products.logic :as l]
+            [short.shared :as shared]))
 
 (defn create-product-controller! [database]
   (fn [request]
@@ -26,6 +27,10 @@
         (rr/not-found {:error "Product not found"})
         (rr/response product)))))
 
+(defn respond-with-cookie [html status cookie-key cookie-val]
+  (rr/set-cookie {:body html
+                  :status status} cookie-key (slurp (shared/edn->json cookie-val))))
+
 (defn render-product-by-slug-controller! [database]
   (fn [request]
     (let [slug (-> request :parameters :path :product)
@@ -36,4 +41,4 @@
             details/render
             (l/product-html->view product)
             render/html-template
-            rr/response)))))
+            (respond-with-cookie 200 "product" product))))))

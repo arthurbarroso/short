@@ -30,7 +30,7 @@
   {:malli/schema [:=> [:cat :string s/ExistingProduct] :map]}
   [product-html product]
   {:pre-rendered-html product-html
-   :hydrate-script-fn ""
-   :scripts-to-include ""
+   :hydrate-script-fn "short$.products.views.details.hydrate()"
+   :scripts-to-include "<script src=\"/assets/js/shared.js\"></script><script src=\"/assets/js/products.js\"></script>"
    :title (:product/title product)
-   :stylesheets ""})
+   :stylesheets "<link rel=\"stylesheet\" href=\"/assets/stylesheet.css\">"})

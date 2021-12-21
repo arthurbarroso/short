@@ -24,7 +24,7 @@
         rum/rum {:mvn/version "0.12.8"
                  :exclusions [cljsjs/react cljsjs/react-dom]}}
 
- :paths ["src"]
+ :paths ["src" "resources"]
 
  :aliases {:css {:ns-default util.gen-css
                  :exec-fn main}

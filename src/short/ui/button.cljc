@@ -20,8 +20,7 @@
   {:padding "0.8% 3%"
    :background "none"
    :color "#0166D6"
-   :border "solid 1.5px #D3D3D3"
-   :hover {:border "1.5px solid #0166D6"}})
+   :border "solid 1.5px #D3D3D3"})
 
 (def button-css
   (css [:.button (merge common-button-style

@@ -7,6 +7,5 @@ target
 
 /node_modules/
 /.shadow-cljs/
-/public/assets/js
-/public/assets/stylesheet.css
-/store/assets/js
+/resources/assets/js
+/resources/assets/stylesheet.css

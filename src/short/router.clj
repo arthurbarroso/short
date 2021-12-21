@@ -9,6 +9,7 @@
             [reitit.swagger :as swagger]
             [reitit.swagger-ui :as swagger-ui]
             [ring.middleware.cors :refer [wrap-cors]]
+            [ring.middleware.cookies :as cookies]
             [short.middlewares :as middlewares]
             [short.users.routes :as users]
             [short.products.routes :as products]))
@@ -17,7 +18,8 @@
   {:data {:coercion coercion-spec/coercion
           :exception pretty/exception
           :muuntaja m/instance
-          :middleware [muuntaja/format-middleware
+          :middleware [cookies/wrap-cookies
+                       muuntaja/format-middleware
                        exception/exception-middleware
                        coercion/coerce-request-middleware
                        coercion/coerce-response-middleware
@@ -45,12 +47,17 @@
     (users/routes environment)
     (products/routes environment)]])
 
+(def assets-router
+  ["" {:no-doc true}
+   ["/assets/*" (ring/create-resource-handler {:root "assets/"})]])
+
 (defn router [environment]
   (wrap-cors
    (ring/ring-handler
     (ring/router
      [""
-      (api-router environment)]
+      (api-router environment)
+      assets-router]
      router-config)
     (ring/routes
      (swagger-ui/create-swagger-ui-handler {:path "/swagger"}))
