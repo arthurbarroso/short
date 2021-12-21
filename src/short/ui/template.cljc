@@ -1,5 +1,6 @@
 (ns short.ui.template
-  (:require [garden.core :refer [css]]))
+  (:require [garden.core :refer [css]]
+            [short.ui.text :as text]))
 
 (def app-base-style
   {:height "100vh"
@@ -30,6 +31,10 @@
 (defn template [children]
   [:div {:class "base"}
    [:div {:class "content"}
-    [:<>] ;; header
     [:div {:class "container"}
+     [:header
+      [:a {:href "/"}
+       (text/typography {:text "short"
+                         :variant "h1"
+                         :sizing "text-xxxl"})]]
      children]]])
