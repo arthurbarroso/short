@@ -7,17 +7,20 @@
   (template/template
    [:div {:class "product-page"}
     [:section {:class "product-heading"}
-     (text/typography {:text (:product/title product)
-                       :variant "h2"})]
+     (text/typography
+      {:text (:product/title product)
+       :variant "h2"})]
     [:section {:class "product-pricing"}
-     (text/typography {:text (str "price: "
-                                  (:product/price product))
-                       :variant "h4"})]
+     (text/typography
+      {:text (str "price: "
+                  (:product/price product))
+       :variant "h4"})]
     [:section {:class "product-stock"}
-     (text/typography {:text (str "currently in-stock: "
-                                  (:product/quantity product))
-                       :variant "p"
-                       :sizing "text-sm"})]]))
+     (text/typography
+      {:text (str "currently in-stock: "
+                  (:product/quantity product))
+       :variant "p"
+       :sizing "text-sm"})]]))
 
 (defn ^:export render [product]
   #?(:clj
