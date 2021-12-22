@@ -44,8 +44,8 @@
 (deftest get-product-by-slug-controller-test
   (testing "Finds a product by it's slug"
     (let [database database-conn
-          data (p {:product/sku "some-test-random-cool"
-                   :product/slug "get-find-slug"})
+          data (p {:sku "some-test-random-cool"
+                   :slug "get-find-slug"})
           _
           ((cont/create-product-controller! @database)
            {:parameters {:body data}})
@@ -64,14 +64,16 @@
 (deftest render-product-by-slug-controller-test
   (testing "Finds and renders a product by it's slug"
     (let [database database-conn
-          data (p {:product/sku "some-test-random-cool-render"
-                   :product/slug "get-find-slug-render"})
+          data (p {:sku "some-test-random-cool-render"
+                   :slug "get-find-slug-render"})
           _
           ((cont/create-product-controller! @database)
            {:parameters {:body data}})
-          {:keys [status _body]}
+          {:keys [status _body cookies]}
           ((cont/render-product-by-slug-controller! @database)
-           {:parameters {:path {:product (:slug data)}}})]
+           {:parameters {:path {:product (:slug data)}}})
+          parsed-cookie (m/decode "application/json" (:value (get cookies "product")))]
+      (is (= "get-find-slug-render" (:product/slug parsed-cookie)))
       (is (= 200 status))))
   (testing "Fails to find and render a product using a non-existent slug"
     (let [database database-conn
