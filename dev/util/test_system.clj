@@ -5,7 +5,7 @@
             [taoensso.timbre :as timbre]))
 
 (def environment-vars
-  {:port 4000
+  {:port 4001
    :database_host ""
    :database_port ""
    :database_user ""

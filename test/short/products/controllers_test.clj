@@ -1,7 +1,8 @@
 (ns short.products.controllers-test
   (:require [short.products.controllers :as cont]
             [test-helpers :as th]
-            [clojure.test :refer [deftest testing is use-fixtures]]))
+            [clojure.test :refer [deftest testing is use-fixtures]]
+            [muuntaja.core :as m]))
 
 (defonce database-conn (atom nil))
 

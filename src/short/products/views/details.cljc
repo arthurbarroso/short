@@ -31,11 +31,4 @@
 
 #?(:cljs (defn ^:export hydrate []
            (let [product (cookies/get-cookie! "product")]
-             (cljs.pprint/pprint product)
              (render product))))
-
-;; (comment
-;;   (spit "store/teste.html" (render b-product)))
-
-(comment
-  (rum/render-html (product-details {:product/title "teste"})))

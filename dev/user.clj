@@ -41,5 +41,5 @@
   (require '[malli.dev.pretty :as pretty])
   (dev/start! {:report (pretty/reporter)})
   (reset-all)
-  (go)
-  (stop))
+  (stop)
+  (go))
