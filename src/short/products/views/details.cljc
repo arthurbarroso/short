@@ -2,6 +2,7 @@
   (:require [rum.core :as rum]
             [short.ui.template :as template]
             [short.ui.text :as text]
+            [short.ui.button :as button]
             #?(:cljs [short.cookies :as cookies])))
 
 (rum/defc product-details [product]
@@ -21,7 +22,12 @@
       {:text (str "currently in-stock: "
                   (:product/quantity product))
        :variant "p"
-       :sizing "text-sm"})]]))
+       :sizing "text-sm"})
+     (button/button {:on-click #()
+                     :text "Buy"
+                     :title "purchase"})]]))
+
+;; {:keys [on-click text disabled title extra-style]}
 
 (defn ^:export render [product]
   #?(:clj
