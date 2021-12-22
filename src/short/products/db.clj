@@ -1,14 +1,15 @@
 (ns short.products.db
   (:require [datahike.api :as d]
-            [short.products.schemas :as s]))
+            [short.products.schemas :as s]
+            [short.shared :as shared]))
 
 (defn create-product!
-  {:malli/schema [:=> [:cat s/Product :any] s/Product]}
+  {:malli/schema [:=> [:cat s/Product :any] shared/Transaction]}
   [product db]
   (d/transact db [(assoc product :db/id -1)]))
 
 (defn get-product!
-  {:malli/schema [:=> [:cat int? :any] s/Product]}
+  {:malli/schema [:=> [:cat int? :any] s/ExistingProduct]}
   [eid db]
   (d/pull @db '[*] eid))
 

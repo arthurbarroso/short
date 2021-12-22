@@ -32,10 +32,9 @@
    {:db/ident :product/created_at
     :db/valueType :db.type/instant
     :db/cardinality :db.cardinality/one}
-   ;;product/quantity
-   {:db/ident :product/quantity
-    :db/valueType :db.type/bigint
-    :db/cardinality :db.cardinality/one}])
+   {:db/ident :product/variant
+    :db/valueType :db.type/ref
+    :db/cardinality :db.cardinality/many}])
 
 (def Product
   [:map
@@ -44,16 +43,9 @@
    [:product/slug string?]
    [:product/title string?]
    [:product/price number?]
-   [:product/quantity number?]
+   ;; [:product/quantity number?]
    [:product/uuid uuid?]
    [:product/created_at inst?]])
-
-(def ProductTx
-  [:map
-   [:db-before :any]
-   [:db-after :any]
-   [:tx-data :any]
-   [:tempids :map]])
 
 (def ExistingProduct
   [:map
@@ -62,7 +54,7 @@
    [:product/slug string?]
    [:product/title string?]
    [:product/price number?]
-   [:product/quantity number?]
+   ;; [:product/quantity number?]
    [:product/uuid uuid?]
    [:product/created_at inst?]
    [:db/id int?]])

@@ -10,21 +10,21 @@
                  :active true
                  :slug "some-slug"
                  :title "some-title"
-                 :price 30
-                 :quantity 2}]
+                 :price 30}]
+                 ;; :quantity 2}]
       (is (true? (ml/validate c/ProductData input)))))
   (testing "Fails for an unexpected external input"
     (let [input {:sku "hi there"}]
       (is (false? (ml/validate c/ProductData input))))))
 
-(deftest users-contract-productout-test
+(deftest products-contract-productout-test
   (testing "Matches the expected external output"
     (let [output {:product/sku "fasjfsaoij123"
                   :product/active true
                   :product/slug "some-slug"
                   :product/title "some-title"
                   :product/price 30
-                  :product/quantity 2
+                  ;; :product/quantity 2
                   :product/uuid (shared/generate-uuid!)
                   :product/created_at (shared/get-current-inst!)}]
       (is (true? (ml/validate c/ProductOut output)))))

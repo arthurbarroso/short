@@ -27,7 +27,7 @@
     (let [database database-conn
           result (db/create-user! (create-user {}) @database)]
       (is (not (nil? (:tx-data result))))
-      (is (true? (m/validate s/UserTx result))))))
+      (is (true? (m/validate shared/Transaction result))))))
 
 (deftest users-get-user-test
   (testing "Finds an user"

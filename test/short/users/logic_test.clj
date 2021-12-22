@@ -6,15 +6,6 @@
             [clojure.test :refer [deftest testing is]]
             [short.shared :as shared]))
 
-(deftest users-tx->id-test
-  (testing "Extracts tempids from a transaction"
-    (let [tx {:tempids {1 2}
-              :db-before {}
-              :db-after {}
-              :tx-data {}}
-          result (l/tx->id tx)]
-      (is (= 2 result)))))
-
 (deftest users-internal->external-test
   (testing "Dissociates the internal-only fields of an user"
     (let [uuid (shared/generate-uuid!)

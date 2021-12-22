@@ -6,15 +6,6 @@
             [clojure.test :refer [deftest testing is]]
             [short.shared :as shared]))
 
-(deftest procuts-tx->id-test
-  (testing "Extracts tempids from a transaction"
-    (let [tx {:tempids {1 2}
-              :db-before {}
-              :db-after {}
-              :tx-data {}}
-          result (l/tx->id tx)]
-      (is (= 2 result)))))
-
 (deftest procuts-internal->external-test
   (testing "Dissociates the internal-only fields of a product"
     (let [uuid (shared/generate-uuid!)
@@ -25,7 +16,7 @@
                         :product/title "some-title"
                         :product/price 30
                         :db/id 313
-                        :product/quantity 2
+                        ;; :product/quantity 2
                         :product/uuid uuid
                         :product/created_at now}
           result (l/internal->external base-product)]
@@ -35,7 +26,7 @@
             :product/slug "some-slug"
             :product/title "some-title"
             :product/price 30
-            :product/quantity 2
+            ;; :product/quantity 2
             :product/uuid uuid
             :product/created_at now}
            result))
@@ -50,8 +41,8 @@
                         :slug "some-slug"
                         :title "some-title"
                         :price 30
-                        :id 313
-                        :quantity 2}
+                        :id 313}
+                        ;; :quantity 2}
           uuid (shared/generate-uuid!)
           now (shared/get-current-inst!)
           result (l/product-creation base-product uuid now)]
@@ -61,7 +52,7 @@
               :product/slug "some-slug"
               :product/title "some-title"
               :product/price 30
-              :product/quantity 2
+              ;; :product/quantity 2
               :product/uuid uuid
               :product/created_at now}))
       (is (true? (ml/validate

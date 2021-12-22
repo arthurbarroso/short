@@ -16,17 +16,6 @@
     (let [input {:email "test" :password "hithere"}]
       (is (false? (ml/validate s/User input))))))
 
-(deftest users-schema-usertx-test
-  (testing "Matches the expected internal tx input"
-    (let [input {:db-before {}
-                 :db-after {}
-                 :tx-data {}
-                 :tempids {1 2}}]
-      (is (true? (ml/validate s/UserTx input)))))
-  (testing "Fails for an unexpected internal tx input"
-    (let [input {:db-before []}]
-      (is (false? (ml/validate s/UserTx input))))))
-
 (deftest users-schema-existinguser-test
   (testing "Matches the expected internal user structure"
     (let [input {:user/email "string@email.com"

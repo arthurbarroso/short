@@ -1,7 +1,16 @@
 (ns short.shared
   (:require [muuntaja.core :as m]))
 
-(defn tempid->eid [tx]
+(def Transaction
+  [:map
+   [:db-before :any]
+   [:db-after :any]
+   [:tx-data :any]
+   [:tempids :map]])
+
+(defn tempid->eid
+  {:malli/schema [:=> [:cat Transaction] int?]}
+  [tx]
   (-> tx :tempids first second))
 
 (defn generate-uuid! []

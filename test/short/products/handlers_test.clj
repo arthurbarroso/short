@@ -19,8 +19,8 @@
     :active true
     :slug "some-slug"
     :title "some-title"
-    :price 30
-    :quantity 2}
+    :price 30}
+    ;; :quantity 2}
    opts))
 
 (deftest products-create-product-handler-test

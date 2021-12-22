@@ -35,7 +35,7 @@
     (-> new-user
         (l/user-creation id created_at hashed-pass)
         (db/create-user! db)
-        l/tx->id
+        shared/tempid->eid
         (db/get-user! db)
         l/internal->external)))
 

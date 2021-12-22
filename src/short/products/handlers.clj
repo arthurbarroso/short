@@ -20,7 +20,7 @@
         (assoc :price price)
         (l/product-creation id created_at)
         (db/create-product! db)
-        l/tx->id
+        shared/tempid->eid
         (db/get-product! db)
         l/internal->external)))
 
