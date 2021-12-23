@@ -10,13 +10,6 @@
    [:variant/created_at inst?]
    [:variant/product :map]])
 
-(def VariantTx
-  [:map
-   [:db-before :any]
-   [:db-after :any]
-   [:tx-data :any]
-   [:tempids :map]])
-
 (def ExistingVariant
   [:map
    [:variant/uuid uuid?]

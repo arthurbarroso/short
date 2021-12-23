@@ -32,3 +32,12 @@
       flatten
       first
       l/internal->external))
+
+(defn get-product-by-uuid!
+  {:malli/schema [:=> [:cat uuid? :any] c/ProductOut]}
+  [product-uuid db]
+  (-> product-uuid
+      (db/get-product-by-uuid! db)
+      flatten
+      first
+      l/internal->external))
