@@ -12,7 +12,8 @@
             [ring.middleware.cookies :as cookies]
             [short.middlewares :as middlewares]
             [short.users.routes :as users]
-            [short.products.routes :as products]))
+            [short.products.routes :as products]
+            [short.variants.routes :as variants]))
 
 (def router-config
   {:data {:coercion coercion-spec/coercion
@@ -45,7 +46,8 @@
   [swagger-docs
    ["/v1" {:middleware [swagger/swagger-feature]}
     (users/routes environment)
-    (products/routes environment)]])
+    (products/routes environment)
+    (variants/routes environment)]])
 
 (def assets-router
   ["" {:no-doc true}
