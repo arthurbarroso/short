@@ -41,10 +41,3 @@ jobs:
 
        - name: Run server tests
          run: bin/kaocha
-
-       - name: Upload server tests coverage report to codecov
-         uses: codecov/codecov-action@v2
-         with:
-           fail_ci_if_error: true
-           directory: ./target/
-           token: ${{ secrets.CODECOV_TOKEN }}
