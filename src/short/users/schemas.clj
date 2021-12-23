@@ -32,13 +32,6 @@
    [:user/created_at inst?]
    [:user/active boolean?]])
 
-(def UserTx
-  [:map
-   [:db-before :any]
-   [:db-after :any]
-   [:tx-data :any]
-   [:tempids :map]])
-
 (def ExistingUser
   [:map
    [:user/email string?]

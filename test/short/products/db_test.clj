@@ -20,7 +20,7 @@
     :product/slug "some-slug"
     :product/title "some-title"
     :product/price (bigdec 30)
-    :product/quantity 2
+    ;; :product/quantity 2
     :product/uuid (shared/generate-uuid!)
     :product/created_at (shared/get-current-inst!)}
    opts))
@@ -30,10 +30,10 @@
     (let [database database-conn
           result (db/create-product! (create-product {}) @database)]
       (is (not (nil? (:tx-data result))))
-      (is (true? (m/validate s/ProductTx result))))))
+      (is (true? (m/validate shared/Transaction result))))))
 
 (deftest procuts-get-product-test
-  (testing "Finds an user"
+  (testing "Finds a product"
     (let [database database-conn
           usertx (db/create-product! (create-product
                                       {:product/sku "test-sku"

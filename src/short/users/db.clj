@@ -1,9 +1,10 @@
 (ns short.users.db
   (:require [datahike.api :as d]
-            [short.users.schemas :as s]))
+            [short.users.schemas :as s]
+            [short.shared :as shared]))
 
 (defn create-user!
-  {:malli/schema [:=> [:cat s/User :any] s/UserTx]}
+  {:malli/schema [:=> [:cat s/User :any] shared/Transaction]}
   [user db]
   (d/transact db [(assoc user :db/id -1)]))
 

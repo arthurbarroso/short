@@ -4,7 +4,8 @@
             [malli.core :as ml]
             [clojure.test :refer [deftest testing is use-fixtures]]
             [short.products.schemas :as s]
-            [short.products.contracts :as c]))
+            [short.products.contracts :as c]
+            [short.shared :as shared]))
 
 (defonce database-conn (atom nil))
 
@@ -19,8 +20,8 @@
     :active true
     :slug "some-slug"
     :title "some-title"
-    :price 30
-    :quantity 2}
+    :price 30}
+    ;; :quantity 2}
    opts))
 
 (deftest products-create-product-handler-test
@@ -61,5 +62,19 @@
   (testing "Returns nil for a non-existing product slug"
     (let [database database-conn
           result (h/get-product-by-slug! "failure39140180493109" @database)]
+      (is (true? (ml/validate c/ProductOut result)))
+      (is (nil? result)))))
+
+(deftest products-get-product-by-uuid-handler-test
+  (testing "Returns an existing product using it's uuid to search the database"
+    (let [database database-conn
+          crp (h/create-product! (p {:slug "maneiro123"
+                                     :sku "coolio123"}) @database)
+          result (h/get-product-by-uuid! (:product/uuid crp) @database)]
+      (is (true? (ml/validate c/ProductOut result)))
+      (is (= (:product/slug result) "maneiro123"))))
+  (testing "Returns nil for a non-existing product uuid"
+    (let [database database-conn
+          result (h/get-product-by-uuid! (shared/generate-uuid!) @database)]
       (is (true? (ml/validate c/ProductOut result)))
       (is (nil? result)))))

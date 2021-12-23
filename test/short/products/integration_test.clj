@@ -12,8 +12,7 @@
     :active true
     :slug "some-slug-sku-legal"
     :title "some-title-legal"
-    :price 30
-    :quantity 2}
+    :price 30}
    opts))
 
 (deftest products-integration-creation-test
@@ -30,7 +29,6 @@
                       :product/slug (:product/slug body)
                       :product/title (:product/title body)
                       :product/price (:product/price body)
-                      :product/quantity (:product/quantity body)
                       :product/uuid (java.util.UUID/fromString
                                      (:product/uuid body))
                       :product/created_at (instant/read-instant-date

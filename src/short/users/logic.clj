@@ -12,11 +12,6 @@
    :user/active true
    :user/created_at created_at})
 
-(defn tx->id
-  {:malli/schema [:=> [:cat s/UserTx] int?]}
-  [user-tx]
-  (shared/tempid->eid user-tx))
-
 (defn internal->external
   {:malli/schema [:=> [:cat s/ExistingUser] c/UserOut]}
   [user]
