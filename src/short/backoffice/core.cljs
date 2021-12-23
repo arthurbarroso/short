@@ -4,7 +4,8 @@
             [short.backoffice.config :as config]
             [short.backoffice.views.login :as login]
             [short.backoffice.css :as css]
-            [short.backoffice.events :as events]))
+            [short.backoffice.events :as events]
+            [short.backoffice.router :as router]))
 
 (defn dev-setup []
   (when config/debug?
@@ -14,10 +15,10 @@
   (re-frame/clear-subscription-cache!)
   (let [root-el (.getElementById js/document "app")]
     (rdom/unmount-component-at-node root-el)
-    (rdom/render [login/login-view] root-el)))
+    (rdom/render [router/router-component] root-el)))
 
 (defn init []
-  ;; (init-routes!)
+  (router/init-routes!)
   ;; (initialize-styles)
   (re-frame/dispatch-sync [::events/initialize-db])
   (dev-setup)

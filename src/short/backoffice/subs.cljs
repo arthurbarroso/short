@@ -10,3 +10,13 @@
  ::password-input
  (fn [db]
    (:password db)))
+
+(re-frame/reg-sub
+ ::current-route
+ (fn [db]
+   (:current-route db)))
+
+(re-frame/reg-sub
+ ::is-authenticated?
+ (fn [db]
+   (:authenticated? db)))

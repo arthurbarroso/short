@@ -23,7 +23,7 @@
         [form/form
          [:<>
           [:h2
-           "Log in to the admin panel"]
+           "Log in"]
           [label/label
            "E-mail address"]
           [input/input

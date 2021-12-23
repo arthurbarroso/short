@@ -1,14 +1,35 @@
 (ns short.backoffice.events
   (:require [re-frame.core :as re-frame]
             [ajax.core :as ajax]
-            [day8.re-frame.http-fx]))
+            [day8.re-frame.http-fx]
+            [reitit.frontend.controllers :as rfc]
+            [reitit.frontend.easy :as rfa]))
 
 (re-frame/reg-event-db
  ::initialize-db
  (fn [_]
    {:email nil
     :password nil
-    :authenticated? false}))
+    :authenticated? false
+    :token nil
+    :current-route nil}))
+
+(re-frame/reg-event-fx
+ ::navigate
+ (fn [_ [_ route params query]]
+   {::navigate! [route params query]}))
+
+(re-frame/reg-fx
+ ::navigate!
+ (fn [[route params query]]
+   (rfa/push-state route params query)))
+
+(re-frame/reg-event-db
+ ::navigated
+ (fn [db [_ new-match]]
+   (let [old-match (:current-route db)
+         controllers (rfc/apply-controllers (:controllers old-match) new-match)]
+     (assoc db :current-route (assoc new-match :controllers controllers)))))
 
 (re-frame/reg-event-db
  ::change-email-input
@@ -25,7 +46,7 @@
  (fn [{:keys [db]} [_ credentials]]
    {:db (assoc db :loading true)
     :http-xhrio {:method :post
-                 :uri (str "http://locallhost:4000/v1/users/login")
+                 :uri (str "http://localhost:4000/v1/users/login")
                  :format (ajax/json-request-format)
                  :timeout 8000
                  :params credentials
@@ -36,8 +57,11 @@
 (re-frame/reg-event-fx
  ::login-success
  (fn [{:keys [db]} [_ response]]
-   (cljs.pprint/pprint response)
-   {:db (assoc db :loading false)}))
+   {:db (assoc db
+               :loading false
+               :token (:token response)
+               :authenticated? true)
+    ::navigate! [:panel]}))
 
 (re-frame/reg-event-fx
  ::login-failure
