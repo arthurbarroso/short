@@ -1,10 +1,10 @@
-(ns short.admin.core
+(ns short.backoffice.core
   (:require [re-frame.core :as re-frame]
             [reagent.dom :as rdom]
-            [short.admin.config :as config]
-            [short.admin.views.login :as login]
-            [short.admin.css :as css]
-            [short.admin.events :as events]))
+            [short.backoffice.config :as config]
+            [short.backoffice.views.login :as login]
+            [short.backoffice.css :as css]
+            [short.backoffice.events :as events]))
 
 (defn dev-setup []
   (when config/debug?

@@ -1,4 +1,4 @@
-(ns short.admin.css
+(ns short.backoffice.css
   (:require [short.ui.css :refer [ui-styles]]))
 
 (defn clear-styles!

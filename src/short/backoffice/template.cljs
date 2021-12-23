@@ -1,4 +1,4 @@
-(ns short.admin.template
+(ns short.backoffice.template
   (:require [reagent.core :as r]
             [garden.core :refer [css]]))
 

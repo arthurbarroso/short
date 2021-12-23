@@ -1,13 +1,13 @@
-(ns short.admin.views.login
-  (:require [short.admin.template :as template]
+(ns short.backoffice.views.login
+  (:require [short.backoffice.template :as template]
             [short.ui.button :as button]
             [short.ui.input :as input]
             [short.ui.form :as form]
             [short.ui.section :as section]
             [short.ui.label :as label]
             [re-frame.core :as re-frame]
-            [short.admin.events :as events]
-            [short.admin.subs :as subs]))
+            [short.backoffice.events :as events]
+            [short.backoffice.subs :as subs]))
 
 (defn login-handler [email password]
   (re-frame/dispatch [::events/login {:email email

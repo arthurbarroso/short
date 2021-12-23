@@ -1,4 +1,4 @@
-(ns short.admin.config)
+(ns short.backoffice.config)
 
 (def debug?
   ^boolean goog.DEBUG)

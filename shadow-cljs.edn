@@ -11,7 +11,7 @@
         :asset-path "/js"
 
         :modules {:shared {}
-                  :admin {:init-fn short.admin.core/init
+                  :admin {:init-fn short.backoffice.core/init
                           :depends-on #{:shared}}
                   :products {:depends-on #{:shared}
                              :entries [short.products.views.details]}}
