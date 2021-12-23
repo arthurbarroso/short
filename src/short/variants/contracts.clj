@@ -2,7 +2,6 @@
 
 (def VariantData
   [:map
-   [:product-id uuid?]
    [:active boolean?]
    [:quantity number?]
    [:type string?]

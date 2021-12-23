@@ -1,6 +1,6 @@
 (ns short.router
   (:require [muuntaja.core :as m]
-            [reitit.coercion.spec :as coercion-spec]
+            [reitit.coercion.malli :as coercion-malli]
             [reitit.dev.pretty :as pretty]
             [reitit.ring :as ring]
             [reitit.ring.coercion :as coercion]
@@ -16,7 +16,7 @@
             [short.variants.routes :as variants]))
 
 (def router-config
-  {:data {:coercion coercion-spec/coercion
+  {:data {:coercion coercion-malli/coercion
           :exception pretty/exception
           :muuntaja m/instance
           :middleware [cookies/wrap-cookies

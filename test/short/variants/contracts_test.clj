@@ -6,8 +6,7 @@
 
 (deftest variants-contract-variantdata-test
   (testing "Matches the expected external input"
-    (let [input {:product-id (shared/generate-uuid!)
-                 :active true
+    (let [input {:active true
                  :quantity 2
                  :type "some-type"
                  :image-url "some-img-url"}]
