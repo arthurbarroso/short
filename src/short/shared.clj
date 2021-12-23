@@ -16,6 +16,9 @@
 (defn generate-uuid! []
   (java.util.UUID/randomUUID))
 
+(defn uuid-from-string [string]
+  (java.util.UUID/fromString string))
+
 (defn get-current-inst! []
   (java.util.Date.))
 
