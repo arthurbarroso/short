@@ -1,8 +1,7 @@
 (ns short.backoffice.views.panel
   (:require [short.backoffice.template :as template]
             [short.ui.form :as form]
-            [short.ui.section :as section]
-            [short.ui.label :as label]))
+            [short.ui.section :as section]))
 
 (defn panel-view []
   (fn []
