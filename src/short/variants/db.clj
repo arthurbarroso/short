@@ -4,9 +4,11 @@
             [short.shared :as shared]))
 
 (defn create-variant!
-  {:malli/schema [:=> [:cat s/Variant :any] shared/Transaction]}
-  [variant db]
-  (d/transact db [(assoc variant :db/id -1)]))
+  {:malli/schema [:=> [:cat s/Variant uuid? :any] shared/Transaction]}
+  [variant product-uuid db]
+  (d/transact db [(assoc variant :db/id -1)
+                  {:db/id [:product/uuid product-uuid]
+                   :product/variant -1}]))
 
 (defn get-variant!
   {:malli/schema [:=> [:cat int? :any] s/ExistingVariant]}

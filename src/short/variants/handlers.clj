@@ -15,7 +15,7 @@
                  db)]
     (-> new-variant
         (l/variant-creation product id created_at)
-        (db/create-variant! db)
+        (db/create-variant! (:product-id new-variant) db)
         shared/tempid->eid
         (db/get-variant! db)
         l/internal->external)))

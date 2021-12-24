@@ -41,6 +41,7 @@
           result (db/create-variant! (create-variant
                                       {:variant/product [:product/uuid pdid]
                                        :variant/uuid vuid})
+                                     pdid
                                      @database)]
       (is (not (nil? (:tx-data result))))
       (is (true? (m/validate shared/Transaction result))))))
@@ -60,6 +61,7 @@
           varianttx (db/create-variant! (create-variant
                                          {:variant/product
                                           [:product/uuid pdid]})
+                                        pdid
                                         @database)
           eid (shared/tempid->eid varianttx)
           result (db/get-variant! eid @database)]
@@ -81,6 +83,7 @@
           _1 (db/create-variant! (create-variant
                                   {:variant/product [:product/uuid pdid]
                                    :variant/uuid vuid})
+                                 pdid
                                  @database)
           result (db/get-variant-by-uuid! vuid @database)]
       (is (true? (m/validate s/VariantQueryResult result)))))
