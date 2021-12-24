@@ -3,7 +3,8 @@
             [ajax.core :as ajax]
             [day8.re-frame.http-fx]
             [reitit.frontend.controllers :as rfc]
-            [reitit.frontend.easy :as rfa]))
+            [reitit.frontend.easy :as rfa]
+            [short.cookies :as cookies]))
 
 (re-frame/reg-event-db
  ::initialize-db
@@ -14,6 +15,11 @@
     :token nil
     :current-route nil
     :products []}))
+
+(re-frame/reg-fx
+ ::set-cookie!
+ (fn [{:keys [key value]}]
+   (cookies/set-cookie! key value)))
 
 (re-frame/reg-event-fx
  ::navigate
@@ -62,6 +68,8 @@
                :loading false
                :token (:token response)
                :authenticated? true)
+    ::set-cookie! {:key "auth-token"
+                   :value (:token response)}
     :dispatch [::get-products]
     ::navigate! [:panel]}))
 
