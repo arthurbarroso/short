@@ -15,7 +15,7 @@
             [short.products.routes :as products]
             [short.variants.routes :as variants]))
 
-(def router-config
+(defn router-config [environment]
   {:data {:coercion coercion-malli/coercion
           :exception pretty/exception
           :muuntaja m/instance
@@ -36,8 +36,8 @@
                      :description "Brundij's REST api"
                      :version "0.1.0"}
                     :securityDefinitions {:bearer {:type "apiKey"
-                                                   :name "Authorization"
-                                                   :in "header"}}}
+                                                   :name "token"
+                                                   :in "cookies"}}}
                                                    ;; :scheme "bearer"
                                                    ;; :bearerFormat "JWT"}}}
           :handler (swagger/create-swagger-handler)}}])
@@ -60,12 +60,13 @@
      [""
       (api-router environment)
       assets-router]
-     router-config)
+     (router-config environment))
     (ring/routes
      (swagger-ui/create-swagger-ui-handler {:path "/swagger"}))
     (ring/create-default-handler))
    :access-control-allow-origin [#".*"]
-   :access-control-allow-methods [:get :put :post :delete]))
+   :access-control-allow-methods [:get :put :post :delete]
+   :access-control-allow-credentials "true"))
 
 (defn routes [environment]
   (router environment))

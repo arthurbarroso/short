@@ -7,7 +7,7 @@
   (let [database (:database environment)]
     ["/variants"
      ["/:product-id"
-      {:middleware [[mi/wrap-jwt-auth environment] [mi/auth-middleware]]
+      {:middleware [[mi/jws-middleware environment]]
        :post {:handler (co/create-variant-controller! database)
               :parameters {:path [:map [:product-id string?]]
                            :body c/VariantData}

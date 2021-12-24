@@ -7,7 +7,7 @@
   (let [database (:database environment)]
     ["/products"
      [""
-      {:middleware [[mi/wrap-jwt-auth environment] [mi/auth-middleware]]
+      {:middleware [[mi/jws-middleware environment]]
        :post {:handler (co/create-product-controller! database)
               :parameters {:body c/ProductData}
               :swagger {:security [{:bearer []}]}}

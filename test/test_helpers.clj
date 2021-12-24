@@ -20,7 +20,7 @@
    (let [app (-> state/system :short/app)
          request
          (app (-> (mock/request method uri)
-                  (cond-> (:auth opts) (mock/header :Authorization (str "Token " (:token (:auth opts))))
+                  (cond-> (:auth opts) (mock/cookie :token (:token (:auth opts)))
                           (:body opts) (mock/json-body (:body opts)))))]
      (if (:html opts)
        request

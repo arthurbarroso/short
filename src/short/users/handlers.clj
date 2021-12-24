@@ -12,8 +12,9 @@
                        [:map [:auth [:map [:jwt-secret :string]]]]
                        c/UserOut]
                   [:map [:token :string]]]}
-  [env payload]
-  {:token (jwt/sign payload (get-in env [:auth :jwt-secret]))})
+  [env user-payload]
+  (let [clean-user (l/internal->external user-payload)]
+    {:token (jwt/sign clean-user (get-in env [:auth :jwt-secret]))}))
 
 (defn hash-password! [password-input]
   {:malli/schema [:=> [:cat :string] :string]}

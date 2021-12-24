@@ -19,7 +19,7 @@
 (re-frame/reg-fx
  ::set-cookie!
  (fn [{:keys [key value]}]
-   (cookies/set-cookie! key value)))
+   (cookies/set-raw-cookie! key value)))
 
 (re-frame/reg-event-fx
  ::navigate
@@ -57,6 +57,7 @@
                  :format (ajax/json-request-format)
                  :timeout 8000
                  :params credentials
+                 :with-credentials true
                  :response-format (ajax/json-response-format {:keywords? true})
                  :on-success [::login-success]
                  :on-failure [::login-failure]}}))
@@ -68,7 +69,7 @@
                :loading false
                :token (:token response)
                :authenticated? true)
-    ::set-cookie! {:key "auth-token"
+    ::set-cookie! {:key "token"
                    :value (:token response)}
     :dispatch [::get-products]
     ::navigate! [:panel]}))

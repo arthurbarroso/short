@@ -20,6 +20,10 @@
   (let [content (edn->json value)]
     (.set goog.net.cookies key content)))
 
+(defn set-raw-cookie!
+  [key value]
+  (.set goog.net.cookies key value))
+
 (defn get-cookie!
   [key]
   (->> key
