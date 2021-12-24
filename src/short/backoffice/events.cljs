@@ -12,7 +12,8 @@
     :password nil
     :authenticated? false
     :token nil
-    :current-route nil}))
+    :current-route nil
+    :products []}))
 
 (re-frame/reg-event-fx
  ::navigate
@@ -61,10 +62,37 @@
                :loading false
                :token (:token response)
                :authenticated? true)
+    :dispatch [::get-products]
     ::navigate! [:panel]}))
 
 (re-frame/reg-event-fx
  ::login-failure
+ (fn [{:keys [db]} [_ response]]
+   (cljs.pprint/pprint response)
+   {:db (assoc db :loading false)}))
+
+(re-frame/reg-event-fx
+ ::get-products
+ (fn [{:keys [db]} [_ credentials]]
+   {:db (assoc db :loading true)
+    :http-xhrio {:method :get
+                 :uri (str "http://localhost:4000/v1/products")
+                 :format (ajax/json-request-format)
+                 :headers {"Authorization" (str "Token " (:token db))}
+                 :timeout 8000
+                 :params credentials
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success [::product-list-success]
+                 :on-failure [::product-list-failure]}}))
+
+(re-frame/reg-event-fx
+ ::product-list-success
+ (fn [{:keys [db]} [_ response]]
+   {:db (assoc db
+               :products response)}))
+
+(re-frame/reg-event-fx
+ ::product-list-failure
  (fn [{:keys [db]} [_ response]]
    (cljs.pprint/pprint response)
    {:db (assoc db :loading false)}))
