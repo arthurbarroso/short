@@ -27,6 +27,11 @@
         (rr/not-found {:error "Product not found"})
         (rr/response product)))))
 
+(defn list-products-controller! [database]
+  (fn [_request]
+    (let [products (h/list-products! database)]
+      (rr/response products))))
+
 (defn respond-with-cookie [html status cookie-key cookie-val]
   (rr/set-cookie {:body html
                   :status status} cookie-key (slurp (shared/edn->json cookie-val))))

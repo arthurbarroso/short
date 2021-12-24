@@ -78,3 +78,11 @@
           result (h/get-product-by-uuid! (shared/generate-uuid!) @database)]
       (is (true? (ml/validate c/ProductOut result)))
       (is (nil? result)))))
+
+(deftest products-list-products-handler-test
+  (testing "Returns a product list"
+    (let [database database-conn
+          _ (h/create-product! (p {:slug "maneiro123-list"
+                                   :sku "coolio123-list"}) @database)
+          result (h/list-products! @database)]
+      (is (> (count result) 0)))))

@@ -82,3 +82,17 @@
           ((cont/render-product-by-slug-controller! @database)
            {:parameters {:path {:product "randooooooooooooom-non-existent"}}})]
       (is (= 404 status)))))
+
+(deftest list-products-controller-test
+  (testing "Lists products"
+    (let [database database-conn
+          data (p {:sku "some-test-random-cool-list"
+                   :slug "get-find-slug-list"})
+          _
+          ((cont/create-product-controller! @database)
+           {:parameters {:body data}})
+          {:keys [status body]}
+          ((cont/list-products-controller! @database)
+           {})]
+      (is (> (count body) 0))
+      (is (= 200 status)))))

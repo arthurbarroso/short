@@ -72,3 +72,14 @@
           result (db/get-product-by-slug! "non-existent-slug" @database)]
       (is (empty? result))
       (is (true? (m/validate s/ProductQueryResult result))))))
+
+(deftest products-list-product-test
+  (testing "Lists products"
+    (let [u (create-product {:product/sku "find-me-list"
+                             :product/slug "slug-test-find-list"})
+          database database-conn
+          _ (db/create-product! u
+                                @database)
+          result (db/list-products! @database)]
+      (is (> (count result) 0))
+      (is (true? (m/validate s/ProductQueryResult result))))))

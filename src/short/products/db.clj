@@ -28,3 +28,11 @@
          :in $ ?slug
          :where [?e :product/slug ?slug]]
        @db slug))
+
+(defn list-products!
+  {:malli/schema [:=> [:cat :any] s/ProductQueryResult]}
+  [db]
+  (d/q '[:find (pull ?e [* {:product/variant [*]}])
+         :in $
+         :where [?e :product/uuid _]]
+       @db))

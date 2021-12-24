@@ -20,3 +20,8 @@
     ;; [:product/quantity number?]
     [:product/uuid uuid?]
     [:product/created_at inst?]]])
+
+(def ProductListOut
+  [:or
+   [:vector ProductOut]
+   [:vector empty?]])

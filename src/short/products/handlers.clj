@@ -41,3 +41,11 @@
       flatten
       first
       l/internal->external))
+
+(defn list-products!
+  {:malli/schema [:=> [:cat :any] c/ProductListOut]}
+  [db]
+  (->> db
+       db/list-products!
+       flatten
+       (map l/internal->external)))
