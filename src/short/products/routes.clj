@@ -10,7 +10,9 @@
       {:middleware [[mi/wrap-jwt-auth environment] [mi/auth-middleware]]
        :post {:handler (co/create-product-controller! database)
               :parameters {:body c/ProductData}
-              :swagger {:security [{:bearer []}]}}}]
+              :swagger {:security [{:bearer []}]}}
+       :get {:handler (co/list-products-controller! database)
+             :swagger {:security [{:bearer []}]}}}]
      ["/:product"
       {:get {:handler (co/render-product-by-slug-controller! database)
              :parameters {:path [:map [:product string?]]}}}]]))
