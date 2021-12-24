@@ -20,3 +20,8 @@
  ::is-authenticated?
  (fn [db]
    (:authenticated? db)))
+
+(re-frame/reg-sub
+ ::products
+ (fn [db]
+   (:products db)))
