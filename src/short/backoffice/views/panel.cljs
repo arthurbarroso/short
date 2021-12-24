@@ -46,7 +46,7 @@
        [:<>
         [:h2
          "Authenticated"]
-        [rt/reagent-table @products
+        [rt/reagent-table products
          {:table-state table-state
           :row-key row-key-fn
           :column-model columns
