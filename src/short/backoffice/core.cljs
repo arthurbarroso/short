@@ -21,6 +21,7 @@
   (router/init-routes!)
   ;; (initialize-styles)
   (re-frame/dispatch-sync [::events/initialize-db])
+  (re-frame/dispatch [::events/load-from-session-storage])
   (dev-setup)
   (css/mount-ui-styles)
   (mount-root))

@@ -4,7 +4,8 @@
             [day8.re-frame.http-fx]
             [reitit.frontend.controllers :as rfc]
             [reitit.frontend.easy :as rfa]
-            [short.cookies :as cookies]))
+            [short.cookies :as cookies]
+            [short.session-storage :as session-storage]))
 
 (re-frame/reg-event-db
  ::initialize-db
@@ -15,6 +16,26 @@
     :token nil
     :current-route nil
     :products []}))
+
+(re-frame/reg-fx
+ ::set-session-storage!
+ (fn [{:keys [key value]}]
+   (session-storage/set! {:key key
+                          :data value})))
+
+(re-frame/reg-cofx
+ ::session-storage
+ (fn [coeffects session-storage-key]
+   (assoc coeffects
+          ::session-storage (session-storage/get! session-storage-key))))
+
+(re-frame/reg-event-fx
+ ::load-from-session-storage
+ [(re-frame/inject-cofx ::session-storage "authenticated?")]
+ (fn [cofx _]
+   (let [val (::session-storage cofx)
+         db (:db cofx)]
+     {:db (assoc db :authenticated? val)})))
 
 (re-frame/reg-fx
  ::set-cookie!
@@ -71,6 +92,8 @@
                :authenticated? true)
     ::set-cookie! {:key "token"
                    :value (:token response)}
+    ::set-session-storage! {:key "authenticated?"
+                            :value true}
     :dispatch [::get-products]
     ::navigate! [:panel]}))
 
@@ -87,9 +110,9 @@
     :http-xhrio {:method :get
                  :uri (str "http://localhost:4000/v1/products")
                  :format (ajax/json-request-format)
-                 :headers {"Authorization" (str "Token " (:token db))}
                  :timeout 8000
                  :params credentials
+                 :with-credentials true
                  :response-format (ajax/json-response-format {:keywords? true})
                  :on-success [::product-list-success]
                  :on-failure [::product-list-failure]}}))
