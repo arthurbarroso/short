@@ -1,5 +1,8 @@
 (ns short.ui.text
-  (:require [garden.core :refer [css]]))
+  (:require [garden.core :refer [css]]
+            #?@(:cljs [[nubank.workspaces.core :as ws]
+                       [nubank.workspaces.card-types.react :as ct.react]
+                       [reagent.core :as reagent]])))
 
 (def text-sizes
   {:xs "0.694em"
@@ -33,3 +36,50 @@
   [(keyword variant)
    {:class sizing}
    text])
+
+#?(:cljs
+   (declare typography-card-p))
+#?(:cljs
+   (ws/defcard typography-card-p
+     (ct.react/react-card
+      (reagent/as-element [typography {:text "p variant"
+                                       :variant "p"}]))))
+
+#?(:cljs
+   (declare typography-card-small))
+#?(:cljs
+   (ws/defcard typography-card-small
+     (ct.react/react-card
+      (reagent/as-element [typography {:text "small variant"
+                                       :variant "small"}]))))
+
+#?(:cljs
+   (declare typography-card-h4))
+#?(:cljs
+   (ws/defcard typography-card-h4
+     (ct.react/react-card
+      (reagent/as-element [typography {:text "h4 variant"
+                                       :variant "h4"}]))))
+
+#?(:cljs
+   (declare typography-card-h3))
+#?(:cljs
+   (ws/defcard typography-card-h3
+     (ct.react/react-card
+      (reagent/as-element [typography {:text "h3 variant"
+                                       :variant "h3"}]))))
+#?(:cljs
+   (declare typography-card-h2))
+#?(:cljs
+   (ws/defcard typography-card-h2
+     (ct.react/react-card
+      (reagent/as-element [typography {:text "h2 variant"
+                                       :variant "h2"}]))))
+
+#?(:cljs
+   (declare typography-card-h1))
+#?(:cljs
+   (ws/defcard typography-card-h1
+     (ct.react/react-card
+      (reagent/as-element [typography {:text "h1 variant"
+                                       :variant "h1"}]))))

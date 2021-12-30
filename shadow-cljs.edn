@@ -25,4 +25,10 @@
         :release
         {:build-options
          {:ns-aliases
-          {day8.re-frame.tracing day8.re-frame.tracing-stubs}}}}}}
+          {day8.re-frame.tracing day8.re-frame.tracing-stubs}}}}
+
+  :cards {:target     nubank.workspaces.shadow-cljs.target
+          :ns-regexp  "short.ui.*"
+          :output-dir "resources/assets/js/workspaces"
+          :asset-path "/js/workspaces"
+          :preloads   []}}}

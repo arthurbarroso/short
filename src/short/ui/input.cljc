@@ -1,5 +1,8 @@
 (ns short.ui.input
-  (:require [garden.core :refer [css]]))
+  (:require [garden.core :refer [css]]
+            #?@(:cljs [[nubank.workspaces.core :as ws]
+                       [nubank.workspaces.card-types.react :as ct.react]
+                       [reagent.core :as reagent]])))
 
 (def input-base-style
   {:color "#757575"
@@ -33,3 +36,16 @@
     :placeholder placeholder
     :disabled disabled
     :on-change #(on-change (-> % .-target .-value))}])
+
+#?(:cljs
+   (declare input-card))
+#?(:cljs
+   (ws/defcard input-card
+     (let [input-atom (reagent/atom "")]
+       (ct.react/react-card
+        input-atom
+        (reagent/as-element [input {:value @input-atom
+                                    :on-change #(reset! input-atom %)
+                                    :type "text"
+                                    :id "input"
+                                    :placeholder "some-text"}])))))

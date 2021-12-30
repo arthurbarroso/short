@@ -1,5 +1,8 @@
 (ns short.ui.button
-  (:require [garden.core :refer [css]]))
+  (:require [garden.core :refer [css]]
+            #?@(:cljs [[nubank.workspaces.core :as ws]
+                       [nubank.workspaces.card-types.react :as ct.react]
+                       [reagent.core :as reagent]])))
 
 (def common-button-style
   {:outline "0"
@@ -48,3 +51,19 @@
     :title title
     :on-click #(on-click)}
    text])
+
+#?(:cljs
+   (declare button-card))
+#?(:cljs
+   (ws/defcard button-card
+     (ct.react/react-card
+      (reagent/as-element [button {:text "Button"
+                                   :title "Click for some action"}]))))
+
+#?(:cljs
+   (declare button-outlined-card))
+#?(:cljs
+   (ws/defcard button-outlined-card
+     (ct.react/react-card
+      (reagent/as-element [button-outlined {:text "Button"
+                                            :title "Click for some action"}]))))
