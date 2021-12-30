@@ -13,29 +13,32 @@
    [""
     {:name :panel
      :view panel/panel-view
-     :requires-authentication? true}]
+     :requires-authentication? true
+     :attached-event ::events/get-products}]
    ["login"
     {:name :login
      :view login/login-view
-     :requires-authentication? false}]])
+     :requires-authentication? false
+     :attached-event nil}]])
 
 (def router
   (rf/router routes {:data {:coercion rcm/coercion}}))
 
-(defn on-navigate [new-match]
+(defn on-navigate [new-match authenticated?]
   (when new-match
-    (re-frame/dispatch [::events/navigated new-match])))
+    (let [{:keys [attached-event requires-authentication?]} (-> new-match :data)]
+      (if (and requires-authentication? (not @authenticated?))
+        (re-frame/dispatch [::events/navigate :login])
+        (do
+          (when attached-event
+            (re-frame/dispatch [attached-event]))
+          (re-frame/dispatch [::events/navigated new-match]))))))
 
 (defn init-routes! []
-  (rfe/start! router on-navigate {:use-fragment false}))
+  (let [authenticated? (re-frame/subscribe [::subs/is-authenticated?])]
+    (rfe/start! router #(on-navigate % authenticated?) {:use-fragment false})))
 
 (defn router-component []
-  (let [current-route @(re-frame/subscribe [::subs/current-route])
-        user-is-authenticated? @(re-frame/subscribe [::subs/is-authenticated?])
-        current-route-requires-auth? (-> current-route :data :requires-authentication?)]
+  (let [current-route @(re-frame/subscribe [::subs/current-route])]
     (when current-route
-      (if (and (true? current-route-requires-auth?)
-               (or (false? user-is-authenticated?)
-                   (nil? user-is-authenticated?)))
-        [(login/login-view)]
-        [(-> current-route :data :view)]))))
+      [(-> current-route :data :view)])))

@@ -94,7 +94,6 @@
                    :value (:token response)}
     ::set-session-storage! {:key "authenticated?"
                             :value true}
-    :dispatch [::get-products]
     ::navigate! [:panel]}))
 
 (re-frame/reg-event-fx
