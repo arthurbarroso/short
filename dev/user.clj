@@ -2,8 +2,7 @@
   (:require [short.server]
             [integrant.core :as ig]
             [integrant.repl :as ig-repl]
-            [integrant.repl.state :as state]
-            [short.shared :as shared]))
+            [integrant.repl.state :as state]))
 
 (def environment-vars
   {:port 4000
