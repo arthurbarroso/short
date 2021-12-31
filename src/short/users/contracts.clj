@@ -17,3 +17,6 @@
   [:map
    [:email [:re #"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$"]]
    [:password string?]])
+
+(def TokenOutResponse
+  [:map [:token string?]])
