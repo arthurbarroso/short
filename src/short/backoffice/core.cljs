@@ -2,7 +2,6 @@
   (:require [re-frame.core :as re-frame]
             [reagent.dom :as rdom]
             [short.backoffice.config :as config]
-            [short.backoffice.views.login :as login]
             [short.backoffice.css :as css]
             [short.backoffice.events :as events]
             [short.backoffice.router :as router]))

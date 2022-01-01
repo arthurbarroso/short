@@ -11,5 +11,4 @@
        :post {:handler (co/create-variant-controller! database)
               :parameters {:path [:map [:product-id string?]]
                            :body c/VariantData}
-              :swagger {:security [{:bearer []}]}
-              :responses {201 c/VariantOut}}}]]))
+              :swagger {:security [{:bearer []}]}}}]]))

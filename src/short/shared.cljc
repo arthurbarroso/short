@@ -1,12 +1,13 @@
 (ns short.shared
-  (:require #?(:clj [muuntaja.core :as m])))
+  (:require [malli.core :as ml]
+            #?(:clj [muuntaja.core :as m])))
 
 (def Transaction
-  [:map
-   [:db-before :any]
-   [:db-after :any]
-   [:tx-data :any]
-   [:tempids :map]])
+  (ml/schema [:map
+              [:db-before :any]
+              [:db-after :any]
+              [:tx-data :any]
+              [:tempids :map]]))
 
 (defn tempid->eid
   {:malli/schema [:=> [:cat Transaction] :int]}

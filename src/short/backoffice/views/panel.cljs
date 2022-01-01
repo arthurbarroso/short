@@ -42,7 +42,7 @@
     (cljs.pprint/pprint @products)
     (fn []
       [template/layout
-       ^{:panel "login"}
+       ^{:key "panel"}
        [:<>
         [:h2
          "Authenticated"]

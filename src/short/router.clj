@@ -15,7 +15,7 @@
             [short.products.routes :as products]
             [short.variants.routes :as variants]))
 
-(defn router-config [environment]
+(defn router-config [_environment]
   {:data {:coercion coercion-malli/coercion
           :exception pretty/exception
           :muuntaja m/instance

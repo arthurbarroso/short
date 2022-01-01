@@ -10,11 +10,9 @@
       {:middleware [[mi/jws-middleware environment]]
        :post {:handler (co/create-product-controller! database)
               :parameters {:body c/ProductData}
-              :swagger {:security [{:bearer []}]}
-              :responses {201 c/ProductOut}}
+              :swagger {:security [{:bearer []}]}}
        :get {:handler (co/list-products-controller! database)
-             :swagger {:security [{:bearer []}]}
-             :responses {200 c/ProductListOut}}}]
+             :swagger {:security [{:bearer []}]}}}]
      ["/:product"
       {:get {:handler (co/render-product-by-slug-controller! database)
              :parameters {:path [:map [:product string?]]}}}]]))
