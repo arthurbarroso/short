@@ -2,14 +2,33 @@
   (:require [short.backoffice.template :as template]
             [reagent-table.core :as rt]
             [re-frame.core :as re-frame]
-            [short.backoffice.subs :as subs]))
+            [short.backoffice.subs :as subs]
+            [short.ui.text :as text]))
 
 (def columns [{:path [:product/title]
                :header "Title"
                :key :title}
               {:path [:product/price]
                :header "Price"
-               :key :price}])
+               :key :price}
+              {:path [:product/sku]
+               :header "SKU"
+               :key :sku}
+              {:path [:product/slug]
+               :header "Slug"
+               :key :slug}
+              {:path [:product/active]
+               :header "Active"
+               :format #(str %)
+               :key :active}
+              {:path [:product/created_at]
+               :header "Created at"
+               :key :created_at}
+              {:path [:product/variant]
+               :header "Variant count"
+               :format #(count %)
+               :key :variant
+               :attrs (fn [_data] {:style {:text-align "center" :display "block"}})}])
 
 (defn- row-key-fn
   [row row-num]
@@ -39,13 +58,13 @@
 
 (defn panel-view []
   (let [products (re-frame/subscribe [::subs/products])]
-    (cljs.pprint/pprint @products)
     (fn []
       [template/layout
        ^{:key "panel"}
        [:<>
-        [:h2
-         "Authenticated"]
+        [text/typography
+         {:text "Product list"
+          :variant "h2"}]
         [rt/reagent-table products
          {:table-state table-state
           :row-key row-key-fn

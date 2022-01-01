@@ -17,10 +17,10 @@
     (rdom/render [router/router-component] root-el)))
 
 (defn init []
-  (router/init-routes!)
   ;; (initialize-styles)
   (re-frame/dispatch-sync [::events/initialize-db])
-  (re-frame/dispatch [::events/load-from-session-storage])
+  (re-frame/dispatch-sync [::events/load-from-session-storage])
+  (router/init-routes!)
   (dev-setup)
   (css/mount-ui-styles)
   (mount-root))
