@@ -14,13 +14,17 @@
                :padding 0
                :-webkit-font-smoothing "antialiased"
                :-moz-osx-font-smoothing "grayscale"
-               :font-family "'Roboto', sans-serif"}]));
+               :font-family "'Roboto', sans-serif"
+               :box-sizing "border-box"
+               :-moz-box-sizing "border-box"}]))
 
 (def utilities
-  (let [mt-3 (css [:.mt-3 {:margin-top "3%"}])]
+  (let [mt-3 (css [:.mt-3 {:margin-top "3%"}])
+        mt-2 (css [:.mt-2 {:margin-top "2%"}])
+        mt-1 (css [:.mt-1 {:margin-top "1%"}])]
     (reduce (fn [acc style]
               (str acc "\n" style))
-            [mt-3 reset-css])))
+            [mt-3 mt-2 mt-1 reset-css])))
 
 (def ui-styles
   (str "\n"

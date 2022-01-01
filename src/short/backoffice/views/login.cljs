@@ -5,6 +5,7 @@
             [short.ui.form :as form]
             [short.ui.section :as section]
             [short.ui.label :as label]
+            [short.ui.text :as text]
             [re-frame.core :as re-frame]
             [short.backoffice.events :as events]
             [short.backoffice.subs :as subs]))
@@ -22,24 +23,20 @@
        [section/section
         [form/form
          [:<>
-          [:h2
-           "Log in"]
-          [label/label
-           "E-mail address"]
-          [input/input
-           {:type "email"
-            :placeholder "e-mail address"
-            :on-change
-            #(re-frame/dispatch [::events/change-email-input %])
-            :value @email}]
-          [label/label
-           "Password"]
-          [input/input
-           {:type "password"
-            :placeholder "password"
-            :on-change
-            #(re-frame/dispatch [::events/change-password-input %])
-            :value @password}]
+          [text/typography {:text "Log in"
+                            :variant "h2"}]
+          [label/label {:text "E-mail address"}]
+          [input/input {:type "email"
+                        :placeholder "e-mail address"
+                        :on-change
+                        #(re-frame/dispatch [::events/change-email-input %])
+                        :value @email}]
+          [label/label {:text "Password"}]
+          [input/input {:type "password"
+                        :placeholder "password"
+                        :on-change
+                        #(re-frame/dispatch [::events/change-password-input %])
+                        :value @password}]
           [button/button {:text "Log in"
                           :on-click #(login-handler
                                       @email @password)

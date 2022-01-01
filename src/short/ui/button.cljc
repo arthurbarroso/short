@@ -14,14 +14,15 @@
    :background "#0166D6"
    :color "#FFF"
    :text-transform "uppercase"
-   :width "100%"})
+   :width "80%"
+   :padding "0"
+   :text-align "center"})
 
 (def button-style
-  {:padding "0.8%"})
+  {})
 
 (def button-outlined-style
-  {:padding "0.8% 3%"
-   :background "none"
+  {:background "none"
    :color "#0166D6"
    :border "solid 1.5px #D3D3D3"})
 
@@ -32,7 +33,8 @@
 
 (def outlined-button-css
   (css [:.button-outlined button-outlined-style
-        [:&:hover {:border "1.5px solid #0166D6"}]]))
+        [:&:hover {:border "1.5px solid #0166D6"
+                   :color "black"}]]))
 
 (defn button [{:keys [on-click text disabled title extra-style]}]
   [:button
@@ -43,10 +45,10 @@
     :on-click #(on-click)}
    text])
 
-(defn button-outlined [{:keys [on-click text disabled title]}]
+(defn button-outlined [{:keys [on-click text disabled title extra-style]}]
   [:button
    {:type "button"
-    :class "button button-outlined"
+    :class (str "button button-outlined" " " extra-style)
     :disabled disabled
     :title title
     :on-click #(on-click)}

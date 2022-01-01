@@ -1,5 +1,6 @@
 (ns short.backoffice.css
-  (:require [short.ui.css :refer [ui-styles]]))
+  (:require [short.ui.css :refer [ui-styles]]
+            [short.backoffice.views.panel :as panel]))
 
 (defn mount-style
   [style-text]
@@ -11,5 +12,5 @@
     (.appendChild head style-el)))
 
 (defn mount-ui-styles []
-  (let [styles (str "\n" ui-styles)]
+  (let [styles (str "\n" ui-styles "\n" panel/product-modal-styles)]
     (mount-style styles)))

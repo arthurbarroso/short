@@ -3,10 +3,20 @@
             [re-frame.core :as re-frame]
             [short.backoffice.subs :as subs]
             [short.ui.text :as text]
+            [short.ui.label :as label]
             [short.ui.button :as button]
-            ["react-modal" :as Modal]
+            [short.ui.form :as form]
+            [short.ui.input :as input]
+            [short.backoffice.components.table :as table]
             [reagent.core :as reagent]
-            [short.backoffice.components.table :as table]))
+            [garden.core :refer [css]]
+            ["react-modal" :as Modal]))
+
+(def product-modal-css
+  {:height "100%"})
+
+(def product-modal-styles
+  (str (css [:.product-modal product-modal-css])))
 
 (def columns [{:path [:product/title]
                :header "Title"
@@ -39,6 +49,32 @@
 (defn close-modal [modal-open?]
   (reset! modal-open? false))
 
+(defn create-product-modal []
+  [:<>
+   [form/form
+    [:<>
+     [label/label {:text "Title"}]
+     [input/input {:value ""
+                   :on-change #()
+                   :placeholder "Product title"}]
+     [label/label {:text "Slug"
+                   :extra-style "mt-1"}]
+     [input/input {:value ""
+                   :on-change #()
+                   :placeholder "Product slug"}]
+     [label/label {:text "Sku"
+                   :extra-style "mt-1"}]
+     [input/input {:value ""
+                   :on-change #()
+                   :placeholder "Product sku"}]
+     [label/label {:text "Price"
+                   :extra-style "mt-1"}]
+     [input/input {:value ""
+                   :on-change #()
+                   :placeholder "Product price"}]
+     [button/button-outlined {:text "Create"
+                              :extra-style "mt-2"}]]]])
+
 (defn panel-view []
   (let [products (re-frame/subscribe [::subs/products])
         modal-open? (reagent/atom false)]
@@ -48,11 +84,9 @@
        [:<>
         [:> Modal {:isOpen @modal-open?
                    :onRequestClose #(close-modal modal-open?)}
-         [:div
-          [:h1 "hi"]]]
-        [text/typography
-         {:text "Product list"
-          :variant "h2"}]
+         [create-product-modal]]
+        [text/typography {:text "Product list"
+                          :variant "h2"}]
         [table/table {:columns columns
                       :items products
                       :key [:product/title]}]

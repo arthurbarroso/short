@@ -10,8 +10,8 @@
 (def label-css
   (css [:.label label-style]))
 
-(defn label [text]
-  [:label {:class "label"}
+(defn label [{:keys [text extra-style]}]
+  [:label {:class (str "label" " " extra-style)}
    text])
 
 #?(:cljs

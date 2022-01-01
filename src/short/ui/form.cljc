@@ -4,9 +4,8 @@
 (def form-style
   {:display "flex"
    :flex-direction "column"
-   :align-items "center"
-   :max-width "450px"
-   :width "100%"
+   ;; :align-items "center"
+   :width "96%"
    :padding "2%"
    :border-radius "8px"
    :box-shadow "0 0 5pt 2pt #ededed"})
