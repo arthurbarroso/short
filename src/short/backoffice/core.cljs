@@ -4,7 +4,8 @@
             [short.backoffice.config :as config]
             [short.backoffice.css :as css]
             [short.backoffice.events :as events]
-            [short.backoffice.router :as router]))
+            [short.backoffice.router :as router]
+            ["react-modal" :as Modal]))
 
 (defn dev-setup []
   (when config/debug?
@@ -14,6 +15,7 @@
   (re-frame/clear-subscription-cache!)
   (let [root-el (.getElementById js/document "app")]
     (rdom/unmount-component-at-node root-el)
+    (Modal/setAppElement root-el)
     (rdom/render [router/router-component] root-el)))
 
 (defn init []
