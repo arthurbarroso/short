@@ -12,9 +12,8 @@
    :border "solid 1.5px #D3D3D3"
    :text-indent "5px"
    :font-size "16px"
-   :height "32px"
-   :box-sizing "border-box"
-   :width "80%"})
+   :height "48px"
+   :box-sizing "border-box"})
 
 (def input-css
   (css [:.input input-base-style

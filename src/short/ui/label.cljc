@@ -19,4 +19,4 @@
 #?(:cljs
    (ws/defcard label-card
      (ct.react/react-card
-      (reagent/as-element [label "some-label-text"]))))                                   :placeholder "some-text"
+      (reagent/as-element [label {:text "some-label-text"}]))))
