@@ -2,7 +2,7 @@
   (:require [reitit.coercion.malli :as rcm]
             [reitit.frontend :as rf]
             [reitit.frontend.easy :as rfe]
-            [short.backoffice.views.panel :as panel]
+            [short.backoffice.views.dashboard.product-list :as product-list]
             [short.backoffice.views.login :as login]
             [re-frame.core :as re-frame]
             [short.backoffice.subs :as subs]
@@ -12,7 +12,7 @@
   ["/"
    [""
     {:name :panel
-     :view panel/panel-view
+     :view product-list/list-view
      :requires-authentication? true
      :attached-event ::events/get-products}]
    ["login"

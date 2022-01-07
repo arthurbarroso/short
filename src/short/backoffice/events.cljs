@@ -15,7 +15,11 @@
     :authenticated? false
     :token nil
     :current-route nil
-    :products []}))
+    :products []
+    :forms {:product-form {:title nil
+                           :slug nil
+                           :sku nil
+                           :price nil}}}))
 
 (re-frame/reg-fx
  ::set-session-storage!
@@ -127,3 +131,8 @@
  (fn [{:keys [db]} [_ response]]
    (cljs.pprint/pprint response)
    {:db (assoc db :loading false)}))
+
+(re-frame/reg-event-db
+ ::set-product-form-field-value
+ (fn [db [_ field-path new-value]]
+   (assoc-in db [:forms :product-form field-path] new-value)))
