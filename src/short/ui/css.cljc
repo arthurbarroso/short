@@ -5,6 +5,7 @@
             [short.ui.section :as section]
             [short.ui.template :as template]
             [short.ui.text :as text]
+            [short.ui.table :as table]
             [garden.core :refer [css]]))
 
 (def reset-css
@@ -44,4 +45,5 @@
        section/section-css "\n"
        template/layout-css "\n"
        text/text-css "\n"
+       table/table-css "\n"
        utilities))

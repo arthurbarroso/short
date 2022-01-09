@@ -7,7 +7,7 @@
             [short.ui.label :as label]
             [short.ui.button :as button]
             [short.ui.input :as input]
-            [short.backoffice.components.table :as table]
+            [short.ui.table :as table]
             [reagent.core :as reagent]
             ["react-modal" :as Modal]))
 
@@ -19,34 +19,6 @@
              :marginRight "-50%"
              :transform "translate(-50%, -50%)"
              :width "50%"}})
-
-(def columns [{:path [:product/title]
-               :header "Title"
-               :key :title}
-              {:path [:product/price]
-               :header "Price"
-               :key :price}
-              {:path [:product/sku]
-               :header "SKU"
-               :key :sku}
-              {:path [:product/slug]
-               :header "Slug"
-               :key :slug}
-              {:path [:product/active]
-               :header "Active"
-               :format #(str %)
-               :key :active}
-              {:path [:product/created_at]
-               :header "Created at"
-               :key :created_at}
-              {:path [:product/variant]
-               :header "Variant count"
-               :key :variant
-               :format #(count %)
-               :attrs (fn [_data]
-                        {:style
-                         {:text-align "center"
-                          :display "block"}})}])
 
 (defn open-modal [modal-open?]
   (reset! modal-open? true))
@@ -114,6 +86,10 @@
                             :variant "h2"}]
           [button/button {:text "Create product"
                           :on-click #(open-modal modal-open?)}]]
-         [table/table {:columns columns
-                       :items products
-                       :key [:product/title]}]]]])))
+         [table/table {:columns ["Title" "Price" "Variants"]
+                       :items @products
+                       :item-keys [{:key :product/title}
+                                   {:key :product/price}
+                                   {:key :product/variant
+                                    :fun count}]
+                       :key :product/uuid}]]]])))
