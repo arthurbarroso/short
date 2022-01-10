@@ -8,7 +8,8 @@
 (def table-css
   (css [:.table table-style]))
 
-(defn table [{:keys [columns items item-keys key]}]
+(defn table
+  [{:keys [columns items item-keys key]}]
   [:table {:class "table"}
    [:thead
     [:tr

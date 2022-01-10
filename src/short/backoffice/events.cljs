@@ -136,3 +136,31 @@
  ::set-product-form-field-value
  (fn [db [_ field-path new-value]]
    (assoc-in db [:forms :product-form field-path] new-value)))
+
+(re-frame/reg-event-fx
+ ::create-product
+ (fn [{:keys [db]} [_ data]]
+   {:db (assoc db :loading true)
+    :http-xhrio {:method :post
+                 :uri (str "http://localhost:4000/v1/products")
+                 :format (ajax/json-request-format)
+                 :timeout 8000
+                 :params data
+                 :with-credentials true
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success [::product-create-success]
+                 :on-failure [::product-create-failure]}}))
+
+(re-frame/reg-event-fx
+ ::product-create-success
+ (fn [{:keys [db]} [_ response]]
+   (let [products-in-db (:products db)]
+     {:db (assoc db
+                 :loading false
+                 :products (conj products-in-db response))})))
+
+(re-frame/reg-event-fx
+ ::product-create-failure
+ (fn [{:keys [db]} [_ response]]
+   (cljs.pprint/pprint response)
+   {:db (assoc db :loading false)}))
