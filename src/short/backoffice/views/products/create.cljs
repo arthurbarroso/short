@@ -1,15 +1,10 @@
-(ns short.backoffice.views.dashboard.product-list
-  (:require [short.backoffice.template :as template]
+(ns short.backoffice.views.products.create
+  (:require ["react-modal" :as Modal]
             [re-frame.core :as re-frame]
-            [short.backoffice.subs :as subs]
             [short.backoffice.events :as events]
-            [short.ui.text :as text]
             [short.ui.label :as label]
             [short.ui.button :as button]
-            [short.ui.input :as input]
-            [short.ui.table :as table]
-            [reagent.core :as reagent]
-            ["react-modal" :as Modal]))
+            [short.ui.input :as input]))
 
 (def custom-modal-css
   {:content {:top "50%"
@@ -75,40 +70,8 @@
                              :extra-style "mt-2"
                              :on-click #()}]]])
 
-(defn navigate-to-create-variant [product-uuid]
-  (re-frame/dispatch [::events/navigate-to-product-variant-creation product-uuid]))
-
-(defn list-view []
-  (let [products (re-frame/subscribe [::subs/products])
-        product-data (re-frame/subscribe [::subs/product-form-values])
-        modal-open? (reagent/atom false)]
-    (fn []
-      [template/layout
-       ^{:key "panel"}
-       [:<>
-        [:> Modal {:isOpen @modal-open?
-                   :style custom-modal-css
-                   :onRequestClose #(close-modal modal-open?)}
-         [create-product-modal @product-data modal-open?]]
-        [:<>
-         [:div.product-list-header
-          [text/typography {:text "PRODUCT LIST"
-                            :variant "h2"}]
-          [button/button {:text "Create product"
-                          :on-click #(open-modal modal-open?)}]]
-         [table/table {:columns ["Title" "Price" "Variants" "SKU" "Slug" "Active" "Add variant"]
-                       :items @products
-                       :item-keys [{:key :product/title}
-                                   {:key :product/price}
-                                   {:key :product/variant
-                                    :fun count}
-                                   {:key :product/sku}
-                                   {:key :product/slug}
-                                   {:key :product/active
-                                    :fun str}
-                                   {:key "button-create"
-                                    :button-key "create-variant"
-                                    :button {:text "Create variant"
-                                             :function
-                                             #(navigate-to-create-variant (-> % :product/uuid))}}]
-                       :key :product/uuid}]]]])))
+(defn modal [modal-open? product-data]
+  [:> Modal {:isOpen @modal-open?
+             :style custom-modal-css
+             :onRequestClose #(close-modal modal-open?)}
+   [create-product-modal @product-data modal-open?]])

@@ -5,7 +5,7 @@
             [re-frame.core :as re-frame]
             [short.backoffice.subs :as subs]
             [short.backoffice.events :as events]
-            [short.backoffice.views.dashboard.product-list :as product-list]
+            [short.backoffice.views.products.list :as product-list]
             [short.backoffice.views.variants.create :as create-variant]
             [short.backoffice.views.login :as login]))
 
