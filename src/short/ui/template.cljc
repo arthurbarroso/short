@@ -8,17 +8,21 @@
 
 (def content-style
   {:display "flex"
-   :background "#FFF"
+   :background "#bfd8ff"
    :height "100vh"
    :flex-direction "column"
    :width "100%"
    :box-sizing "border-box"
    :-webkit-box-sizing "border-box"
-   :-moz-box-sizing "border-box"})
+   :-moz-box-sizing "border-box"
+   :padding "0 5%"})
 
 (def container-style
-  {:padding "0 5%"
-   :height "100%"})
+  {:background "#FFF"
+   :display "flex"
+   :flex-direction "column"
+   :padding "1% 2%"
+   :border-radius "8px"})
 
 (def layout-css
   (str (css [:.base app-base-style])
@@ -26,7 +30,11 @@
        (css [:.content content-style])
        "\n"
        (css [:.container container-style])
-       "\n"))
+       "\n"
+       (css [:.header {:padding "0 2%"}])
+       "\n"
+       (css [:.header-link {:text-decoration "none"
+                            :color "#333"}])))
 
 (defn template [children]
   [:div {:class "base"}

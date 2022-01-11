@@ -30,3 +30,8 @@
  ::product-form-values
  (fn [db]
    (get-in db [:forms :product-form])))
+
+(re-frame/reg-sub
+ ::variant-form-values
+ (fn [db]
+   (get-in db [:forms :variant-form])))

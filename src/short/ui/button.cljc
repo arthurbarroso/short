@@ -75,9 +75,9 @@
     :on-click #(on-click)}
    text])
 
-(defn button-outlined [{:keys [on-click text disabled title extra-style variant]}]
+(defn button-outlined [{:keys [on-click text disabled title extra-style variant type]}]
   [:button
-   {:type "button"
+   {:type (get-button-type type)
     :class (str (get-button-variant variant) " button-outlined" " " extra-style)
     :disabled disabled
     :title title

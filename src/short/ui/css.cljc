@@ -21,9 +21,9 @@
 (def form-style
   {:display "flex"
    :flex-direction "column"
-   :padding "2%"
-   :border-radius "8px"
-   :box-shadow "0 0 5pt 2pt #ededed"})
+   ;; :padding "2%"
+   :border-radius "8px"})
+   ;; :box-shadow "0 0 5pt 2pt #ededed"})
 
 (def utilities
   (let [mt-3 (css [:.mt-3 {:margin-top "3%"}])

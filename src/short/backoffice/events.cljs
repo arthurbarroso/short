@@ -19,7 +19,11 @@
     :forms {:product-form {:title nil
                            :slug nil
                            :sku nil
-                           :price nil}}}))
+                           :price nil}
+            :variant-form {:type nil
+                           :quantity nil
+                           :image-url nil
+                           :product-id nil}}}))
 
 (re-frame/reg-fx
  ::set-session-storage!
@@ -164,3 +168,14 @@
  (fn [{:keys [db]} [_ response]]
    (cljs.pprint/pprint response)
    {:db (assoc db :loading false)}))
+
+(re-frame/reg-event-db
+ ::set-variant-form-field-value
+ (fn [db [_ field-path new-value]]
+   (assoc-in db [:forms :variant-form field-path] new-value)))
+
+(re-frame/reg-event-fx
+ ::navigate-to-product-variant-creation
+ (fn [{:keys [db]} [_ product-id]]
+   {:db (assoc-in db [:forms :variant-form :product-id] product-id)
+    ::navigate! [:create-variant]}))

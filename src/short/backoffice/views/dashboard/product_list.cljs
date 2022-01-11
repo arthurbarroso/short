@@ -26,10 +26,22 @@
 (defn close-modal [modal-open?]
   (reset! modal-open? false))
 
+(defn create-product-handler [data modal-open?]
+  (re-frame/dispatch [::events/create-product data])
+  (close-modal modal-open?))
+
 (defn create-product-modal
   [{:keys [title slug sku price]} modal-open?]
   [:<>
-   [:form
+   [:form {:on-submit (fn [e]
+                        (.preventDefault e)
+                        (create-product-handler
+                         {:sku sku
+                          :active true
+                          :slug slug
+                          :title title
+                          :price (js/parseFloat price)}
+                         modal-open?))}
     [label/label {:text "Title"}]
     [input/input {:value title
                   :on-change
@@ -59,16 +71,12 @@
                     [::events/set-product-form-field-value :price %])
                   :placeholder "Product price"}]
     [button/button-outlined {:text "Create"
+                             :type "submit"
                              :extra-style "mt-2"
-                             :on-click #(do
-                                          (re-frame/dispatch
-                                           [::events/create-product
-                                            {:sku sku
-                                             :active true
-                                             :slug slug
-                                             :title title
-                                             :price (js/parseFloat price)}])
-                                          (close-modal modal-open?))}]]])
+                             :on-click #()}]]])
+
+(defn navigate-to-create-variant [product-uuid]
+  (re-frame/dispatch [::events/navigate-to-product-variant-creation product-uuid]))
 
 (defn list-view []
   (let [products (re-frame/subscribe [::subs/products])
@@ -82,16 +90,25 @@
                    :style custom-modal-css
                    :onRequestClose #(close-modal modal-open?)}
          [create-product-modal @product-data modal-open?]]
-        [:div.product-list-container
+        [:<>
          [:div.product-list-header
           [text/typography {:text "PRODUCT LIST"
                             :variant "h2"}]
           [button/button {:text "Create product"
                           :on-click #(open-modal modal-open?)}]]
-         [table/table {:columns ["Title" "Price" "Variants"]
+         [table/table {:columns ["Title" "Price" "Variants" "SKU" "Slug" "Active" "Add variant"]
                        :items @products
                        :item-keys [{:key :product/title}
                                    {:key :product/price}
                                    {:key :product/variant
-                                    :fun count}]
+                                    :fun count}
+                                   {:key :product/sku}
+                                   {:key :product/slug}
+                                   {:key :product/active
+                                    :fun str}
+                                   {:key "button-create"
+                                    :button-key "create-variant"
+                                    :button {:text "Create variant"
+                                             :function
+                                             #(navigate-to-create-variant (-> % :product/uuid))}}]
                        :key :product/uuid}]]]])))

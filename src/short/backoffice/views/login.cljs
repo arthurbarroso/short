@@ -7,7 +7,13 @@
             [short.ui.text :as text]
             [re-frame.core :as re-frame]
             [short.backoffice.events :as events]
-            [short.backoffice.subs :as subs]))
+            [short.backoffice.subs :as subs]
+            [garden.core :refer [css]]))
+
+(def login-container {:background "#FFF"})
+
+(def login-screen-css
+  (css [:.login login-container]))
 
 (defn login-handler [email password]
   (re-frame/dispatch [::events/login {:email email
@@ -20,7 +26,8 @@
       [template/layout
        ^{:key "login"}
        [section/section
-        [:form {:on-submit (fn [e]
+        [:form {:class "login"
+                :on-submit (fn [e]
                              (do (.preventDefault e)
                                  (login-handler @email @password)))}
          [text/typography {:text "Log in"
@@ -39,4 +46,5 @@
                        :value @password}]
          [button/button {:text "Log in"
                          :type "submit"
-                         :extra-style "mt-3"}]]]])))
+                         :extra-style "mt-3"
+                         :on-click #()}]]]])))
