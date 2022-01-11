@@ -19,8 +19,7 @@
     [:product/price number?]
     [:product/uuid uuid?]
     [:product/created_at inst?]
-    [:product/variant
-     [:maybe :map]]]])
+    [:product/variant {:optional true} [:vector :map]]]])
 
 (def ProductListOut
   [:vector ProductOut])
