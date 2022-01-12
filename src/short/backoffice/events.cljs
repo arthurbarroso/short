@@ -15,7 +15,15 @@
     :authenticated? false
     :token nil
     :current-route nil
-    :products []}))
+    :products []
+    :forms {:product-form {:title nil
+                           :slug nil
+                           :sku nil
+                           :price 1}
+            :variant-form {:type nil
+                           :quantity 1
+                           :image-url nil
+                           :product-id nil}}}))
 
 (re-frame/reg-fx
  ::set-session-storage!
@@ -126,4 +134,75 @@
  ::product-list-failure
  (fn [{:keys [db]} [_ response]]
    (cljs.pprint/pprint response)
+   {:db (assoc db :loading false)}))
+
+(re-frame/reg-event-db
+ ::set-product-form-field-value
+ (fn [db [_ field-path new-value]]
+   (assoc-in db [:forms :product-form field-path] new-value)))
+
+(re-frame/reg-event-fx
+ ::create-product
+ (fn [{:keys [db]} [_ data]]
+   {:db (assoc db :loading true)
+    :http-xhrio {:method :post
+                 :uri (str "http://localhost:4000/v1/products")
+                 :format (ajax/json-request-format)
+                 :timeout 8000
+                 :params data
+                 :with-credentials true
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success [::product-create-success]
+                 :on-failure [::product-create-failure]}}))
+
+(re-frame/reg-event-fx
+ ::product-create-success
+ (fn [{:keys [db]} [_ response]]
+   (let [products-in-db (:products db)]
+     {:db (assoc db
+                 :loading false
+                 :products (conj products-in-db response))})))
+
+(re-frame/reg-event-fx
+ ::product-create-failure
+ (fn [{:keys [db]} [_ response]]
+   (cljs.pprint/pprint response)
+   {:db (assoc db :loading false)}))
+
+(re-frame/reg-event-db
+ ::set-variant-form-field-value
+ (fn [db [_ field-path new-value]]
+   (assoc-in db [:forms :variant-form field-path] new-value)))
+
+(re-frame/reg-event-fx
+ ::navigate-to-product-variant-creation
+ (fn [{:keys [db]} [_ {:keys [product-id product-name]}]]
+   {:db (update-in db [:forms :variant-form] assoc
+                   :product-id product-id :product-name product-name)
+    ::navigate! [:create-variant]}))
+
+(re-frame/reg-event-fx
+ ::create-variant
+ (fn [{:keys [db]} [_ data]]
+   {:db (assoc db :loading true)
+    :http-xhrio {:method :post
+                 :uri (str "http://localhost:4000/v1/variants/" (:product-id data))
+                 :format (ajax/json-request-format)
+                 :timeout 8000
+                 :params (assoc data :active true)
+                 :with-credentials true
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success [::variant-create-success]
+                 :on-failure [::variant-create-failure]}}))
+
+(re-frame/reg-event-fx
+ ::variant-create-success
+ (fn [{:keys [db]} [_ _response]]
+   {:db (assoc db
+               :loading false)
+    ::navigate! [:panel]}))
+
+(re-frame/reg-event-fx
+ ::variant-create-failure
+ (fn [{:keys [db]} [_ _response]]
    {:db (assoc db :loading false)}))

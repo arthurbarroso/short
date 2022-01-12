@@ -10,8 +10,8 @@
 (def label-css
   (css [:.label label-style]))
 
-(defn label [text]
-  [:label {:class "label"}
+(defn label [{:keys [text extra-style]}]
+  [:label {:class (str "label" " " extra-style)}
    text])
 
 #?(:cljs
@@ -19,4 +19,4 @@
 #?(:cljs
    (ws/defcard label-card
      (ct.react/react-card
-      (reagent/as-element [label "some-label-text"]))))                                   :placeholder "some-text"
+      (reagent/as-element [label {:text "some-label-text"}]))))

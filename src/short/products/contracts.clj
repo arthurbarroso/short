@@ -17,11 +17,9 @@
     [:product/slug string?]
     [:product/title string?]
     [:product/price number?]
-    ;; [:product/quantity number?]
     [:product/uuid uuid?]
-    [:product/created_at inst?]]])
+    [:product/created_at inst?]
+    [:product/variant {:optional true} [:vector :map]]]])
 
 (def ProductListOut
-  [:or
-   [:vector ProductOut]
-   [:vector empty?]])
+  [:vector ProductOut])

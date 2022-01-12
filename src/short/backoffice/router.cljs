@@ -2,19 +2,25 @@
   (:require [reitit.coercion.malli :as rcm]
             [reitit.frontend :as rf]
             [reitit.frontend.easy :as rfe]
-            [short.backoffice.views.panel :as panel]
-            [short.backoffice.views.login :as login]
             [re-frame.core :as re-frame]
             [short.backoffice.subs :as subs]
-            [short.backoffice.events :as events]))
+            [short.backoffice.events :as events]
+            [short.backoffice.views.products.list :as product-list]
+            [short.backoffice.views.variants.create :as create-variant]
+            [short.backoffice.views.login :as login]))
 
 (def routes
   ["/"
    [""
     {:name :panel
-     :view panel/panel-view
+     :view product-list/list-view
      :requires-authentication? true
      :attached-event ::events/get-products}]
+   ["create-variant"
+    {:name :create-variant
+     :view create-variant/create-variant
+     :requires-authentication? true
+     :attached-event nil}]
    ["login"
     {:name :login
      :view login/login-view

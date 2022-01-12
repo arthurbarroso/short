@@ -1,5 +1,7 @@
 (ns short.backoffice.css
-  (:require [short.ui.css :refer [ui-styles]]))
+  (:require [short.ui.css :refer [ui-styles]]
+            [short.backoffice.views.products.styles :as products-styles]
+            [short.backoffice.views.login :as login]))
 
 (defn mount-style
   [style-text]
@@ -11,5 +13,6 @@
     (.appendChild head style-el)))
 
 (defn mount-ui-styles []
-  (let [styles (str "\n" ui-styles)]
+  (let [styles (str "\n" ui-styles "\n" products-styles/product-view-styles
+                    "\n" login/login-screen-css)]
     (mount-style styles)))
