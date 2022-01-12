@@ -17,8 +17,9 @@
       [template/layout
        ^{:key "create-variant"}
        [:<>
-        [text/typography {:text "CREATE PRODUCT VARIANT"
-                          :variant "h2"}]
+        [text/typography
+         {:text (str "Adding variant to product: " (:product-name @variant-form))
+          :variant "h2"}]
         [:form {:on-submit (fn [e]
                              (do (.preventDefault e)
                                  (creation-handler @variant-form)))}

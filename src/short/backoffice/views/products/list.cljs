@@ -9,8 +9,10 @@
             [short.backoffice.views.products.create :as create]
             [reagent.core :as reagent]))
 
-(defn navigate-to-create-variant [product-uuid]
-  (re-frame/dispatch [::events/navigate-to-product-variant-creation product-uuid]))
+(defn navigate-to-create-variant [product-uuid product-title]
+  (re-frame/dispatch [::events/navigate-to-product-variant-creation
+                      {:product-id product-uuid
+                       :product-name product-title}]))
 
 (defn list-view []
   (let [products (re-frame/subscribe [::subs/products])
@@ -27,20 +29,22 @@
                             :variant "h2"}]
           [button/button {:text "Create product"
                           :on-click #(create/open-modal modal-open?)}]]
-         [table/table {:columns ["Title" "Price" "Variants" "SKU"
-                                 "Slug" "Active" "Add variant"]
-                       :items @products
-                       :item-keys [{:key :product/title}
-                                   {:key :product/price}
-                                   {:key :product/variant
-                                    :fun count}
-                                   {:key :product/sku}
-                                   {:key :product/slug}
-                                   {:key :product/active
-                                    :fun str}
-                                   {:key "button-create"
-                                    :button-key "create-variant"
-                                    :button {:text "Create variant"
-                                             :function
-                                             #(navigate-to-create-variant (-> % :product/uuid))}}]
-                       :key :product/uuid}]]]])))
+         [:div.table-wrapper
+          [table/table {:columns ["Title" "Price" "Variants" "SKU"
+                                  "Slug" "Active" "Add variant"]
+                        :items @products
+                        :item-keys [{:key :product/title}
+                                    {:key :product/price}
+                                    {:key :product/variant
+                                     :fun count}
+                                    {:key :product/sku}
+                                    {:key :product/slug}
+                                    {:key :product/active
+                                     :fun str}
+                                    {:key "button-create"
+                                     :button-key "create-variant"
+                                     :button {:text "Create variant"
+                                              :function
+                                              #(navigate-to-create-variant (-> % :product/uuid)
+                                                                           (-> % :product/title))}}]
+                        :key :product/uuid}]]]]])))

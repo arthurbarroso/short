@@ -176,6 +176,7 @@
 
 (re-frame/reg-event-fx
  ::navigate-to-product-variant-creation
- (fn [{:keys [db]} [_ product-id]]
-   {:db (assoc-in db [:forms :variant-form :product-id] product-id)
+ (fn [{:keys [db]} [_ {:keys [product-id product-name]}]]
+   {:db (update-in db [:forms :variant-form] assoc
+                   :product-id product-id :product-name product-name)
     ::navigate! [:create-variant]}))

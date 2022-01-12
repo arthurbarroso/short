@@ -9,20 +9,22 @@
 (def content-style
   {:display "flex"
    :background "#bfd8ff"
-   :height "100vh"
+   :height "100%"
    :flex-direction "column"
    :width "100%"
    :box-sizing "border-box"
    :-webkit-box-sizing "border-box"
    :-moz-box-sizing "border-box"
-   :padding "0 5%"})
+   :padding "2% 5%"})
 
 (def container-style
   {:background "#FFF"
    :display "flex"
    :flex-direction "column"
+   :box-sizing "border-box"
    :padding "1% 2%"
-   :border-radius "8px"})
+   :border-radius "8px"
+   :overflow "auto"})
 
 (def layout-css
   (str (css [:.base app-base-style])
@@ -31,7 +33,10 @@
        "\n"
        (css [:.container container-style])
        "\n"
-       (css [:.header {:padding "0 2%"}])
+       (css [:.header {:padding "0 2%"
+                       :background "#FFF"
+                       :margin-bottom "1%"
+                       :border-radius "8px"}])
        "\n"
        (css [:.header-link {:text-decoration "none"
                             :color "#333"}])))

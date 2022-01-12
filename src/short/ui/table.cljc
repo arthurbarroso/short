@@ -5,7 +5,6 @@
 (def table-style
   {:width "100%"
    :text-align "left"
-   :border "1px solid #eee"
    :padding "2%"})
 
 (def table-css

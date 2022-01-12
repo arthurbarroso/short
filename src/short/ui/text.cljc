@@ -21,15 +21,15 @@
 
 (def text-css
   (reduce #(str %1 "\n" %2)
-          [(css [:h1 :.text-xxl {:font-size (:xxl text-sizes)
-                                 :margin-bottom (:lg text-spaces)}])
-           (css [:h2 :.text-xl {:font-size (:xl text-sizes)
-                                :margin-bottom (:md text-spaces)}])
+          [(css [:h1 :.text-xxl {:font-size (:xxl text-sizes)}])
+                                 ;; :margin-bottom (:lg text-spaces)}])
+           (css [:h2 :.text-xl {:font-size (:xl text-sizes)}])
+                                ;; :margin-bottom (:md text-spaces)}])
            (css [:h3 :.text-lg {:font-size (:lg text-sizes)}])
            (css [:h4 :.text-md {:font-size (:md text-sizes)}])
            (css [:small :.text-sm {:font-size (:sm text-sizes)}])
            (css [:.text-xs {:font-size (:xs text-sizes)}])
-           (css [:p {:margin-bttom (:sm text-spaces)}])
+           (css [:p {:margin-bottom (:sm text-spaces)}])
            (css [:.text-xxxl {:font-size (:xxxl text-sizes)}])]))
 
 (defn typography [{:keys [variant text sizing]}]
