@@ -9,7 +9,7 @@
             [short.ui.text :as text]))
 
 (defn creation-handler [data]
-  (println data))
+  (re-frame/dispatch [::events/create-variant (update data :quantity #(js/parseInt %))]))
 
 (defn create-variant []
   (let [variant-form (re-frame/subscribe [::subs/variant-form-values])]
@@ -47,4 +47,5 @@
                        :placeholder "1"}]
          [button/button-outlined {:text "Create"
                                   :type "submit"
-                                  :extra-style "mt-2"}]]]])))
+                                  :extra-style "mt-2"
+                                  :on-click #()}]]]])))

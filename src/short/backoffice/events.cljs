@@ -19,9 +19,9 @@
     :forms {:product-form {:title nil
                            :slug nil
                            :sku nil
-                           :price nil}
+                           :price 1}
             :variant-form {:type nil
-                           :quantity nil
+                           :quantity 1
                            :image-url nil
                            :product-id nil}}}))
 
@@ -180,3 +180,29 @@
    {:db (update-in db [:forms :variant-form] assoc
                    :product-id product-id :product-name product-name)
     ::navigate! [:create-variant]}))
+
+(re-frame/reg-event-fx
+ ::create-variant
+ (fn [{:keys [db]} [_ data]]
+   {:db (assoc db :loading true)
+    :http-xhrio {:method :post
+                 :uri (str "http://localhost:4000/v1/variants/" (:product-id data))
+                 :format (ajax/json-request-format)
+                 :timeout 8000
+                 :params (assoc data :active true)
+                 :with-credentials true
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success [::variant-create-success]
+                 :on-failure [::variant-create-failure]}}))
+
+(re-frame/reg-event-fx
+ ::variant-create-success
+ (fn [{:keys [db]} [_ _response]]
+   {:db (assoc db
+               :loading false)
+    ::navigate! [:panel]}))
+
+(re-frame/reg-event-fx
+ ::variant-create-failure
+ (fn [{:keys [db]} [_ _response]]
+   {:db (assoc db :loading false)}))
