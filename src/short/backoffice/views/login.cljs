@@ -10,7 +10,7 @@
             [short.backoffice.subs :as subs]
             [garden.core :refer [css]]))
 
-(def login-container {:background "#FFF"})
+(def login-container {:width "100%"})
 
 (def login-screen-css
   (css [:.login login-container]))
