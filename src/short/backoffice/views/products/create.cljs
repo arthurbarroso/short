@@ -4,7 +4,8 @@
             [short.backoffice.events :as events]
             [short.ui.label :as label]
             [short.ui.button :as button]
-            [short.ui.input :as input]))
+            [short.ui.input :as input]
+            [short.shared :as shared]))
 
 (def custom-modal-css
   {:content {:top "50%"
@@ -48,7 +49,7 @@
     [input/input {:value slug
                   :on-change
                   #(re-frame/dispatch
-                    [::events/set-product-form-field-value :slug %])
+                    [::events/set-product-form-field-value :slug (shared/slugify %)])
                   :placeholder "Product slug"}]
     [label/label {:text "Sku"
                   :extra-style "mt-1"}]

@@ -1,5 +1,6 @@
 (ns short.shared
   (:require [malli.core :as ml]
+            [clojure.string :as string]
             #?(:clj [muuntaja.core :as m])))
 
 (def Transaction
@@ -48,3 +49,8 @@
      :cljs (->> json
                 js/decodeURIComponent
                 (.parse js/JSON))))
+
+(defn slugify [text]
+  (-> text
+      (string/lower-case)
+      (string/replace #"[^\w]+" "-")))
