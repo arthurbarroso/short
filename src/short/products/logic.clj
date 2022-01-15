@@ -1,16 +1,16 @@
 (ns short.products.logic
   (:require [short.products.schemas :as s]
-            [short.products.contracts :as c]))
+            [short.products.contracts :as c]
+            [short.shared :as shared]))
 
 (defn product-creation
   {:malli/schema [:=> [:cat c/ProductData uuid? inst?] s/Product]}
   [{:keys [sku title active slug price]} id created_at]
   {:product/sku sku
    :product/active active
-   :product/slug slug
+   :product/slug (shared/slugify slug)
    :product/title title
    :product/price price
-   ;; :product/quantity quantity
    :product/uuid id
    :product/created_at created_at})
 
