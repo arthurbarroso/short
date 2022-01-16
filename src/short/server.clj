@@ -40,7 +40,8 @@
         config-map
         {:server/jetty {:handler (ig/ref :brundij/app)
                         :port (:port env-vars)}
-         :short/app {:database (ig/ref :db/postgres)}
+         :short/app {:database (ig/ref :db/postgres)
+                     :auth {:jwt-secret (:jwt_secret env-vars)}}
          :db/postgres {:host (:database_host env-vars)
                        :port (:database_port env-vars)
                        :user (:database_user env-vars)

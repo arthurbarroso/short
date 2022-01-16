@@ -27,4 +27,8 @@
                              :test "mem"}
  :database_id #profile {:default nil
                         :dev nil
-                        :test "short"}}
+                        :test "short"}
+
+ :jwt_secret #profile {:default #env JWT_SECRET
+                       :dev "test"
+                       :test "test"}}
