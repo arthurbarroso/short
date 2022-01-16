@@ -2,16 +2,12 @@
   (:require [short.server]
             [integrant.core :as ig]
             [integrant.repl :as ig-repl]
-            [integrant.repl.state :as state]))
+            [integrant.repl.state :as state]
+            [aero.core :refer [read-config]]
+            [clojure.java.io :as io]))
 
 (def environment-vars
-  {:port 4000
-   :database_host "localhost"
-   :database_port 5432
-   :database_user "postgres"
-   :database_backend :pg
-   :database_password "postgres"
-   :database_name "short"})
+  (read-config (io/resource "config.edn") {:profile :dev}))
 
 (def config-map
   {:server/jetty {:handler (ig/ref :short/app)

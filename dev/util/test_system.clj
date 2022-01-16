@@ -2,17 +2,12 @@
   (:require [integrant.repl :as ig-repl]
             [short.server]
             [integrant.core :as ig]
-            [taoensso.timbre :as timbre]))
+            [taoensso.timbre :as timbre]
+            [clojure.java.io :as io]
+            [aero.core :as aero]))
 
 (def environment-vars
-  {:port 4001
-   :database_host ""
-   :database_port ""
-   :database_user ""
-   :database_backend "mem"
-   :database_id "xis"
-   :database_password ""
-   :database_name ""})
+  (aero/read-config (io/resource "config.edn") {:profile :test}))
 
 (def config-map
   {:server/jetty {:handler (ig/ref :short/app)

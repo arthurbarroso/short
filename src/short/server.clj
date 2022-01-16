@@ -3,7 +3,9 @@
             [integrant.core :as ig]
             [ring.adapter.jetty :as jetty]
             [short.database :as database]
-            [taoensso.timbre :as timbre :refer [info]])
+            [taoensso.timbre :as timbre :refer [info]]
+            [aero.core :as aero]
+            [clojure.java.io :as io])
   (:gen-class))
 
 (defn app
@@ -34,5 +36,16 @@
   (.stop jetty))
 
 (defn -main []
-  (let [config-map {}]
+  (let [env-vars (aero/read-config (io/resource "config.edn"))
+        config-map
+        {:server/jetty {:handler (ig/ref :brundij/app)
+                        :port (:port env-vars)}
+         :short/app {:database (ig/ref :db/postgres)}
+         :db/postgres {:host (:database_host env-vars)
+                       :port (:database_port env-vars)
+                       :user (:database_user env-vars)
+                       :backend (:database_backend env-vars)
+                       :id (:database_id env-vars)
+                       :password (:database_password env-vars)
+                       :dbname (:database_name env-vars)}}]
     (-> config-map ig/prep ig/init)))
