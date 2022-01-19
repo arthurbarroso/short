@@ -10,3 +10,4 @@ target
 /resources/assets/js
 /resources/assets/stylesheet.css
 /src/config.edn
+src/config.edn
