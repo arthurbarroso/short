@@ -9,3 +9,4 @@ target
 /.shadow-cljs/
 /resources/assets/js
 /resources/assets/stylesheet.css
+/src/config.edn

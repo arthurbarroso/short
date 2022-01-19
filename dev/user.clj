@@ -13,7 +13,11 @@
   {:server/jetty {:handler (ig/ref :short/app)
                   :port (:port environment-vars)}
    :short/app {:database (ig/ref :db/postgres)
-               :auth {:jwt-secret (:jwt-secret environment-vars)}}
+               :auth {:jwt-secret (:jwt_secret environment-vars)}
+               :s3 {:bucket (:s3_bucket environment-vars)
+                    :creds {:access-key (:access_key environment-vars)
+                            :endpoint (:aws_endpoint environment-vars)
+                            :secret-key (:secret_key environment-vars)}}}
    :db/postgres {:host (:database_host environment-vars)
                  :port (:database_port environment-vars)
                  :user (:database_user environment-vars)

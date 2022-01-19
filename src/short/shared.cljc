@@ -23,9 +23,9 @@
 
 (defn uuid-from-string
   {:malli/schema [:=> [:cat :string] :uuid]}
-  [string]
-  #?(:clj (java.util.UUID/fromString string)
-     :cljs (uuid string)))
+  [string-uuid]
+  #?(:clj (java.util.UUID/fromString string-uuid)
+     :cljs (uuid string-uuid)))
 
 (defn get-current-inst!
   {:malli/schema [:=> :cat inst?]}

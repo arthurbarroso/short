@@ -13,7 +13,8 @@
             [short.middlewares :as middlewares]
             [short.users.routes :as users]
             [short.products.routes :as products]
-            [short.variants.routes :as variants]))
+            [short.variants.routes :as variants]
+            [short.s3.routes :as s3]))
 
 (defn router-config [_environment]
   {:data {:coercion coercion-malli/coercion
@@ -47,7 +48,8 @@
    ["/v1" {:middleware [swagger/swagger-feature]}
     (users/routes environment)
     (products/routes environment)
-    (variants/routes environment)]])
+    (variants/routes environment)
+    (s3/routes environment)]])
 
 (def assets-router
   ["" {:no-doc true}
