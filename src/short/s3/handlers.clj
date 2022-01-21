@@ -3,7 +3,7 @@
             [short.s3.contracts :as c]
             [short.s3.schemas :as s]))
 
-(def max-file-size "10000")
+(def max-file-size 10000)
 (def allowed-file-types ["png" "jpg" "jpeg"])
 
 (defn generate-signed-url [environment file-key]

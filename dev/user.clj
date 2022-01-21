@@ -42,4 +42,5 @@
   (dev/start! {:report (pretty/reporter)})
   (reset-all)
   (stop)
-  (go))
+  (go)
+  (println environment-vars))

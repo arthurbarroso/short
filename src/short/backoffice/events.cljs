@@ -206,3 +206,51 @@
  ::variant-create-failure
  (fn [{:keys [db]} [_ _response]]
    {:db (assoc db :loading false)}))
+
+(re-frame/reg-event-fx
+ ::generate-s3-url
+ (fn [{:keys [db]} [_ data]]
+   {:db (assoc db :loading true)
+    :http-xhrio {:method :post
+                 :uri "http://localhost:4000/v1/s3/generate"
+                 :format (ajax/json-request-format)
+                 :timeout 8000
+                 :params data
+                 :with-credentials true
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success [::s3-url-success]
+                 :on-failure [::s3-url-failure]}}))
+
+(re-frame/reg-event-fx
+ ::s3-url-success
+ (fn [{:keys [db]} [_ _response]]
+   {:db (assoc db
+               :loading false)}))
+
+(re-frame/reg-event-fx
+ ::s3-url-failure
+ (fn [{:keys [db]} [_ _response]]
+   {:db (assoc db :loading false)}))
+
+(re-frame/reg-event-fx
+ ::create-product-variant
+ (fn [{:keys [db]} [_ data]]
+   {:db (assoc db :loading true)
+    :http-xhrio {:method :post
+                 :uri "http://localhost:4000/v1/s3/generate"
+                 :format (ajax/json-request-format)
+                 :timeout 8000
+                 :params data
+                 :with-credentials true
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success [::create-variant-image]
+                 :on-failure [::s3-url-failure]}}))
+
+;; Create a S3 presigned url
+;; Upload image to S3
+;; Push to server
+
+(re-frame/reg-event-fx
+ ::create-variant-image
+ (fn [_ [_ response]]
+   {:dispatch []}))
