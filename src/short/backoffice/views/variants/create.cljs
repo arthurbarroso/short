@@ -48,6 +48,8 @@
                        #(re-frame/dispatch
                          [::events/set-variant-form-field-value :quantity %])
                        :placeholder "1"}]
+         [label/label {:text "Variant image"
+                       :extra-style "mt-1"}]
          [image-picker/image-selector input-id]
          [button/button-outlined {:text "Create"
                                   :type "submit"
