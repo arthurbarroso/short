@@ -6,13 +6,23 @@
             [short.ui.label :as label]
             [short.ui.button :as button]
             [short.ui.input :as input]
-            [short.ui.text :as text]))
+            [short.ui.text :as text]
+            [short.backoffice.components.image-picker :as image-picker]
+            [short.shared :as shared]))
 
-(defn creation-handler [data]
-  (re-frame/dispatch [::events/create-variant (update data :quantity #(js/parseInt %))]))
+(defn generate-file-key [{:keys [product-id type]}]
+  (str product-id "-" (shared/slugify type)))
+
+(defn creation-handler [data input-id]
+  (let [image-data (image-picker/submit-image input-id
+                                              (generate-file-key data))
+        variant-data (merge data image-data)]
+    (re-frame/dispatch
+     [::events/create-product-variant (update variant-data :quantity #(js/parseInt %))])))
 
 (defn create-variant []
-  (let [variant-form (re-frame/subscribe [::subs/variant-form-values])]
+  (let [variant-form (re-frame/subscribe [::subs/variant-form-values])
+        input-id "variant-image"]
     (fn []
       [template/layout
        ^{:key "create-variant"}
@@ -22,7 +32,7 @@
           :variant "h2"}]
         [:form {:on-submit (fn [e]
                              (do (.preventDefault e)
-                                 (creation-handler @variant-form)))}
+                                 (creation-handler @variant-form input-id)))}
          [label/label {:text "Variant type (name)"
                        :extra-style "mt-1"}]
          [input/input {:value (:type @variant-form)
@@ -30,13 +40,6 @@
                        #(re-frame/dispatch
                          [::events/set-variant-form-field-value :type %])
                        :placeholder "Variant type (name)"}]
-         [label/label {:text "Variant image URL"
-                       :extra-style "mt-1"}]
-         [input/input {:value (:image-url @variant-form)
-                       :on-change
-                       #(re-frame/dispatch
-                         [::events/set-variant-form-field-value :image-url %])
-                       :placeholder "Variant image URL"}]
          [label/label {:text "Variant quantity"
                        :extra-style "mt-1"}]
          [input/input {:value (:quantity @variant-form)
@@ -45,6 +48,7 @@
                        #(re-frame/dispatch
                          [::events/set-variant-form-field-value :quantity %])
                        :placeholder "1"}]
+         [image-picker/image-selector input-id]
          [button/button-outlined {:text "Create"
                                   :type "submit"
                                   :extra-style "mt-2"

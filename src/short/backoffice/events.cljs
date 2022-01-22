@@ -5,7 +5,8 @@
             [reitit.frontend.controllers :as rfc]
             [reitit.frontend.easy :as rfa]
             [short.cookies :as cookies]
-            [short.session-storage :as session-storage]))
+            [short.session-storage :as session-storage]
+            [clojure.string :as string]))
 
 (re-frame/reg-event-db
  ::initialize-db
@@ -133,7 +134,6 @@
 (re-frame/reg-event-fx
  ::product-list-failure
  (fn [{:keys [db]} [_ response]]
-   (cljs.pprint/pprint response)
    {:db (assoc db :loading false)}))
 
 (re-frame/reg-event-db
@@ -182,6 +182,59 @@
     ::navigate! [:create-variant]}))
 
 (re-frame/reg-event-fx
+ ::create-product-variant
+ (fn [{:keys [db]} [_ form-data]]
+   (let [{:keys [file-type file-key file-size]} form-data]
+     {:db (assoc db :loading true)
+      :http-xhrio {:method :post
+                   :uri "http://localhost:4000/v1/s3/generate"
+                   :format (ajax/json-request-format)
+                   :timeout 8000
+                   :params {:file-type file-type
+                            :file-key file-key
+                            :file-size (js/parseFloat file-size)}
+                   :with-credentials true
+                   :response-format (ajax/json-response-format {:keywords? true})
+                   :on-success [::s3-url-success form-data]
+                   :on-failure [::s3-url-failure]}})))
+
+(re-frame/reg-event-fx
+ ::s3-url-failure
+ (fn [{:keys [db]} [_ _response]]
+   {:db (assoc db :loading false)}))
+
+(re-frame/reg-event-fx
+ ::s3-url-success
+ (fn [{:keys [db]} [_ form-data response]]
+   (let [s3-url (:s3/url response)
+         params-index (string/index-of s3-url "?")
+         file-url (subs s3-url 0 params-index)]
+     {:db (assoc db :loading false)
+      :dispatch [::upload-image (merge response form-data {:file-url file-url})]})))
+
+(re-frame/reg-event-fx
+ ::upload-image
+ (fn [{:keys [db]} [_ data]]
+   {:db (assoc db :loading true)
+    :http-xhrio {:method :put
+                 :uri (:s3/url data)
+                 :timeout 8000
+                 :body (.get (:file data) "file")
+                 :headers {"Content-Type" "image/*"}
+                 :response-format (ajax/raw-response-format)
+                 :on-success [::upload-image-success data]
+                 :on-failure [::s3-url-failure]}}))
+
+(re-frame/reg-event-fx
+ ::upload-image-success
+ (fn [{:keys [db]} [_ data _response]]
+   (let [uploaded-file-url (:file-url data)]
+     {:db (assoc db :loading false)
+      :dispatch [::create-variant (assoc data
+                                         :image-url
+                                         uploaded-file-url)]})))
+
+(re-frame/reg-event-fx
  ::create-variant
  (fn [{:keys [db]} [_ data]]
    {:db (assoc db :loading true)
@@ -206,51 +259,3 @@
  ::variant-create-failure
  (fn [{:keys [db]} [_ _response]]
    {:db (assoc db :loading false)}))
-
-(re-frame/reg-event-fx
- ::generate-s3-url
- (fn [{:keys [db]} [_ data]]
-   {:db (assoc db :loading true)
-    :http-xhrio {:method :post
-                 :uri "http://localhost:4000/v1/s3/generate"
-                 :format (ajax/json-request-format)
-                 :timeout 8000
-                 :params data
-                 :with-credentials true
-                 :response-format (ajax/json-response-format {:keywords? true})
-                 :on-success [::s3-url-success]
-                 :on-failure [::s3-url-failure]}}))
-
-(re-frame/reg-event-fx
- ::s3-url-success
- (fn [{:keys [db]} [_ _response]]
-   {:db (assoc db
-               :loading false)}))
-
-(re-frame/reg-event-fx
- ::s3-url-failure
- (fn [{:keys [db]} [_ _response]]
-   {:db (assoc db :loading false)}))
-
-(re-frame/reg-event-fx
- ::create-product-variant
- (fn [{:keys [db]} [_ data]]
-   {:db (assoc db :loading true)
-    :http-xhrio {:method :post
-                 :uri "http://localhost:4000/v1/s3/generate"
-                 :format (ajax/json-request-format)
-                 :timeout 8000
-                 :params data
-                 :with-credentials true
-                 :response-format (ajax/json-response-format {:keywords? true})
-                 :on-success [::create-variant-image]
-                 :on-failure [::s3-url-failure]}}))
-
-;; Create a S3 presigned url
-;; Upload image to S3
-;; Push to server
-
-(re-frame/reg-event-fx
- ::create-variant-image
- (fn [_ [_ response]]
-   {:dispatch []}))
