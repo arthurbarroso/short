@@ -35,3 +35,8 @@
  ::variant-form-values
  (fn [db]
    (get-in db [:forms :variant-form])))
+
+(re-frame/reg-sub
+ ::loading?
+ (fn [db]
+   (:loading db)))

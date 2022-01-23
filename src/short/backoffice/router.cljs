@@ -7,7 +7,8 @@
             [short.backoffice.events :as events]
             [short.backoffice.views.products.list :as product-list]
             [short.backoffice.views.variants.create :as create-variant]
-            [short.backoffice.views.login :as login]))
+            [short.backoffice.views.login :as login]
+            [short.backoffice.components.loader :as loader]))
 
 (def routes
   ["/"
@@ -47,4 +48,6 @@
 (defn router-component []
   (let [current-route @(re-frame/subscribe [::subs/current-route])]
     (when current-route
-      [(-> current-route :data :view)])))
+      [:<>
+       [loader/loader-wrapper
+        [(-> current-route :data :view)]]])))

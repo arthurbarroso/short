@@ -129,7 +129,8 @@
  ::product-list-success
  (fn [{:keys [db]} [_ response]]
    {:db (assoc db
-               :products response)}))
+               :products response
+               :loading false)}))
 
 (re-frame/reg-event-fx
  ::product-list-failure
@@ -205,18 +206,16 @@
 
 (re-frame/reg-event-fx
  ::s3-url-success
- (fn [{:keys [db]} [_ form-data response]]
+ (fn [_ [_ form-data response]]
    (let [s3-url (:s3/url response)
          params-index (string/index-of s3-url "?")
          file-url (subs s3-url 0 params-index)]
-     {:db (assoc db :loading false)
-      :dispatch [::upload-image (merge response form-data {:file-url file-url})]})))
+     {:dispatch [::upload-image (merge response form-data {:file-url file-url})]})))
 
 (re-frame/reg-event-fx
  ::upload-image
- (fn [{:keys [db]} [_ data]]
-   {:db (assoc db :loading true)
-    :http-xhrio {:method :put
+ (fn [_ [_ data]]
+   {:http-xhrio {:method :put
                  :uri (:s3/url data)
                  :timeout 8000
                  :body (.get (:file data) "file")
@@ -227,18 +226,16 @@
 
 (re-frame/reg-event-fx
  ::upload-image-success
- (fn [{:keys [db]} [_ data _response]]
+ (fn [_ [_ data _response]]
    (let [uploaded-file-url (:file-url data)]
-     {:db (assoc db :loading false)
-      :dispatch [::create-variant (assoc data
+     {:dispatch [::create-variant (assoc data
                                          :image-url
                                          uploaded-file-url)]})))
 
 (re-frame/reg-event-fx
  ::create-variant
- (fn [{:keys [db]} [_ data]]
-   {:db (assoc db :loading true)
-    :http-xhrio {:method :post
+ (fn [_ [_ data]]
+   {:http-xhrio {:method :post
                  :uri (str "http://localhost:4000/v1/variants/" (:product-id data))
                  :format (ajax/json-request-format)
                  :timeout 8000
@@ -251,8 +248,14 @@
 (re-frame/reg-event-fx
  ::variant-create-success
  (fn [{:keys [db]} [_ _response]]
-   {:db (assoc db
-               :loading false)
+   {:db (-> db
+            (update :loading not)
+            (update-in [:forms :variant-form]
+                       (fn [_x]
+                         {:type nil
+                          :quantity 1
+                          :image-url nil
+                          :product-id nil})))
     ::navigate! [:panel]}))
 
 (re-frame/reg-event-fx
