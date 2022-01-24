@@ -1,4 +1,4 @@
-(ns short.backoffice.views.variants.create
+(ns short.variants.views.create
   (:require [short.backoffice.template :as template]
             [re-frame.core :as re-frame]
             [short.backoffice.subs :as subs]

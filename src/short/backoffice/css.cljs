@@ -1,6 +1,6 @@
 (ns short.backoffice.css
   (:require [short.ui.css :refer [ui-styles]]
-            [short.backoffice.views.products.styles :as products-styles]
+            [short.backoffice.styles.products :as products-styles]
             [short.backoffice.views.login :as login]
             [short.backoffice.components.image-picker :as image-picker]))
 

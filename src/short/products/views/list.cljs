@@ -1,4 +1,4 @@
-(ns short.backoffice.views.products.list
+(ns short.products.views.list
   (:require [short.backoffice.template :as template]
             [re-frame.core :as re-frame]
             [short.backoffice.subs :as subs]
@@ -6,7 +6,7 @@
             [short.ui.text :as text]
             [short.ui.button :as button]
             [short.ui.table :as table]
-            [short.backoffice.views.products.create :as create]
+            [short.products.views.create :as create]
             [reagent.core :as reagent]))
 
 (defn navigate-to-create-variant [product-uuid product-title]

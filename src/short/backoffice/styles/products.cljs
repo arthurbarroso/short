@@ -1,4 +1,4 @@
-(ns short.backoffice.views.products.styles
+(ns short.backoffice.styles.products
   (:require [garden.core :refer [css]]))
 
 (def product-list-header {:display "flex"

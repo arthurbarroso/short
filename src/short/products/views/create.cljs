@@ -1,4 +1,4 @@
-(ns short.backoffice.views.products.create
+(ns short.products.views.create
   (:require ["react-modal" :as Modal]
             [re-frame.core :as re-frame]
             [short.backoffice.events :as events]
