@@ -28,7 +28,7 @@
                   (.-size)
                   (/ 1024)
                   .toFixed)
-   :file-key file-key
+   :file-key (str file-key "-" (.-name file))
    :file-name (.-name file)})
 
 (defn get-image-data [input-id]
