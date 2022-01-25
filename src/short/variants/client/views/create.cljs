@@ -1,8 +1,8 @@
-(ns short.variants.views.create
+(ns short.variants.client.views.create
   (:require [short.backoffice.template :as template]
             [re-frame.core :as re-frame]
-            [short.backoffice.subs :as subs]
-            [short.backoffice.events :as events]
+            [short.variants.client.subs :as subs]
+            [short.variants.client.events :as events]
             [short.ui.label :as label]
             [short.ui.button :as button]
             [short.ui.input :as input]

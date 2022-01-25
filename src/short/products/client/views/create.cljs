@@ -1,11 +1,11 @@
-(ns short.products.views.create
+(ns short.products.client.views.create
   (:require ["react-modal" :as Modal]
             [re-frame.core :as re-frame]
-            [short.backoffice.events :as events]
             [short.ui.label :as label]
             [short.ui.button :as button]
             [short.ui.input :as input]
-            [short.shared :as shared]))
+            [short.shared :as shared]
+            [short.products.client.events :as events]))
 
 (def custom-modal-css
   {:content {:top "50%"

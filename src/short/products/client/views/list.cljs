@@ -1,13 +1,13 @@
-(ns short.products.views.list
+(ns short.products.client.views.list
   (:require [short.backoffice.template :as template]
             [re-frame.core :as re-frame]
-            [short.backoffice.subs :as subs]
-            [short.backoffice.events :as events]
+            [short.products.client.subs :as subs]
             [short.ui.text :as text]
             [short.ui.button :as button]
             [short.ui.table :as table]
-            [short.products.views.create :as create]
-            [reagent.core :as reagent]))
+            [short.products.client.views.create :as create]
+            [reagent.core :as reagent]
+            [short.products.client.events :as events]))
 
 (defn navigate-to-create-variant [product-uuid product-title]
   (re-frame/dispatch [::events/navigate-to-product-variant-creation

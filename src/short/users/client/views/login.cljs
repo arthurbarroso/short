@@ -1,4 +1,4 @@
-(ns short.backoffice.views.login
+(ns short.users.client.views.login
   (:require [short.backoffice.template :as template]
             [short.ui.button :as button]
             [short.ui.input :as input]
@@ -6,8 +6,8 @@
             [short.ui.label :as label]
             [short.ui.text :as text]
             [re-frame.core :as re-frame]
-            [short.backoffice.events :as events]
-            [short.backoffice.subs :as subs]
+            [short.users.client.events :as events]
+            [short.users.client.subs :as subs]
             [garden.core :refer [css]]))
 
 (def login-container {:width "100%"})

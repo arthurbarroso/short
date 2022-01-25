@@ -5,9 +5,10 @@
             [re-frame.core :as re-frame]
             [short.backoffice.subs :as subs]
             [short.backoffice.events :as events]
-            [short.products.views.list :as product-list]
-            [short.variants.views.create :as create-variant]
-            [short.backoffice.views.login :as login]
+            [short.products.client.views.list :as product-list]
+            [short.products.client.events :as product-events]
+            [short.variants.client.views.create :as create-variant]
+            [short.users.client.views.login :as login]
             [short.backoffice.components.loader :as loader]))
 
 (def routes
@@ -16,7 +17,7 @@
     {:name :panel
      :view product-list/list-view
      :requires-authentication? true
-     :attached-event ::events/get-products}]
+     :attached-event ::product-events/get-products}]
    ["create-variant"
     {:name :create-variant
      :view create-variant/create-variant
