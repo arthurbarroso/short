@@ -22,7 +22,7 @@
                               :align-items "center"
                               :color "#9BA0A5"
                               :padding "0 4%"
-                              :font-size "12px"
+                              :font-size "14px"
                               :text-decoration "none"}
          [:a {:text-decoration "none"
               :color "#9BA0A5"}]]

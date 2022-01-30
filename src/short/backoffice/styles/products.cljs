@@ -15,7 +15,7 @@
         (css [:.product-list-header product-list-header
               [:.create-button {:height "32px"}]
               [:button {:height "36px"
-                        :width "36px"
+                        :width "48px"
                         :background "#66686A"}]])
         extra-table-css (css [:.table-wrapper extra-table-style])]
     (reduce (fn [acc style]

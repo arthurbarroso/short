@@ -34,7 +34,7 @@
            (css [:button {:outline "0" :cursor "pointer"
                           :border-radius "4px" :border "none"
                           :font-weight 700 :background "#0166D6"
-                          :color "#FFF" :text-transform "uppercase"}
+                          :color "#FFF"}
                  [:&:hover {:color "#FFF"}]])
            (css [:.button-outlined {:background "none"
                                     :color "#0166D6"

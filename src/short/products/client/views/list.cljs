@@ -26,15 +26,15 @@
         [layout/layout {:search-fn #()}
          [:div.product-list-header {:style {:background "#FBFCFC"
                                             :padding "0 2%"}}
-          [text/typography {:text "products"
+          [text/typography {:text "products / list"
                             :variant "p"}]
-          [button/button {:text "+"
+          [button/button {:text "add"
                           :on-click #(create/open-modal modal-open?)}]]
          [:div.table-wrapper {:style {:box-sizing "border-box"
-                                      :height "80%"
+                                      :height "90%"
                                       :bacgkround "#FBFCFC"}}
           [table/table {:columns ["" "Title" "Price" "Variants" "SKU"
-                                  "Slug" "Add variant"]
+                                  "Slug" "Variant"]
                         :items @products
                         :item-keys [{:key :product/active
                                      :checkbox true}
@@ -46,7 +46,7 @@
                                     {:key :product/slug}
                                     {:key "button-create"
                                      :button-key "create-variant"
-                                     :button {:text "Create variant"
+                                     :button {:text "+"
                                               :function
                                               #(navigate-to-create-variant (-> % :product/uuid)
                                                                            (-> % :product/title))}}]

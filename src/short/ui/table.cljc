@@ -11,7 +11,10 @@
   (css [:.table table-style
         [:th {:font-weight "normal"
               :color "#080A0B"}]
-        [:td {:color "#2B434A"}]]))
+        [:td {:color "#2B434A"}]
+        [:button {:height "36px"
+                  :width "36px"
+                  :background "#66686A"}]]))
 
 (defn get-item-status [item item-key]
   (if (get item (:key item-key))
@@ -21,7 +24,7 @@
 (defn get-item [item-key item]
   (cond
     (:fun item-key) ((:fun item-key) (get item (:key item-key)))
-    (:button item-key) [button/button-outlined
+    (:button item-key) [button/button
                         {:on-click #((-> item-key :button :function) item)
                          :text (-> item-key :button :text)}]
     (:checkbox item-key) (get-item-status item item-key)
