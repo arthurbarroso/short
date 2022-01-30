@@ -4,18 +4,21 @@
 
 (def app-base-style
   {:height "100vh"
-   :display "flex"})
+   :display "flex"
+   :padding "2% 5%"
+   :box-sizing "border-box"
+   :-webkit-box-sizing "border-box"
+   :-moz-box-sizing "border-box"})
 
 (def content-style
   {:display "flex"
-   :background "#bfd8ff"
+   :background "#FFF"
    :height "100%"
    :flex-direction "column"
    :width "100%"
    :box-sizing "border-box"
    :-webkit-box-sizing "border-box"
-   :-moz-box-sizing "border-box"
-   :padding "2% 5%"})
+   :-moz-box-sizing "border-box"})
 
 (def container-style
   {:background "#FFF"
@@ -39,15 +42,17 @@
                        :border-radius "8px"}])
        "\n"
        (css [:.header-link {:text-decoration "none"
-                            :color "#333"}])))
+                            :color "#333"}])
+       (css [:.main {:border "1px solid red"}])))
 
 (defn template [children]
   [:div {:class "base"}
    [:div {:class "content"}
     [:div {:class "container"}
-     [:header
-      [:a {:href "/"}
-       (text/typography {:text "short"
-                         :variant "h1"
-                         :sizing "text-xxxl"})]]
-     children]]])
+     [:div {:class "main"}
+      [:header
+       [:a {:href "/"}
+        (text/typography {:text "short"
+                          :variant "h1"
+                          :sizing "text-xxxl"})]]
+      children]]]])

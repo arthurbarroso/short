@@ -8,7 +8,15 @@
    :padding "2%"})
 
 (def table-css
-  (css [:.table table-style]))
+  (css [:.table table-style
+        [:th {:font-weight "normal"
+              :color "#080A0B"}]
+        [:td {:color "#2B434A"}]]))
+
+(defn get-item-status [item item-key]
+  (if (get item (:key item-key))
+    [:i {:class "fas fa-check-square"}]
+    [:i {:class "far fa-check-square"}]))
 
 (defn get-item [item-key item]
   (cond
@@ -16,6 +24,7 @@
     (:button item-key) [button/button-outlined
                         {:on-click #((-> item-key :button :function) item)
                          :text (-> item-key :button :text)}]
+    (:checkbox item-key) (get-item-status item item-key)
     :else (get item (:key item-key))))
 
 (defn get-item-key [item-key item key]
