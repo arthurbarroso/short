@@ -7,29 +7,33 @@
             [short.products.client.views.create :as create]
             [reagent.core :as reagent]
             [short.products.client.events :as events]
-            [short.backoffice.layout :as layout]))
+            [short.backoffice.layout :as layout]
+            [short.variants.client.views.create-modal :as variant-create]
+            [short.backoffice.components.modal :as modal]))
 
-(defn navigate-to-create-variant [product-uuid product-title]
-  (re-frame/dispatch [::events/navigate-to-product-variant-creation
-                      {:product-id product-uuid
-                       :product-name product-title}]))
+(defn navigate-to-create-variant [product-uuid product-title modal-open?]
+  (re-frame/dispatch [::events/set-variant {:product-id product-uuid
+                                            :product-name product-title}])
+  (reset! modal-open? true))
 
 (defn list-view []
   (let [products (re-frame/subscribe [::subs/products])
-        product-data (re-frame/subscribe [::subs/product-form-values])
-        modal-open? (reagent/atom false)]
+        product-modal-open? (reagent/atom false)
+        variant-modal-open? (reagent/atom false)
+        test-modal-open? (reagent/atom true)]
     (fn []
       [:div
        ^{:key "panel"}
        [:<>
-        [create/modal modal-open? product-data]
+        [create/modal product-modal-open?]
+        [variant-create/modal variant-modal-open?]
         [layout/layout {:search-fn #()}
          [:div.product-list-header {:style {:background "#FBFCFC"
                                             :padding "0 2%"}}
           [text/typography {:text "products / list"
                             :variant "p"}]
           [button/button {:text "add"
-                          :on-click #(create/open-modal modal-open?)}]]
+                          :on-click #(modal/open-modal product-modal-open?)}]]
          [:div.table-wrapper {:style {:box-sizing "border-box"
                                       :height "90%"
                                       :bacgkround "#FBFCFC"}}
@@ -49,5 +53,6 @@
                                      :button {:text "+"
                                               :function
                                               #(navigate-to-create-variant (-> % :product/uuid)
-                                                                           (-> % :product/title))}}]
+                                                                           (-> % :product/title)
+                                                                           variant-modal-open?)}}]
                         :key :product/uuid}]]]]])))

@@ -7,7 +7,6 @@
             [short.backoffice.events :as events]
             [short.products.client.views.list :as product-list]
             [short.products.client.events :as product-events]
-            [short.variants.client.views.create :as create-variant]
             [short.users.client.views.login :as login]
             [short.backoffice.components.loader :as loader]))
 
@@ -18,11 +17,6 @@
      :view product-list/list-view
      :requires-authentication? true
      :attached-event ::product-events/get-products}]
-   ["create-variant"
-    {:name :create-variant
-     :view create-variant/create-variant
-     :requires-authentication? true
-     :attached-event nil}]
    ["login"
     {:name :login
      :view login/login-view

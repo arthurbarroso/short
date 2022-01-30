@@ -9,6 +9,12 @@
                    :product-id product-id :product-name product-name)
     ::common-events/navigate! [:create-variant]}))
 
+(re-frame/reg-event-db
+ ::set-variant
+ (fn [db [_ {:keys [product-id product-name]}]]
+   (update-in db [:forms :variant-form] assoc
+              :product-id product-id :product-name product-name)))
+
 (re-frame/reg-event-fx
  ::get-products
  (fn [{:keys [db]} [_]]
