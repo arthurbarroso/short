@@ -1,55 +1,64 @@
 (ns short.products.client.views.create
-  (:require ["react-modal" :as Modal]
-            [re-frame.core :as re-frame]
+  (:require [re-frame.core :as re-frame]
             [short.ui.label :as label]
             [short.ui.button :as button]
             [short.ui.input :as input]
+            [short.backoffice.components.modal :as modal-wrapper]
             [short.shared :as shared]
             [short.products.client.events :as events]
             [short.products.client.subs :as subs]
-            [short.backoffice.components.modal :as modal-wrapper]))
+            [short.products.contracts :as c]))
 
 (defn create-product-handler [data modal-open?]
-  (re-frame/dispatch [::events/create-product data])
-  (modal-wrapper/close-modal modal-open?))
+  (if (c/validate-form data)
+    (do
+      (re-frame/dispatch [::events/create-product data])
+      (modal-wrapper/close-modal modal-open?))
+    (cljs.pprint/pprint {:failed "!"})))
 
 (defn create-product-modal
   [modal-open?]
-  (let [{:keys [title slug sku price]} (re-frame/subscribe [::subs/product-form-values])]
+  (let [form-data (re-frame/subscribe [::subs/product-form-values])]
     (fn []
       [:<>
        [:form {:on-submit (fn [e]
                             (.preventDefault e)
                             (create-product-handler
-                             {:sku sku
+                             {:sku (:sku @form-data)
                               :active true
-                              :slug slug
-                              :title title
-                              :price (js/parseFloat price)}
+                              :slug (:slug @form-data)
+                              :title (:title @form-data)
+                              :price (js/parseFloat (:price @form-data))}
                              modal-open?))}
         [label/label {:text "Title"}]
-        [input/input {:value title
+        [input/input {:value (:title @form-data)
                       :on-change
                       #(re-frame/dispatch
                         [::events/set-product-form-field-value :title %])
                       :placeholder "Product title"}]
+        (when-not (c/validate-title (:title @form-data))
+          [:p "Invalid title"])
         [label/label {:text "Slug"
                       :extra-style "mt-1"}]
-        [input/input {:value slug
+        [input/input {:value (:slug @form-data)
                       :on-change
                       #(re-frame/dispatch
                         [::events/set-product-form-field-value :slug (shared/slugify %)])
                       :placeholder "Product slug"}]
+        (when-not (c/validate-slug (:slug @form-data))
+          [:p "Invalid slug"])
         [label/label {:text "Sku"
                       :extra-style "mt-1"}]
-        [input/input {:value sku
+        [input/input {:value (:sku @form-data)
                       :on-change
                       #(re-frame/dispatch
                         [::events/set-product-form-field-value :sku %])
                       :placeholder "Product sku"}]
+        (when-not (c/validate-sku (:sku @form-data))
+          [:p "Invalid sli"])
         [label/label {:text "Price"
                       :extra-style "mt-1"}]
-        [input/input {:value price
+        [input/input {:value (:price @form-data)
                       :type "number"
                       :on-change
                       #(re-frame/dispatch

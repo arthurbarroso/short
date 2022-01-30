@@ -19,8 +19,7 @@
 (defn list-view []
   (let [products (re-frame/subscribe [::subs/products])
         product-modal-open? (reagent/atom false)
-        variant-modal-open? (reagent/atom false)
-        test-modal-open? (reagent/atom true)]
+        variant-modal-open? (reagent/atom false)]
     (fn []
       [:div
        ^{:key "panel"}
