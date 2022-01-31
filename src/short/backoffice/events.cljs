@@ -5,7 +5,8 @@
             [reitit.frontend.controllers :as rfc]
             [reitit.frontend.easy :as rfa]
             [short.cookies :as cookies]
-            [short.session-storage :as session-storage]))
+            [short.session-storage :as session-storage]
+            [short.backoffice.components.toast :as toast]))
 
 (re-frame/reg-event-db
  ::initialize-db
@@ -24,6 +25,26 @@
                            :quantity 1
                            :image-url nil
                            :product-id nil}}}))
+
+(re-frame/reg-fx
+ ::toast
+ (fn [{:keys [content]}]
+   (toast/show-toast content)))
+
+(re-frame/reg-fx
+ ::success-toast
+ (fn [{:keys [content]}]
+   (toast/success-toast content)))
+
+(re-frame/reg-fx
+ ::failure-toast
+ (fn [{:keys [content]}]
+   (toast/failure-toast content)))
+
+(re-frame/reg-fx
+ ::warn-toast
+ (fn [{:keys [content]}]
+   (toast/warn-toast content)))
 
 (re-frame/reg-fx
  ::set-session-storage!
@@ -71,7 +92,8 @@
  ::http-failure
  (fn [{:keys [db]} [_ response]]
    (cljs.pprint/pprint response)
-   {:db (assoc db :loading false)}))
+   {:db (assoc db :loading false)
+    ::failure-toast {:content "failure"}}))
 
 (def HttpRequestSchema
   [:map

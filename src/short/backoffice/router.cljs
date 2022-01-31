@@ -8,7 +8,8 @@
             [short.products.client.views.list :as product-list]
             [short.products.client.events :as product-events]
             [short.users.client.views.login :as login]
-            [short.backoffice.components.loader :as loader]))
+            [short.backoffice.components.loader :as loader]
+            [short.backoffice.components.toast :as toast]))
 
 (def routes
   ["/"
@@ -45,4 +46,5 @@
     (when current-route
       [:<>
        [loader/loader-wrapper
-        [(-> current-route :data :view)]]])))
+        [toast/toast-wrapper
+         [(-> current-route :data :view)]]]])))

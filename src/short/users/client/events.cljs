@@ -22,7 +22,7 @@
      :params credentials
      :authenticated? true
      :on-success [::login-success]
-     :on-failure [::login-failure]})))
+     :on-failure [::common-events/http-failure]})))
 
 (re-frame/reg-event-fx
  ::login-success
@@ -36,9 +36,3 @@
     ::common-events/set-session-storage! {:key "authenticated?"
                                           :value true}
     ::common-events/navigate! [:panel]}))
-
-(re-frame/reg-event-fx
- ::login-failure
- (fn [{:keys [db]} [_ response]]
-   (cljs.pprint/pprint response)
-   {:db (assoc db :loading false)}))
