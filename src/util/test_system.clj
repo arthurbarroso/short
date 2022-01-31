@@ -7,7 +7,7 @@
             [aero.core :as aero]))
 
 (def environment-vars
-  (aero/read-config (io/resource "config.edn") {:profile :test}))
+  (aero/read-config (io/resource "config_ex.edn") {:profile :test}))
 
 (def config-map
   {:server/jetty {:handler (ig/ref :short/app)
