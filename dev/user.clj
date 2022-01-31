@@ -7,7 +7,9 @@
             [clojure.java.io :as io]))
 
 (def environment-vars
-  (read-config (io/resource "config.edn") {:profile :dev}))
+  (try (read-config (io/resource "config.edn") {:profile :dev})
+       (catch Exception e
+         (clojure.pprint/pprint e))))
 
 (def config-map
   {:server/jetty {:handler (ig/ref :short/app)

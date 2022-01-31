@@ -34,7 +34,7 @@
         lambdaisland/kaocha-cloverage {:mvn/version "1.0.75"}
         ring/ring-mock {:mvn/version "0.4.0"}}
 
- :paths ["src" "resources" "dev"]
+ :paths ["src" "resources" "dev/util"]
 
  :aliases {:css {:ns-default util.gen-css
                  :exec-fn main}
