@@ -2,7 +2,7 @@
   (:require [short.products.handlers :as h]
             [ring.util.response :as rr]
             [short.products.ui.ssr.details :as details]
-            [short.render :as render]
+            [short.shared.render :as render]
             [short.products.logic :as l]
             [short.shared :as shared]))
 

@@ -1,5 +1,5 @@
-(ns short.render-test
-  (:require [short.render :as r]
+(ns short.shared.render-test
+  (:require [short.shared.render :as r]
             [clojure.test :refer [deftest testing is]]))
 
 (deftest render-add-component-string-to-html-test

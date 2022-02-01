@@ -4,8 +4,8 @@
             [day8.re-frame.http-fx]
             [reitit.frontend.controllers :as rfc]
             [reitit.frontend.easy :as rfa]
-            [short.cookies :as cookies]
-            [short.session-storage :as session-storage]
+            [short.shared.cookies :as cookies]
+            [short.shared.session-storage :as session-storage]
             [short.shared.ui.toast :as toast]))
 
 (re-frame/reg-event-db

@@ -3,7 +3,7 @@
             [short.shared.ui.template :as template]
             [short.shared.ui.text :as text]
             [short.shared.ui.button :as button]
-            #?(:cljs [short.cookies :as cookies])))
+            #?(:cljs [short.shared.cookies :as cookies])))
 
 (rum/defc product-details [product]
   (template/template
