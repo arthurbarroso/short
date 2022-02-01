@@ -14,7 +14,7 @@
                   :admin {:init-fn short.backoffice.core/init
                           :depends-on #{:shared}}
                   :products {:depends-on #{:shared}
-                             :entries [short.products.views.details]}}
+                             :entries [short.products.ui.ssr.details]}}
 
         :devtools {:preloads [day8.re-frame-10x.preload]
                    :watch-dir "resources"}
@@ -28,7 +28,7 @@
           {day8.re-frame.tracing day8.re-frame.tracing-stubs}}}}
 
   :cards {:target     nubank.workspaces.shadow-cljs.target
-          :ns-regexp  "short.ui.*"
+          :ns-regexp  "short.shared.ui.*"
           :output-dir "resources/assets/js/workspaces"
           :asset-path "/js/workspaces"
           :preloads   []}}}

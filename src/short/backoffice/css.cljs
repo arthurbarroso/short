@@ -1,8 +1,9 @@
 (ns short.backoffice.css
-  (:require [short.ui.css :refer [ui-styles]]
-            [short.backoffice.views.products.styles :as products-styles]
-            [short.backoffice.views.login :as login]
-            [short.backoffice.components.image-picker :as image-picker]))
+  (:require [short.shared.ui.css :refer [ui-styles]]
+            [short.backoffice.styles.products :as products-styles]
+            [short.users.ui.views.login :as login]
+            [short.shared.ui.image-picker :as image-picker]
+            [short.backoffice.layout :as layout]))
 
 (defn mount-style
   [style-text]
@@ -16,5 +17,7 @@
 (defn mount-ui-styles []
   (let [styles (str "\n" ui-styles "\n" products-styles/product-view-styles
                     "\n" login/login-screen-css
-                    "\n" image-picker/image-picker-css)]
+                    "\n" image-picker/image-picker-css
+                    "\n" layout/sidebar-css
+                    "\n" layout/layout-css)]
     (mount-style styles)))

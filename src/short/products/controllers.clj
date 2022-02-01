@@ -1,7 +1,7 @@
 (ns short.products.controllers
   (:require [short.products.handlers :as h]
             [ring.util.response :as rr]
-            [short.products.views.details :as details]
+            [short.products.ui.ssr.details :as details]
             [short.render :as render]
             [short.products.logic :as l]
             [short.shared :as shared]))

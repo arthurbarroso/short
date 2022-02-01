@@ -3,12 +3,13 @@
             [reitit.frontend :as rf]
             [reitit.frontend.easy :as rfe]
             [re-frame.core :as re-frame]
-            [short.backoffice.subs :as subs]
-            [short.backoffice.events :as events]
-            [short.backoffice.views.products.list :as product-list]
-            [short.backoffice.views.variants.create :as create-variant]
-            [short.backoffice.views.login :as login]
-            [short.backoffice.components.loader :as loader]))
+            [short.shared.subs :as subs]
+            [short.shared.events :as events]
+            [short.products.ui.views.list :as product-list]
+            [short.products.ui.events :as product-events]
+            [short.users.ui.views.login :as login]
+            [short.shared.ui.loader :as loader]
+            [short.shared.ui.toast :as toast]))
 
 (def routes
   ["/"
@@ -16,12 +17,7 @@
     {:name :panel
      :view product-list/list-view
      :requires-authentication? true
-     :attached-event ::events/get-products}]
-   ["create-variant"
-    {:name :create-variant
-     :view create-variant/create-variant
-     :requires-authentication? true
-     :attached-event nil}]
+     :attached-event ::product-events/get-products}]
    ["login"
     {:name :login
      :view login/login-view
@@ -50,4 +46,5 @@
     (when current-route
       [:<>
        [loader/loader-wrapper
-        [(-> current-route :data :view)]]])))
+        [toast/toast-wrapper
+         [(-> current-route :data :view)]]]])))
