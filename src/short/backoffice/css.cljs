@@ -1,8 +1,8 @@
 (ns short.backoffice.css
-  (:require [short.ui.css :refer [ui-styles]]
+  (:require [short.shared.ui.css :refer [ui-styles]]
             [short.backoffice.styles.products :as products-styles]
-            [short.users.client.views.login :as login]
-            [short.backoffice.components.image-picker :as image-picker]
+            [short.users.ui.views.login :as login]
+            [short.shared.ui.image-picker :as image-picker]
             [short.backoffice.layout :as layout]))
 
 (defn mount-style

@@ -1,5 +1,5 @@
 (ns short.backoffice.layout
-  (:require [short.ui.text :as text]
+  (:require [short.shared.ui.text :as text]
             [reagent.core :as r]
             [garden.core :refer [css]]))
 

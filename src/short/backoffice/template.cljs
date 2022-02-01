@@ -1,6 +1,6 @@
 (ns short.backoffice.template
   (:require [reagent.core :as r]
-            [short.ui.text :as text]))
+            [short.shared.ui.text :as text]))
 
 (defn layout [_children]
   (r/create-class

@@ -3,7 +3,7 @@
             [reagent.dom :as rdom]
             [short.backoffice.config :as config]
             [short.backoffice.css :as css]
-            [short.backoffice.events :as events]
+            [short.shared.events :as events]
             [short.backoffice.router :as router]
             ["react-modal" :as Modal]))
 

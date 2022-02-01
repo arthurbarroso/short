@@ -3,13 +3,13 @@
             [reitit.frontend :as rf]
             [reitit.frontend.easy :as rfe]
             [re-frame.core :as re-frame]
-            [short.backoffice.subs :as subs]
-            [short.backoffice.events :as events]
-            [short.products.client.views.list :as product-list]
-            [short.products.client.events :as product-events]
-            [short.users.client.views.login :as login]
-            [short.backoffice.components.loader :as loader]
-            [short.backoffice.components.toast :as toast]))
+            [short.shared.subs :as subs]
+            [short.shared.events :as events]
+            [short.products.ui.views.list :as product-list]
+            [short.products.ui.events :as product-events]
+            [short.users.ui.views.login :as login]
+            [short.shared.ui.loader :as loader]
+            [short.shared.ui.toast :as toast]))
 
 (def routes
   ["/"

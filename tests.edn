@@ -15,7 +15,7 @@
   {:codecov? true
    :ns-exclude-regex ["short.server"
                       "short.database"
-                      "short.ui.*"
+                      "short.shared.ui.*"
                       "short.backoffice.*"
                       "short.*.views.*"
                       "util.*"]}}
