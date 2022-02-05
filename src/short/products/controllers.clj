@@ -47,3 +47,16 @@
             (l/product-html->view product)
             render/html-template
             (respond-with-cookie 200 "product" product))))))
+
+(defn update-product-controller! [database]
+  (fn [request]
+    (let [product-input (-> request :parameters :body)
+          uuid (-> request :parameters :path :product-uuid)
+          product-uuid (shared/uuid-from-string uuid)
+          existing-product? (h/check-product-existence-by-uuid!
+                             product-uuid
+                             database)]
+      (if (empty? existing-product?)
+        (rr/bad-request {:error "Something went wrong"})
+        (let [res (h/update-product! product-input product-uuid database)]
+          (rr/response res))))))

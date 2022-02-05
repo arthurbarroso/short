@@ -21,6 +21,14 @@
     [:product/created_at inst?]
     [:product/variant {:optional true} [:vector :map]]]])
 
+(def ProductUpdateData
+  [:map
+   [:sku {:optional true} string?]
+   [:active {:optional true} boolean?]
+   [:slug {:optional true} string?]
+   [:title {:optional true} string?]
+   [:price {:optional true} number?]])
+
 (def ProductListOut
   [:vector ProductOut])
 

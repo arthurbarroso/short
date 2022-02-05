@@ -4,7 +4,11 @@
             [integrant.repl :as ig-repl]
             [integrant.repl.state :as state]
             [aero.core :refer [read-config]]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [datahike.api :as d]
+            [short.products.db :as products-db]
+            [short.products.handlers :as products-handlers]
+            [short.shared :as shared]))
 
 (def environment-vars
   (try (read-config (io/resource "config.edn") {:profile :dev})
@@ -45,4 +49,34 @@
   (reset-all)
   (stop)
   (go)
-  (println environment-vars))
+  (println environment-vars)
+  (comment
+    (let [p (-> db
+                products-db/list-products!
+                flatten
+                first)
+          p-uuid (:product/uuid p)]
+      (clojure.pprint/pprint p))
+    (products-db/update-product! (java.util.UUID/fromString "e47994b2-82f6-473d-a357-4ee6409cdc8e")
+                                 {:key :product/title
+                                  :val "test"
+                                  :key2 :product/sku
+                                  :val2 "test"}
+                                 db)
+    (products-db/update-product!
+     (java.util.UUID/fromString "e47994b2-82f6-473d-a357-4ee6409cdc8e")
+     {:product/title "test-thing"}
+     db)
+    (products-db/get-product-by-uuid!
+     (java.util.UUID/fromString "e47994b2-82f6-473d-a357-4ee6409cdc8e")
+     db)
+    (d/transact db
+                [{:db/id [:product/uuid (java.util.UUID/fromString "e47994b2-82f6-473d-a357-4ee6409cdc8e")]
+                  :product/sku "test-thing"
+                  :product/title "test-thing"}])
+    (let [r (products-handlers/update-product! {:sku "testando pae3" :title "novo2"}
+                                             (java.util.UUID/fromString "e47994b2-82f6-473d-a357-4ee6409cdc8e")
+                                             db)])))
+
+
+      ;; (d/transact db [[:db/add [:product/uuid p-uuid] :product/sku "test" :product/title "test"]]))))

@@ -28,3 +28,22 @@
    :scripts-to-include "<script src=\"/assets/js/shared.js\"></script><script src=\"/assets/js/products.js\"></script>"
    :title (:product/title product)
    :stylesheets "<link rel=\"stylesheet\" href=\"/assets/stylesheet.css\">"})
+
+(defn prepend-product-keyword [key]
+  {:malli/schema [:=> [:cat :keyword] :keyword]}
+  (keyword (str "product/" (name key))))
+
+(defn handle-product-price-update [product]
+  (if (:product/price product)
+    (merge product {:product/price (bigdec (:product/price product))})
+    product))
+
+(defn external->internal
+  {:malli/schema [:=> [:cat c/ProductUpdateData] s/ProductUpdate]}
+  [product-data]
+  (->> product-data
+       (map (fn [[k v]]
+              (let [product-keyword (prepend-product-keyword k)]
+                {product-keyword v})))
+       (into {})
+       handle-product-price-update))

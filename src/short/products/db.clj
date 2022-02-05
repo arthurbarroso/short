@@ -36,3 +36,8 @@
          :in $
          :where [?e :product/uuid _]]
        @db))
+
+(defn update-product!
+  {:malli/schema [:=> [:cat s/ProductUpdate uuid? :any] s/ExistingProduct]}
+  [product-data product-uuid db]
+  (d/transact db [(merge {:db/id [:product/uuid product-uuid]} product-data)]))

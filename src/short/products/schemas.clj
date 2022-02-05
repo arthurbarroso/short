@@ -65,3 +65,11 @@
     [:vector
      ExistingProduct]]
    [:vector empty?]])
+
+(def ProductUpdate
+  [:map
+   [:product/sku {:optional true} string?]
+   [:product/active {:optional true} boolean?]
+   [:product/slug {:optional true} string?]
+   [:product/title {:optional true} string?]
+   [:product/price {:optional true} number?]])

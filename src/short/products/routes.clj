@@ -15,4 +15,8 @@
              :swagger {:security [{:bearer []}]}}}]
      ["/:product"
       {:get {:handler (co/render-product-by-slug-controller! database)
-             :parameters {:path [:map [:product string?]]}}}]]))
+             :parameters {:path [:map [:product string?]]}}}]
+     ["/update/:product-uuid"
+      {:put {:handler (co/update-product-controller! database)
+             :parameters {:path [:map [:product-uuid string?]]
+                          :body c/ProductUpdateData}}}]]))

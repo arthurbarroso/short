@@ -10,6 +10,11 @@
   [product-input db]
   (db/get-product-by-slug! (:slug product-input) db))
 
+(defn check-product-existence-by-uuid!
+  {:malli/schema [:=> [:cat uuid? :any] s/ProductQueryResult]}
+  [product-uuid db]
+  (db/get-product-by-uuid! product-uuid db))
+
 (defn create-product!
   {:malli/schema [:=> [:cat c/ProductData :any] c/ProductOut]}
   [new-product db]
@@ -49,3 +54,15 @@
        db/list-products!
        flatten
        (map l/internal->external)))
+
+(defn update-product!
+  {:malli/schema [:=> cat c/ProductUpdateData uuid? :any c/ProductOut]}
+  [product-data product-uuid db]
+  (-> product-data
+      l/external->internal
+      (db/update-product! product-uuid db))
+  (-> product-uuid
+      (db/get-product-by-uuid! db)
+      flatten
+      first
+      l/internal->external))

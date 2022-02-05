@@ -67,21 +67,37 @@
       (is (= 200 status)))))
 
 (deftest products-integration-list-test
-  #_(testing "Lists products"
-      (let [token (gen-token! {:matches? true
-                               :existing-user {:email "arthur@test.com"}}
-                              {:auth {:jwt-secret "test"}})
-            _ (th/endpoint-test :post "/v1/products"
-                                {:body (product-body {:slug "testing-slug-list"
-                                                      :sku "testing-sku-list"})
-                                 :auth {:token (:token token)}})
-            {:keys [status body]}
-            (th/endpoint-test :get "/v1/products"
-                              {:auth {:token (:token token)}})]
-        (is (= 200 status))
-        (is (> (count body) 0))))
+  (testing "Lists products"
+    (let [token (gen-token! {:matches? true
+                             :existing-user {:email "arthur@test.com"}}
+                            {:auth {:jwt-secret "test"}})
+          _ (th/endpoint-test :post "/v1/products"
+                              {:body (product-body {:slug "testing-slug-list"
+                                                    :sku "testing-sku-list"})
+                               :auth {:token (:token token)}})
+          {:keys [status body]}
+          (th/endpoint-test :get "/v1/products"
+                            {:auth {:token (:token token)}})]
+      (is (= 200 status))
+      (is (> (count body) 0))))
   (testing "Fails for an unauthenticated request"
-    (let [{:keys [status body]}
+    (let [{:keys [status _body]}
           (th/endpoint-test :get "/v1/products")]
-      (clojure.pprint/pprint body)
       (is (= 401 status)))))
+
+(deftest products-integration-update-test
+  (testing "Updates an existing product"
+    (let [token (gen-token! {:matches? true
+                             :existing-user {:email "arthur@test.com"}}
+                            {:auth {:jwt-secret "test"}})
+          product (th/endpoint-test :post "/v1/products"
+                                    {:body (product-body {:slug "update-testing"
+                                                          :sku "update-testing"})
+                                     :auth {:token (:token token)}})
+          {:keys [status _body]}
+          (th/endpoint-test :put (str "/v1/products/update/" (-> product :body :product/uuid))
+                            {:body (product-body {:sku "update-thinggyyy"
+                                                  :slug "updatedthings"})
+                             :auth {:token (:token token)}})]
+
+      (is (= 200 status)))))
