@@ -14,7 +14,8 @@
         [:td {:color "#2B434A"}]
         [:button {:height "36px"
                   :width "36px"
-                  :background "#66686A"}]]))
+                  :background "#66686A"
+                  :margin-right "4%"}]]))
 
 (defn get-item-status [item item-key]
   (if (get item (:key item-key))
@@ -28,6 +29,12 @@
                         {:on-click #((-> item-key :button :function) item)
                          :text (-> item-key :button :text)}]
     (:checkbox item-key) (get-item-status item item-key)
+    (:actions item-key) [:<>
+                         (for [action (:actions item-key)]
+                           ^{:key (str (:text action))}
+                           [button/button
+                            {:on-click #((:effect action) item)
+                             :text (:text action)}])]
     :else (get item (:key item-key))))
 
 (defn get-item-key [item-key item key]

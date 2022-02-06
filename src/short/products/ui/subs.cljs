@@ -10,3 +10,8 @@
  ::product-form-values
  (fn [db]
    (get-in db [:forms :product-form])))
+
+(re-frame/reg-sub
+ ::edit-product-form-values
+ (fn [db]
+   (get-in db [:forms :edit-product-form])))

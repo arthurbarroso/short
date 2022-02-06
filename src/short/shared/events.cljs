@@ -21,6 +21,11 @@
                            :slug nil
                            :sku nil
                            :price 1}
+            :edit-product-form {:title nil
+                                :slug nil
+                                :sku nil
+                                :price 1
+                                :uuid nil}
             :variant-form {:type nil
                            :quantity 1
                            :image-url nil

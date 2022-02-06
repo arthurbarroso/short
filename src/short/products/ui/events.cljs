@@ -58,3 +58,13 @@
      {:db (assoc db
                  :loading false
                  :products (conj products-in-db response))})))
+
+(re-frame/reg-event-db
+ ::set-edit-product-form-field-value
+ (fn [db [_ field-path new-value]]
+   (assoc-in db [:forms :edit-product-form field-path] new-value)))
+
+(re-frame/reg-event-db
+ ::set-product-edit-form
+ (fn [db [_ data]]
+   (assoc-in db [:forms :edit-product-form] data)))

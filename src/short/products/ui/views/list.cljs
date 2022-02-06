@@ -5,6 +5,7 @@
             [short.products.ui.events :as events]
             [short.variants.ui.views.create-modal :as variant-create]
             [short.products.ui.views.create :as create]
+            [short.products.ui.views.edit :as edit]
             [short.shared.ui.text :as text]
             [short.shared.ui.button :as button]
             [short.shared.ui.table :as table]
@@ -16,15 +17,26 @@
                                             :product-name product-title}])
   (reset! modal-open? true))
 
+(defn edit-product [product-data modal-open?]
+  (re-frame/dispatch [::events/set-product-edit-form
+                      {:title (:product/title product-data)
+                       :sku (:product/sku product-data)
+                       :price (:product/price product-data)
+                       :uuid (:product/uuid product-data)
+                       :slug (:product/slug product-data)}])
+  (reset! modal-open? true))
+
 (defn list-view []
   (let [products (re-frame/subscribe [::subs/products])
         product-modal-open? (reagent/atom false)
+        product-edit-modal-open? (reagent/atom false)
         variant-modal-open? (reagent/atom false)]
     (fn []
       [:div
        ^{:key "panel"}
        [:<>
         [create/modal product-modal-open?]
+        [edit/modal product-edit-modal-open?]
         [variant-create/modal variant-modal-open?]
         [layout/layout {:search-fn #()}
          [:div.product-list-header {:style {:background "#FBFCFC"
@@ -37,7 +49,7 @@
                                       :height "90%"
                                       :bacgkround "#FBFCFC"}}
           [table/table {:columns ["" "Title" "Price" "Variants" "SKU"
-                                  "Slug" "Variant"]
+                                  "Slug" "Actions"]
                         :items @products
                         :item-keys [{:key :product/active
                                      :checkbox true}
@@ -47,11 +59,13 @@
                                      :fun count}
                                     {:key :product/sku}
                                     {:key :product/slug}
-                                    {:key "button-create"
-                                     :button-key "create-variant"
-                                     :button {:text "+"
-                                              :function
-                                              #(navigate-to-create-variant (-> % :product/uuid)
-                                                                           (-> % :product/title)
-                                                                           variant-modal-open?)}}]
+                                    {:key "actions"
+                                     :actions [{:text "+"
+                                                :effect
+                                                #(navigate-to-create-variant (-> % :product/uuid)
+                                                                             (-> % :product/title)
+                                                                             variant-modal-open?)}
+                                               {:text "E"
+                                                :effect (fn [product]
+                                                          (edit-product product product-edit-modal-open?))}]}]
                         :key :product/uuid}]]]]])))
