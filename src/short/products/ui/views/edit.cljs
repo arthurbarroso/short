@@ -10,6 +10,7 @@
             [short.products.contracts :as c]))
 
 (defn edit-product-handler [data modal-open?]
+  (re-frame/dispatch [::events/edit-product data])
   (modal-wrapper/close-modal modal-open?))
 
 (defn edit-product-modal
@@ -21,10 +22,11 @@
                             (.preventDefault e)
                             (edit-product-handler
                              {:sku (:sku @form-data)
-                              :active true
+                              :active (:active @form-data)
                               :slug (:slug @form-data)
                               :title (:title @form-data)
-                              :price (js/parseFloat (:price @form-data))}
+                              :price (js/parseFloat (:price @form-data))
+                              :uuid (:uuid @form-data)}
                              modal-open?))}
         [label/label {:text "Title"}]
         [input/input {:value (:title @form-data)
@@ -65,7 +67,10 @@
         [input/input {:type "checkbox"
                       :value (:active @form-data)
                       :checked (:active @form-data)
-                      :on-change #()}]
+                      :on-change
+                      #(re-frame/dispatch
+                        [::events/set-edit-product-form-field-value :active
+                         (not (:active @form-data))])}]
         [button/button-outlined {:text "Edit"
                                  :type "submit"
                                  :extra-style "mt-2"

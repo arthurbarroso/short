@@ -72,6 +72,7 @@
 (re-frame/reg-event-fx
  ::edit-product
  (fn [{:keys [db]} [_ data]]
+   (cljs.pprint/pprint data)
    (common-events/build-http-request
     {:db db
      :method :put
@@ -83,7 +84,5 @@
 
 (re-frame/reg-event-fx
  ::product-edit-success
- (fn [{:keys [db]} [_ response]]
-   (cljs.pprint/pprint response)
-   {:db (assoc db
-               :loading false)}))
+ (fn [_ [_ _response]]
+   {:dispatch [::get-products]}))
