@@ -25,7 +25,8 @@
                                 :slug nil
                                 :sku nil
                                 :price 1
-                                :uuid nil}
+                                :uuid nil
+                                :active true}
             :variant-form {:type nil
                            :quantity 1
                            :image-url nil

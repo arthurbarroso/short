@@ -68,3 +68,22 @@
  ::set-product-edit-form
  (fn [db [_ data]]
    (assoc-in db [:forms :edit-product-form] data)))
+
+(re-frame/reg-event-fx
+ ::edit-product
+ (fn [{:keys [db]} [_ data]]
+   (common-events/build-http-request
+    {:db db
+     :method :put
+     :uri (str "http://localhost:4000/v1/products/update/" (:uuid data))
+     :params data
+     :authenticated? true
+     :on-success [::product-edit-success]
+     :on-failure [::common-events/http-failure]})))
+
+(re-frame/reg-event-fx
+ ::product-edit-success
+ (fn [{:keys [db]} [_ response]]
+   (cljs.pprint/pprint response)
+   {:db (assoc db
+               :loading false)}))

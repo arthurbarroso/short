@@ -10,7 +10,7 @@
             [short.products.contracts :as c]))
 
 (defn edit-product-handler [data modal-open?]
-   (modal-wrapper/close-modal modal-open?))
+  (modal-wrapper/close-modal modal-open?))
 
 (defn edit-product-modal
   [modal-open?]
@@ -60,6 +60,12 @@
                       #(re-frame/dispatch
                         [::events/set-edit-product-form-field-value :price %])
                       :placeholder "Product price"}]
+        [label/label {:text "Active"
+                      :extra-style "mt-1"}]
+        [input/input {:type "checkbox"
+                      :value (:active @form-data)
+                      :checked (:active @form-data)
+                      :on-change #()}]
         [button/button-outlined {:text "Edit"
                                  :type "submit"
                                  :extra-style "mt-2"

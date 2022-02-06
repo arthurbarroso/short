@@ -23,7 +23,8 @@
                        :sku (:product/sku product-data)
                        :price (:product/price product-data)
                        :uuid (:product/uuid product-data)
-                       :slug (:product/slug product-data)}])
+                       :slug (:product/slug product-data)
+                       :active (:product/active product-data)}])
   (reset! modal-open? true))
 
 (defn list-view []

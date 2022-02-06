@@ -26,9 +26,10 @@
                          :outline-width "0px"}]))
 
 (defn input
-  [{:keys [value on-change type id disabled placeholder on-blur valid? extra-style accept]}]
+  [{:keys [value on-change type id disabled placeholder on-blur valid? extra-style accept checked]}]
   [:input
    {:type type
+    :checked checked
     :value value
     :class (str "input" " " extra-style)
     :id id
