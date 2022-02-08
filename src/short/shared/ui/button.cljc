@@ -35,7 +35,10 @@
                           :border-radius "4px" :border "none"
                           :font-weight 700 :background "#0166D6"
                           :color "#FFF"}
-                 [:&:hover {:color "#FFF"}]])
+                 [:&:hover {:color "#FFF"}]
+                 [:icon {:width "36px"
+                         :height "36px"
+                         :color "#FFF"}]])
            (css [:.button-outlined {:background "none"
                                     :color "#0166D6"
                                     :border "solid 1.5px #D3D3D3"}
@@ -66,14 +69,16 @@
     type
     "button"))
 
-(defn button [{:keys [on-click text disabled title extra-style variant type]}]
+(defn button [{:keys [on-click text disabled title extra-style variant type icon]}]
   [:button
    {:type (get-button-type type)
     :class (str (get-button-variant variant) " " extra-style)
     :disabled disabled
     :title title
     :on-click #(on-click)}
-   text])
+   text
+   (when icon
+     [:i {:class icon}])])
 
 (defn button-outlined [{:keys [on-click text disabled title extra-style variant type]}]
   [:button

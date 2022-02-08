@@ -34,7 +34,9 @@
                            ^{:key (str (:text action))}
                            [button/button
                             {:on-click #((:effect action) item)
-                             :text (:text action)}])]
+                             :text (:text action)
+                             :title (:title action)
+                             :icon (:icon action)}])]
     :else (get item (:key item-key))))
 
 (defn get-item-key [item-key item key]

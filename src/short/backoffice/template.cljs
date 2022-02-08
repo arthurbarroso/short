@@ -8,11 +8,5 @@
     (fn [children]
       [:div {:class "base"}
        [:div {:class "content"}
-        [:header {:class "header"}
-         [:a {:href "/"
-              :class "header-link"}
-          [text/typography {:text "short"
-                            :variant "h1"
-                            :sizing "text-xxxl"}]]]
         [:div {:class "container"}
          (into [:<> children])]]])}))

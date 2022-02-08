@@ -44,7 +44,7 @@
                                             :padding "0 2%"}}
           [text/typography {:text "products / list"
                             :variant "p"}]
-          [button/button {:text "add"
+          [button/button {:icon "fa-solid fa-circle-plus"
                           :on-click #(modal/open-modal product-modal-open?)}]]
          [:div.table-wrapper {:style {:box-sizing "border-box"
                                       :height "90%"
@@ -61,12 +61,16 @@
                                     {:key :product/sku}
                                     {:key :product/slug}
                                     {:key "actions"
-                                     :actions [{:text "+"
+                                     :actions [{:text ""
+                                                :icon "fa-regular fa-plus"
+                                                :title "Add variant to product"
                                                 :effect
                                                 #(navigate-to-create-variant (-> % :product/uuid)
                                                                              (-> % :product/title)
                                                                              variant-modal-open?)}
-                                               {:text "E"
+                                               {:text ""
+                                                :title "Edit product"
+                                                :icon "fa-regular fa-pen-to-square"
                                                 :effect (fn [product]
                                                           (edit-product product product-edit-modal-open?))}]}]
                         :key :product/uuid}]]]]])))

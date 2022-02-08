@@ -10,7 +10,7 @@
             [short.users.ui.subs :as subs]
             [garden.core :refer [css]]))
 
-(def login-container {:width "100%"})
+(def login-container {:width "50%"})
 
 (def login-screen-css
   (css [:.login login-container]))
@@ -26,25 +26,31 @@
       [template/layout
        ^{:key "login"}
        [section/section
-        [:form {:class "login"
-                :on-submit (fn [e]
-                             (do (.preventDefault e)
-                                 (login-handler @email @password)))}
-         [text/typography {:text "Log in"
-                           :variant "h2"}]
-         [label/label {:text "E-mail address"}]
-         [input/input {:type "email"
-                       :placeholder "e-mail address"
-                       :on-change
-                       #(re-frame/dispatch [::events/change-email-input %])
-                       :value @email}]
-         [label/label {:text "Password"}]
-         [input/input {:type "password"
-                       :placeholder "password"
-                       :on-change
-                       #(re-frame/dispatch [::events/change-password-input %])
-                       :value @password}]
-         [button/button {:text "Log in"
-                         :type "submit"
-                         :extra-style "mt-3"
-                         :on-click #()}]]]])))
+        [:div {:style {:display "flex"
+                       :flex-direction "column"
+                       :width "100%"}}
+         [text/typography {:text "short"
+                           :variant "h1"
+                           :sizing "text-xxxl"}]
+         [:form {:class "login"
+                 :on-submit (fn [e]
+                              (do (.preventDefault e)
+                                  (login-handler @email @password)))}
+          [text/typography {:text "log in"
+                            :variant "h2"}]
+          [label/label {:text "e-mail address"}]
+          [input/input {:type "email"
+                        :placeholder "e-mail address"
+                        :on-change
+                        #(re-frame/dispatch [::events/change-email-input %])
+                        :value @email}]
+          [label/label {:text "password"}]
+          [input/input {:type "password"
+                        :placeholder "password"
+                        :on-change
+                        #(re-frame/dispatch [::events/change-password-input %])
+                        :value @password}]
+          [button/button {:text "Log in"
+                          :type "submit"
+                          :extra-style "mt-3"
+                          :on-click #()}]]]]])))
