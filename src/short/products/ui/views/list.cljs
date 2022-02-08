@@ -49,17 +49,17 @@
          [:div.table-wrapper {:style {:box-sizing "border-box"
                                       :height "90%"
                                       :bacgkround "#FBFCFC"}}
-          [table/table {:columns ["" "Title" "Price" "Variants" "SKU"
-                                  "Slug" "Actions"]
+          [table/table {:columns ["Title" "Price" "Variant count" "SKU"
+                                  "Slug" "Status (active)" "Actions"]
                         :items @products
-                        :item-keys [{:key :product/active
-                                     :checkbox true}
-                                    {:key :product/title}
+                        :item-keys [{:key :product/title}
                                     {:key :product/price}
                                     {:key :product/variant
                                      :fun count}
                                     {:key :product/sku}
                                     {:key :product/slug}
+                                    {:key :product/active
+                                     :checkbox true}
                                     {:key "actions"
                                      :actions [{:text ""
                                                 :icon "fa-regular fa-plus"

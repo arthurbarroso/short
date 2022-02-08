@@ -5,32 +5,30 @@
 
 (def sidebar-css
   (css [:.sidebar {:height "100vh"
-                   :background "#4B5052"
-                   :width "10%"}
+                   :background "#FBFCFC "
+                   :width "3%"
+                   :min-width "36px"}
         [:ul {:padding "0"}]
         [:li {:list-style "none"}]
         [:.sidebar-header {:background "#33373A"
-                           :color "#BEC2C3"
+                           :color "#FBFCFC"
                            :height "42px"
                            :display "flex"
                            :align-items "center"
-                           :padding "0 8%"}]
+                           :justify-content "center"}]
         [:.sidebar-list {:padding "0 8%"}]
         [:.sidebar-list-item {:border-radius "8px"
                               :height "36px"
                               :display "flex"
                               :align-items "center"
-                              :color "#9BA0A5"
-                              :padding "0 4%"
-                              :font-size "14px"
+                              :justify-content "center"
+                              :color "#080A0B"
                               :text-decoration "none"}
          [:a {:text-decoration "none"
-              :color "#9BA0A5"}]]
-        [:.sidebar-list-item-active {:color "#FBFCFC"
-                                     :background "#66686A"}
-         [:a {:text-decoration "none"
-              :color "#FBFCFC"}]]
-        [:.icon {:width "36px"}]]))
+              :color "#080A0B"}]
+         [:i {:width "18px"
+              :height "16px"
+              :cursor "pointer"}]]]))
 
 (def layout-css
   (css [:.layout {:display "flex"
@@ -54,17 +52,15 @@
 (defn sidebar []
   [:div {:class "sidebar"}
    [:div {:class "sidebar-header"}
-    [:i {:class "fas fa-home icon"}]
-    [text/typography {:text "short"
-                      :variant "p"
-                      :sizing "text-md"}]]
+    [:i {:class "fas fa-home"}]]
    [:ul {:class "sidebar-list"}
-    [:li {:class "sidebar-list-item sidebar-list-item-active"}
-     [:i {:class "fas fa-store icon"}]
-     [:a {:href "/"} "Products"]]
+    [:div {:style {:height "48px"}}]
     [:li {:class "sidebar-list-item"}
-     [:i {:class "fas fa-sign-out-alt icon"}]
-     [:p "Sign out"]]]])
+     [:i {:class "fas fa-store"
+          :title "products"}]]
+    [:li {:class "sidebar-list-item"}
+     [:i {:class "fas fa-sign-out-alt"
+          :title "log out"}]]]])
 
 (defn layout []
   (let [{:keys [search-fn search-val]} (r/props (r/current-component))]
