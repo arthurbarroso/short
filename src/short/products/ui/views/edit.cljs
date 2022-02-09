@@ -3,6 +3,7 @@
             [short.shared.ui.label :as label]
             [short.shared.ui.button :as button]
             [short.shared.ui.input :as input]
+            [short.shared.ui.text :as text]
             [short.shared.ui.modal :as modal-wrapper]
             [short.shared :as shared]
             [short.products.ui.events :as events]
@@ -18,6 +19,9 @@
   (let [form-data (re-frame/subscribe [::subs/edit-product-form-values])]
     (fn []
       [:<>
+       [text/typography
+        {:text "Editing product"
+         :variant "h2"}]
        [:form {:on-submit (fn [e]
                             (.preventDefault e)
                             (edit-product-handler
@@ -62,15 +66,17 @@
                       #(re-frame/dispatch
                         [::events/set-edit-product-form-field-value :price %])
                       :placeholder "Product price"}]
-        [label/label {:text "Active"
-                      :extra-style "mt-1"}]
-        [input/input {:type "checkbox"
-                      :value (:active @form-data)
-                      :checked (:active @form-data)
-                      :on-change
-                      #(re-frame/dispatch
-                        [::events/set-edit-product-form-field-value :active
-                         (not (:active @form-data))])}]
+        [:div {:style {:display "flex"
+                       :align-items "center"
+                       :justify-content "space-between"}}
+         [:p "Active"]
+         [input/input {:type "checkbox"
+                       :value (:active @form-data)
+                       :checked (:active @form-data)
+                       :on-change
+                       #(re-frame/dispatch
+                         [::events/set-edit-product-form-field-value :active
+                          (not (:active @form-data))])}]]
         [button/button-outlined {:text "Edit"
                                  :type "submit"
                                  :extra-style "mt-2"

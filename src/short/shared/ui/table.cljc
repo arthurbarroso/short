@@ -31,7 +31,8 @@
     (:checkbox item-key) (get-item-status item item-key)
     (:actions item-key) [:<>
                          (for [action (:actions item-key)]
-                           ^{:key (str (:text action))}
+                           ^{:key (str (:text action)
+                                       (:icon action))}
                            [button/button
                             {:on-click #((:effect action) item)
                              :text (:text action)

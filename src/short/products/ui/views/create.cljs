@@ -55,7 +55,7 @@
                         [::events/set-product-form-field-value :sku %])
                       :placeholder "Product sku"}]
         (when-not (c/validate-sku (:sku @form-data))
-          [:p "Invalid sli"])
+          [:p "Invalid sku"])
         [label/label {:text "Price"
                       :extra-style "mt-1"}]
         [input/input {:value (:price @form-data)
