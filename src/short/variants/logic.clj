@@ -19,3 +19,16 @@
   [variant]
   (dissoc variant
           :db/id))
+
+(defn prepend-variant-keyword [key]
+  {:malli/schema [:=> [:cat :keyword] :keyword]}
+  (keyword (str "variant/" (name key))))
+
+(defn external->internal
+  {:malli/schema [:=> [:cat c/VariantUpdateData] s/VariantUpdate]}
+  [variant-data]
+  (->> variant-data
+       (map (fn [[k v]]
+              (let [variant-keyword (prepend-variant-keyword k)]
+                {variant-keyword v})))
+       (into {})))

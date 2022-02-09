@@ -18,3 +18,18 @@
                      (merge variant-data
                             {:product-id product-id})
                      database))))))
+
+(defn update-variant-controller! [database]
+  (fn [request]
+    (let [variant-input (-> request :parameters :body)
+          uuid (-> request :parameters :path :variant-uuid)
+          variant-uuid (shared/uuid-from-string uuid)
+          existing-variant? (h/check-variant-existence-by-uuid!
+                             variant-uuid
+                             database)]
+      (if (empty? existing-variant?)
+        (rr/bad-request {:error "Something went wrong"})
+        (let [res (h/update-variant! variant-input
+                                     variant-uuid
+                                     database)]
+          (rr/response res))))))

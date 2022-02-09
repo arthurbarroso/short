@@ -17,3 +17,10 @@
     [:variant/image-url string?]
     [:variant/created_at inst?]
     [:variant/product :map]]])
+
+(def VariantUpdateData
+  [:map
+   [:active {:optional true} boolean?]
+   [:quantity {:optional true} number?]
+   [:type {:optional true} string?]
+   [:image-url {:optional true} string?]])

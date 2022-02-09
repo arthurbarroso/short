@@ -57,3 +57,29 @@
                                     :image-url "some-image-url"
                                     :quantity 3}})]
       (is (= 401 status)))))
+
+(deftest variants-integration-update-test
+  (testing "Updates an existing variant"
+    (let [token (gen-token! {:matches? true
+                             :existing-user {:email "arthur@test.com"}}
+                            {:auth {:jwt-secret "test"}})
+          product (ph/create-product!
+                   {:sku "fasjfsaoij123331new"
+                    :active true
+                    :slug "some-slug31me3"
+                    :title "some-title31new"
+                    :price 30} (th/database-atom))
+          var-resp
+          (th/endpoint-test :post (str "/v1/variants/" (:product/uuid product))
+                            {:body {:active true
+                                    :type "some-type"
+                                    :image-url "some-image-url"
+                                    :quantity 3}
+                             :auth {:token (:token token)}})
+          variant-uuid (-> var-resp :body :variant/uuid)
+          {:keys [status _body]}
+          (th/endpoint-test :put (str "/v1/variants/update/" variant-uuid)
+                            {:body {:type "new-type"
+                                    :active false}
+                             :auth {:token (:token token)}})]
+      (is (= 200 status)))))

@@ -22,3 +22,8 @@
          :in $ ?uuid
          :where [?e :variant/uuid ?uuid]]
        @db uuid))
+
+(defn update-variant!
+  {:malli/schema [:=> [:cat s/VariantUpdate uuid? :any] s/ExistingVariant]}
+  [variant-data variant-uuid db]
+  (d/transact db [(merge {:db/id [:variant/uuid variant-uuid]} variant-data)]))

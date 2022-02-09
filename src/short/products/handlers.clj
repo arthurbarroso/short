@@ -56,7 +56,7 @@
        (map l/internal->external)))
 
 (defn update-product!
-  {:malli/schema [:=> cat c/ProductUpdateData uuid? :any c/ProductOut]}
+  {:malli/schema [:=> [:cat c/ProductUpdateData uuid? :any] c/ProductOut]}
   [product-data product-uuid db]
   (-> product-data
       l/external->internal
