@@ -87,3 +87,20 @@
  ::variant-create-failure
  (fn [{:keys [db]} [_ _response]]
    {:db (assoc db :loading false)}))
+
+(re-frame/reg-event-fx
+ ::edit-variant
+ (fn [{:keys [db]} [_ data]]
+   (common-events/build-http-request
+    {:db db
+     :method :put
+     :uri (str "http://localhost:4000/v1/variants/update/" (:uuid data))
+     :params data
+     :authenticated? true
+     :on-success [::variant-edit-success]
+     :on-failure [::common-events/http-failure]})))
+
+(re-frame/reg-event-fx
+ ::variant-edit-success
+ (fn [_ [_ _response]]
+   {}))

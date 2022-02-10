@@ -73,7 +73,7 @@
         [:i {:class "fas fa-search icon"}]
         [:input {:class "search-input"
                  :placeholder "Search"
-                 :on-change search-fn
+                 :on-change #(search-fn (-> % .-target .-value))
                  :value search-val}]]
        (into [:<>]
              (r/children (r/current-component)))]]]))

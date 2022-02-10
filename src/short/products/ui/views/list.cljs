@@ -10,7 +10,8 @@
             [short.shared.ui.button :as button]
             [short.shared.ui.table :as table]
             [short.shared.ui.modal :as modal]
-            [short.backoffice.layout :as layout]))
+            [short.backoffice.layout :as layout]
+            [clojure.string :as string]))
 
 (defn navigate-to-create-variant [product-uuid product-title modal-open?]
   (re-frame/dispatch [::events/set-variant {:product-id product-uuid
@@ -27,11 +28,20 @@
                        :active (:product/active product-data)}])
   (reset! modal-open? true))
 
+(defn handle-search [data search-term]
+  (if search-term
+    (filter
+     (fn [item]
+       (string/includes? (:product/title item) search-term))
+     data)
+    data))
+
 (defn list-view []
   (let [products (re-frame/subscribe [::subs/products])
         product-modal-open? (reagent/atom false)
         product-edit-modal-open? (reagent/atom false)
-        variant-modal-open? (reagent/atom false)]
+        variant-modal-open? (reagent/atom false)
+        term (reagent/atom nil)]
     (fn []
       [:div
        ^{:key "panel"}
@@ -39,7 +49,8 @@
         [create/modal product-modal-open?]
         [edit/modal product-edit-modal-open?]
         [variant-create/modal variant-modal-open?]
-        [layout/layout {:search-fn #()}
+        [layout/layout {:search-fn #(reset! term %)
+                        :search-val @term}
          [:div.product-list-header {:style {:background "#FBFCFC"
                                             :padding "0 2%"}}
           [text/typography {:text "products / list"
@@ -51,7 +62,7 @@
                                       :bacgkround "#FBFCFC"}}
           [table/table {:columns ["Title" "Price" "Variant count" "SKU"
                                   "Slug" "Status (active)" "Actions"]
-                        :items @products
+                        :items (handle-search @products @term)
                         :item-keys [{:key :product/title}
                                     {:key :product/price}
                                     {:key :product/variant
@@ -72,5 +83,7 @@
                                                 :title "Edit product"
                                                 :icon "fa-regular fa-pen-to-square"
                                                 :effect (fn [product]
-                                                          (edit-product product product-edit-modal-open?))}]}]
+                                                          (edit-product
+                                                           product
+                                                           product-edit-modal-open?))}]}]
                         :key :product/uuid}]]]]])))
