@@ -1,4 +1,4 @@
-(ns short.backoffice.template
+(ns short.shared.backoffice.template
   (:require [reagent.core :as r]
             [short.shared.ui.text :as text]))
 

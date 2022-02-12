@@ -1,5 +1,5 @@
 (ns short.users.ui.views.login
-  (:require [short.backoffice.template :as template]
+  (:require [short.shared.backoffice.template :as template]
             [short.shared.ui.button :as button]
             [short.shared.ui.input :as input]
             [short.shared.ui.section :as section]

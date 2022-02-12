@@ -38,7 +38,8 @@
                  [:&:hover {:color "#FFF"}]
                  [:icon {:width "36px"
                          :height "36px"
-                         :color "#FFF"}]])
+                         :color "#FFF"}]
+                 [:.button-icon {}]])
            (css [:.button-outlined {:background "none"
                                     :color "#0166D6"
                                     :border "solid 1.5px #D3D3D3"}
@@ -76,9 +77,9 @@
     :disabled disabled
     :title title
     :on-click #(on-click)}
-   text
    (when icon
-     [:i {:class icon}])])
+     [:i {:class (str "button-icon " icon)}])
+   text])
 
 (defn button-outlined [{:keys [on-click text disabled title extra-style variant type]}]
   [:button

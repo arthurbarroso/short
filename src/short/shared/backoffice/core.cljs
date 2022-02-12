@@ -1,10 +1,10 @@
-(ns short.backoffice.core
+(ns short.shared.backoffice.core
   (:require [re-frame.core :as re-frame]
             [reagent.dom :as rdom]
-            [short.backoffice.config :as config]
-            [short.backoffice.css :as css]
+            [short.shared.backoffice.config :as config]
+            [short.shared.backoffice.css :as css]
+            [short.shared.backoffice.router :as router]
             [short.shared.events :as events]
-            [short.backoffice.router :as router]
             ["react-modal" :as Modal]))
 
 (defn dev-setup []

@@ -1,10 +1,12 @@
-(ns short.backoffice.styles.products
+(ns short.shared.backoffice.styles.products
   (:require [garden.core :refer [css]]))
 
 (def product-list-header {:display "flex"
                           :flex-direction "row"
                           :align-items "center"
-                          :justify-content "space-between"})
+                          :justify-content "space-between"
+                          :border-bottom "1px solid #eee"
+                          :height "42px"})
 
 (def extra-table-style
   {:overflow "auto"

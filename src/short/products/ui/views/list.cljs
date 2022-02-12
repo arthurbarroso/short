@@ -10,7 +10,7 @@
             [short.shared.ui.button :as button]
             [short.shared.ui.table :as table]
             [short.shared.ui.modal :as modal]
-            [short.backoffice.layout :as layout]
+            [short.shared.backoffice.layout :as layout]
             [clojure.string :as string]))
 
 (defn navigate-to-create-variant [product-uuid product-title modal-open?]
@@ -49,41 +49,41 @@
         [create/modal product-modal-open?]
         [edit/modal product-edit-modal-open?]
         [variant-create/modal variant-modal-open?]
-        [layout/layout {:search-fn #(reset! term %)
-                        :search-val @term}
+        [layout/layout
          [:div.product-list-header {:style {:background "#FBFCFC"
                                             :padding "0 2%"}}
           [text/typography {:text "products / list"
                             :variant "p"}]
           [button/button {:icon "fa-solid fa-circle-plus"
                           :on-click #(modal/open-modal product-modal-open?)}]]
+         [:div {:class "searchbar"}
+          [:i {:class "fas fa-search icon"}]
+          [:input {:class "search-input"
+                   :placeholder "Search"
+                   :on-change #(reset! term (-> % .-target .-value)) :value @term}]]
          [:div.table-wrapper {:style {:box-sizing "border-box"
                                       :height "90%"
                                       :bacgkround "#FBFCFC"}}
-          [table/table {:columns ["Title" "Price" "Variant count" "SKU"
-                                  "Slug" "Status (active)" "Actions"]
+          [table/table {:columns ["Title" "Price" "Status (active)"]
                         :items (handle-search @products @term)
                         :item-keys [{:key :product/title}
-                                    {:key :product/price}
-                                    {:key :product/variant
-                                     :fun count}
-                                    {:key :product/sku}
-                                    {:key :product/slug}
+                                    {:key :product/price
+                                     :fun #(str "$ " %)}
                                     {:key :product/active
                                      :checkbox true}
-                                    {:key "actions"
-                                     :actions [{:text ""
-                                                :icon "fa-regular fa-plus"
+                                    {:key "actions-variants"
+                                     :actions [{:text "Edit"
+                                                :title "Edit product"
+                                                 ;; :icon "fa-regular fa-pen-to-square"
+                                                :effect (fn [product]
+                                                          (edit-product
+                                                           product
+                                                           product-edit-modal-open?))}
+                                               {:text "Add variant"
+                                                 ;; :icon "fa-regular fa-plus"
                                                 :title "Add variant to product"
                                                 :effect
                                                 #(navigate-to-create-variant (-> % :product/uuid)
                                                                              (-> % :product/title)
-                                                                             variant-modal-open?)}
-                                               {:text ""
-                                                :title "Edit product"
-                                                :icon "fa-regular fa-pen-to-square"
-                                                :effect (fn [product]
-                                                          (edit-product
-                                                           product
-                                                           product-edit-modal-open?))}]}]
+                                                                             variant-modal-open?)}]}]
                         :key :product/uuid}]]]]])))

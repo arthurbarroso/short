@@ -1,6 +1,5 @@
-(ns short.backoffice.layout
-  (:require [short.shared.ui.text :as text]
-            [reagent.core :as r]
+(ns short.shared.backoffice.layout
+  (:require [reagent.core :as r]
             [garden.core :refer [css]]))
 
 (def sidebar-css
@@ -38,14 +37,14 @@
                   :overflow "auto"
                   :height "100vh"}
         [:.layout-wrapper {:width "100%" :box-sizing "border-box"}
-         [:.searchbar {:background "#080A0B"
+         [:.searchbar {:background "#fbfcfc"
                        :height "42px"
                        :display "flex"
                        :align-items "center"
                        :padding "0 1%"}
-          [:.icon {:width "36px" :color "#FFF"}]
+          [:.icon {:width "36px" :color "#080A0B"}]
           [:.search-input {:width "100%"
-                           :background "#080A0B"
+                           :background "#fbfcfc"
                            :border "none"
                            :color "#66686A"}]]]]))
 
@@ -63,17 +62,10 @@
           :title "log out"}]]]])
 
 (defn layout []
-  (let [{:keys [search-fn search-val]} (r/props (r/current-component))]
-    ^{:key "panel"}
-    [:<>
-     [:div {:class "layout"}
-      [sidebar]
-      [:div {:class "layout-wrapper"}
-       [:div {:class "searchbar"}
-        [:i {:class "fas fa-search icon"}]
-        [:input {:class "search-input"
-                 :placeholder "Search"
-                 :on-change #(search-fn (-> % .-target .-value))
-                 :value search-val}]]
-       (into [:<>]
-             (r/children (r/current-component)))]]]))
+  ^{:key "panel"}
+  [:<>
+   [:div {:class "layout"}
+    [sidebar]
+    [:div {:class "layout-wrapper"}
+     (into [:<>]
+           (r/children (r/current-component)))]]])

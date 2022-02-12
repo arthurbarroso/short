@@ -14,7 +14,7 @@
             [short.users.routes :as users]
             [short.products.routes :as products]
             [short.variants.routes :as variants]
-            [short.s3.routes :as s3]))
+            [short.shared.s3 :as s3]))
 
 (defn router-config [_environment]
   {:data {:coercion coercion-malli/coercion

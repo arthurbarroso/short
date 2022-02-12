@@ -1,4 +1,4 @@
-(ns short.backoffice.router
+(ns short.shared.backoffice.router
   (:require [reitit.coercion.malli :as rcm]
             [reitit.frontend :as rf]
             [reitit.frontend.easy :as rfe]

@@ -13,7 +13,6 @@
               :color "#080A0B"}]
         [:td {:color "#2B434A"}]
         [:button {:height "36px"
-                  :width "36px"
                   :background "#66686A"
                   :margin-right "4%"}]]))
 
